@@ -1,0 +1,28 @@
+name: Suggest a channel / 建议新增渠道
+description: A community, newsletter or platform where developers launch projects
+title: "[new channel] <name>"
+labels: ["new-channel"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Channel / 渠道
+      placeholder: "e.g. r/rust, Console.dev, 少数派"
+    validations:
+      required: true
+  - type: textarea
+    id: fit
+    attributes:
+      label: What kind of projects do well there? / 什么项目适合发
+    validations:
+      required: true
+  - type: textarea
+    id: rules
+    attributes:
+      label: Rules and how to submit / 规则与投稿方式
+      description: Link the official rules if they exist.
+  - type: textarea
+    id: experience
+    attributes:
+      label: Your experience (optional) / 你的经验（可选）
+      description: Did you launch there? What happened?

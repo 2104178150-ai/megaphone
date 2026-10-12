@@ -1,0 +1,16 @@
+{
+  "name": "megaphone",
+  "description": "Megaphone: an AI launch crew for open-source projects.",
+  "owner": {
+    "name": "Megaphone contributors"
+  },
+  "plugins": [
+    {
+      "name": "megaphone",
+      "source": "./",
+      "description": "Audit, position, write and track the launch of your GitHub repo across global and Chinese developer channels.",
+      "category": "marketing",
+      "tags": ["launch", "open-source", "marketing", "github"]
+    }
+  ]
+}

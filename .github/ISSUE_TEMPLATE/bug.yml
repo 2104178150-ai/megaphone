@@ -1,0 +1,22 @@
+name: Bug / 问题反馈
+description: Something in the checker, a skill or the review script doesn't work
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where / 哪个部分
+      options:
+        - Web checker
+        - A skill
+        - launch-review script (stars.py)
+        - Docs
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect? / 发生了什么，你期望什么
+      description: For the checker, include the repo you checked and the score you got.
+    validations:
+      required: true

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Questions and launch stories / 提问与发布经验分享
+    url: https://github.com/2104178150-ai/megaphone/discussions
+    about: Ask how to launch your project, or share how a launch went.

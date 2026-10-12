@@ -1,0 +1,27 @@
+name: Channel rule changed / 渠道规则变了
+description: A platform changed its rules, limits or submission process
+title: "[channel] <platform>: <what changed>"
+labels: ["channel-update"]
+body:
+  - type: input
+    id: playbook
+    attributes:
+      label: Playbook / 手册
+      description: Which file in skills/launch-posts/channels/ is out of date?
+      placeholder: hacker-news.md
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: What changed / 哪里变了
+      description: Quote the old text in the playbook and what the platform says now.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source / 出处
+      description: Link to the platform's own rule page or announcement if possible.
+    validations:
+      required: true

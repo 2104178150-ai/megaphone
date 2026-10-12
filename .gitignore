@@ -1,0 +1,5 @@
+.claude/
+.megaphone/
+__pycache__/
+*.pyc
+.DS_Store
