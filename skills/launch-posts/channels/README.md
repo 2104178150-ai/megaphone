@@ -1,7 +1,8 @@
 # Channel map
 
 Every playbook in this folder has the same sections: **Fit, Rules, Format, Timing,
-Template, Pitfalls**. Each file says when its rules were last checked and links to the
+Template, Pitfalls**. Playbooks for Chinese channels are written in Chinese with an
+English summary at the top; the rest are in English. Each file says when its rules were last checked and links to the
 platform's own rules where they exist. Platforms change their rules; when a playbook
 and the platform disagree, the platform wins. Please open a PR when you notice drift.
 

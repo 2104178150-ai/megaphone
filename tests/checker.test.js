@@ -1,6 +1,6 @@
 // Browser tests for docs/checker.js. Open tests/index.html through a local server:
 //   python3 -m http.server 8820   then visit http://localhost:8820/tests/
-import { analyze, readmeFacts, parseRepoInput, recommendChannels, RUBRIC, CATEGORIES, levelFor } from '../docs/checker.js';
+import { analyze, readmeFacts, parseRepoInput, recommendChannels, RUBRIC, CATEGORIES, levelFor, fetchRepoData, FetchError } from '../docs/checker.js';
 
 const results = [];
 function test(name, fn) {
@@ -185,6 +185,84 @@ test('levels cover the whole range', () => {
   eq([100, 90, 89, 75, 74, 55, 54, 35, 34, 0].map((s) => levelFor(s).color),
     ['great', 'great', 'good', 'good', 'ok', 'ok', 'low', 'low', 'mute', 'mute']);
 });
+
+// ---------------------------------------------------------------------------
+// fetchRepoData against a fake GitHub
+
+function fakeFetch({ raw = 'ok', templates = null, remaining = 50, apiStatus = 200 } = {}) {
+  const calls = [];
+  const reply = (body, status = 200) => ({
+    ok: status < 300,
+    status,
+    headers: { get: (h) => (h === 'x-ratelimit-remaining' ? String(remaining) : h === 'x-ratelimit-reset' ? '2000000000' : null) },
+    json: async () => body,
+    text: async () => (typeof body === 'string' ? body : JSON.stringify(body)),
+  });
+  const f = async (url, opts = {}) => {
+    calls.push({ url, auth: (opts.headers && opts.headers.Authorization) || null });
+    if (url.startsWith('https://raw.githubusercontent.com/')) {
+      if (raw === 'blocked') throw new TypeError('Failed to fetch');
+      return raw === 'ok' ? reply('# Rocket\n\nShip static sites to any CDN with one command.') : reply('404: Not Found', 404);
+    }
+    if (apiStatus !== 200) return reply({ message: 'nope' }, apiStatus);
+    if (url.endsWith('/repos/acme/rocket')) return reply({ ...GOOD_DATA.repo });
+    if (url.includes('/community/profile')) return reply({ files: { issue_template: templates } });
+    if (url.includes('/releases')) return reply([]);
+    if (url.endsWith('/readme')) return reply({ content: btoa('# From the API\n') });
+    if (url.includes('/contents/.github/ISSUE_TEMPLATE')) return reply([{ name: 'bug.yml' }]);
+    return reply({ message: 'Not Found' }, 404);
+  };
+  f.calls = calls;
+  return f;
+}
+
+const asyncTests = [];
+function atest(name, fn) {
+  asyncTests.push(fn().then(() => results.push({ name, ok: true }), (e) => results.push({ name, ok: false, error: e.message })));
+}
+
+atest('README comes from raw.githubusercontent.com and saves an API call', async () => {
+  const f = fakeFetch({ templates: {} });
+  const d = await fetchRepoData('acme/rocket', { fetchImpl: f });
+  ok(d.readme.startsWith('# Rocket'), 'raw readme used');
+  ok(!f.calls.some((c) => c.url.endsWith('/readme')), 'no API readme call');
+  eq(d.apiCalls, 3, 'repo + community + releases');
+});
+
+atest('falls back to the API README when raw is missing or blocked', async () => {
+  for (const raw of ['missing', 'blocked']) {
+    const f = fakeFetch({ raw, templates: {} });
+    const d = await fetchRepoData('acme/rocket', { fetchImpl: f });
+    eq(d.readme, '# From the API\n', raw);
+  }
+});
+
+atest('issue forms are looked up only when the community profile has none', async () => {
+  const f = fakeFetch({ templates: null });
+  const d = await fetchRepoData('acme/rocket', { fetchImpl: f });
+  ok(d.issueTemplates);
+  eq(d.apiCalls, 4);
+});
+
+atest('a token goes to api.github.com only, never to raw', async () => {
+  const f = fakeFetch({ templates: {} });
+  await fetchRepoData('acme/rocket', { fetchImpl: f, token: 'secret' });
+  ok(f.calls.filter((c) => c.url.startsWith('https://api.github.com/')).every((c) => c.auth === 'Bearer secret'), 'api calls carry it');
+  ok(f.calls.filter((c) => c.url.startsWith('https://raw.')).every((c) => c.auth === null), 'raw calls do not');
+});
+
+atest('rate limit and rejected token become typed errors', async () => {
+  try {
+    await fetchRepoData('acme/rocket', { fetchImpl: fakeFetch({ apiStatus: 403, remaining: 0 }) });
+    throw new Error('expected a rate error');
+  } catch (e) { ok(e instanceof FetchError && e.kind === 'rate', e.message); }
+  try {
+    await fetchRepoData('acme/rocket', { fetchImpl: fakeFetch({ apiStatus: 401 }), token: 'bad' });
+    throw new Error('expected a badtoken error');
+  } catch (e) { ok(e instanceof FetchError && e.kind === 'badtoken', e.message); }
+});
+
+await Promise.all(asyncTests);
 
 // ---------------------------------------------------------------------------
 const passed = results.filter((r) => r.ok).length;

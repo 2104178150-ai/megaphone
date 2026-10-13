@@ -1,40 +1,39 @@
-# 小红书 (Xiaohongshu / RED)
+# 小红书
 
-> Last checked: 2026-10. Field limits below are **commonly reported by creator tools and
-> guides**, not from an official spec — the editor enforces the real limits, so check
-> there. Rules on external links and promotion change often; read the current
-> 社区公约 in the creator center before posting.
+> **English summary:** A visual, search-driven platform — not a developer forum, but
+> strong for AI tools, productivity tools and anything with a visible before/after. The
+> cover image decides everything. Commonly reported limits: ~20-character titles and
+> ~1,000-character posts; links in posts aren't clickable and diverting traffic
+> off-platform can get a post throttled.
+>
+> 最近核对：2026-10。下面的字数限制来自创作者工具和教程的**普遍反馈**，不是官方规格，以编辑器
+> 实际限制为准。外链和推广规则变动频繁，发布前请先看创作者中心里最新的社区公约。
 
-## Fit
+## 适合什么项目
 
-A visual, search-driven platform. Not a developer forum, but huge for **AI tools,
-productivity tools, student tools and anything with a visible "before → after"**.
-People search it like a search engine ("开源 工具 推荐", "AI 写作 工具"), so a good
-note keeps getting found for months. Weak fit for libraries and infrastructure.
+小红书偏视觉、靠搜索分发。它不是开发者论坛，但对 **AI 工具、效率工具、学生工具，以及任何有明显
+「使用前 → 使用后」对比的东西**非常友好。大家把它当搜索引擎用（「开源 工具 推荐」「AI 写作 工具」），
+一篇好笔记能被持续搜到好几个月。库和基础设施类项目不太适合。
 
-## Rules and norms
+## 规则与习惯
 
-- **The cover image decides everything.** The first image is the thumbnail in search
-  and feeds; it needs a big, readable promise (e.g. 「粘贴仓库地址，3 秒知道哪里要改」).
-- **Commonly reported limits:** title about **20 characters**, body about **1,000
-  characters**, a limited number of hashtags (#话题).
-- **Links in the body generally aren't clickable**, and diverting traffic off-platform
-  (引流) can get a note throttled. The common pattern is to tell people what to search
-  for ("GitHub 搜 <名字>") or put details in your profile — check current rules.
-- Hard-sell or disguised ads (软广) are throttled. Share it as your own project and
-  experience, with real screenshots.
+- **封面决定一切。** 第一张图就是搜索结果和信息流里的缩略图，要有一句又大又清楚的承诺
+  （例如「粘贴仓库地址，3 秒知道哪里要改」）。
+- **普遍反馈的限制**：标题约 **20 字**，正文约 **1000 字**，话题标签（#话题）数量有限。
+- **正文里的链接一般点不了**，把流量引到站外（引流）可能被限流。常见做法是告诉大家搜什么
+  （「GitHub 搜 <名字>」），或者把详情放在个人主页。具体以当前规则为准。
+- 硬广和软广会被限流。以「自己的项目 + 自己的使用体验」来分享，配真实截图。
 
-## Format
+## 格式
 
-- **Images**: 3–6 vertical images (3:4 works well). 1) cover with the promise,
-  2) the problem, 3–5) screenshots of the result, 6) how to get it.
-- **Title**: benefit + who it's for, within the limit. Emoji are normal here.
+- **图片**：3–6 张竖图（3:4 效果好）。第 1 张封面写承诺，第 2 张讲痛点，第 3–5 张放结果截图，
+  第 6 张说怎么获取。
+- **标题**：好处 + 适合谁，控制在限制以内。这里用 emoji 很正常。
   - ✅ `开源项目没人看？这个工具帮你体检 📣`
-- **Body**: short lines, emoji bullets, one idea per line; end with a question to invite
-  comments.
-- **Hashtags**: specific ones such as #开源项目 #程序员 #独立开发 #AI工具 #效率工具.
+- **正文**：短句、emoji 列表、一行一个点，结尾用一个问题引导评论。
+- **话题**：用具体的，比如 #开源项目 #程序员 #独立开发 #AI工具 #效率工具。
 
-## Template
+## 模板
 
 ```
 标题：<给谁>的<好处>，开源免费！
@@ -52,8 +51,8 @@ note keeps getting found for months. Weak fit for libraries and infrastructure.
 #开源项目 #程序员 #独立开发 #效率工具
 ```
 
-## Pitfalls
+## 常见坑
 
-- A screenshot of code as the cover → no one stops scrolling.
-- English-only images → most of the audience won't read them.
-- Posting a link-only note → treated as 引流, low reach.
+- 封面放代码截图 → 没人会停下来看。
+- 图片全是英文 → 大部分用户看不懂。
+- 只发一个链接 → 被当成引流，流量很低。

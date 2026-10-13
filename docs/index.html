@@ -16,7 +16,7 @@
 <header class="wrap top">
   <a class="brand" href="./">
     <svg viewBox="0 0 132 96" aria-hidden="true"><path d="M14 38 70 16v64L14 58Z" fill="var(--accent)"/><rect x="5" y="35" width="12" height="26" rx="4" fill="var(--ink)"/><path d="M34 64l6 18" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/><path d="M84 34a18 18 0 0 1 0 28" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/><path d="M96 24a32 32 0 0 1 0 48" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/></svg>
-    Megaphone
+    <span class="brand-name">Megaphone</span>
   </a>
   <nav class="nav">
     <button class="pill-btn" id="lang" type="button" aria-label="Switch language">中文</button>
@@ -47,6 +47,15 @@
       <button class="chip" type="button" data-repo="coreyhaines31/marketingskills">coreyhaines31/marketingskills</button>
     </div>
     <p class="status" id="status" role="status" aria-live="polite"></p>
+    <form class="token" id="token-form" autocomplete="off" hidden>
+      <p data-i18n="tokenPrompt">Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).</p>
+      <div class="token-row">
+        <label class="sr-only" for="token">GitHub token</label>
+        <input id="token" type="password" spellcheck="false" data-i18n-ph="tokenPlaceholder" placeholder="github_pat_… or ghp_…">
+        <button class="btn" type="submit" data-i18n="tokenRetry">Retry with token</button>
+      </div>
+      <p class="hint" data-i18n="tokenHint"></p>
+    </form>
   </section>
 
   <section class="result" id="result" hidden></section>
@@ -70,7 +79,7 @@
 
 <footer class="wrap">
   <span data-i18n="privacy">Runs entirely in your browser using GitHub's public API. Nothing is stored on a server.</span>
-  <span id="rate"></span>
+  <span><span id="rate"></span> <span id="token-state" hidden></span></span>
 </footer>
 </body>
 </html>

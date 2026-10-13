@@ -89,6 +89,7 @@ platform's own rules where they exist. [Browse all →](skills/launch-posts/chan
 [小红书](skills/launch-posts/channels/xiaohongshu.md) ·
 [掘金](skills/launch-posts/channels/juejin.md) ·
 [知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)
+— written in Chinese, each with an English summary at the top.
 
 ### Web checker
 

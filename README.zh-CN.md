@@ -87,7 +87,7 @@ claude plugin install megaphone@megaphone
 [掘金](skills/launch-posts/channels/juejin.md) ·
 [知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)
 
-> 手册正文用英文写，方便全球开发者也能看懂怎么在中文社区发布；所有中文渠道的模板都是直接用中文写的。
+> 海外渠道的手册用英文写，中文渠道的手册用中文写，开头附英文摘要，方便海外开发者也能看懂怎么在中文社区发布。
 
 ### 网页检测器
 

@@ -1,24 +1,25 @@
-# 掘金 (Juejin)
+# 掘金
 
-> Last checked: 2026-10. No special rules for project posts beyond the community
-> guidelines; norms below are community conventions.
+> **English summary:** A large Chinese community of working engineers (frontend, mobile,
+> backend). Long-form technical articles are the main format; 沸点 is for short posts.
+> Write "how I built it" with real technical depth and let the project be the natural
+> result, not an ad. No special rules beyond the community guidelines.
+>
+> 最近核对：2026-10。掘金对项目推广没有专门规则，以下是社区习惯。
 
-## Fit
+## 适合什么项目
 
-A large Chinese community of working engineers, especially frontend, mobile and
-backend. Long-form technical articles are the main format, with **沸点** for short posts.
-Articles are indexed by search engines and keep bringing readers.
+国内一线工程师聚集的大型技术社区，前端、移动端、后端的读者尤其多。主要形式是**长篇技术文章**，
+**沸点**用来发短动态。文章会被搜索引擎收录，能持续带来读者。
 
-## What works
+## 什么样的内容有效
 
-- **Technical depth with a practical takeaway**: "我是怎么用 X 实现 Y 的", architecture
-  write-ups, performance comparisons, pitfalls you hit.
-- The project appears as the natural result of the article, with a repo link at the top
-  and at the end — not as an advert.
-- Pick precise **tags/categories** (前端, 后端, 人工智能, 开源…) so it reaches the right feed.
-- Code blocks that run, diagrams, and before/after numbers.
+- **有技术深度、有实用收获**：「我是怎么用 X 实现 Y 的」、架构拆解、性能对比、踩过的坑。
+- 项目是文章自然得出的结果，开头和结尾各放一次仓库链接，**不要写成广告**。
+- 选准**标签和分类**（前端、后端、人工智能、开源……），才能进入对的信息流。
+- 能直接运行的代码块、架构图、优化前后的数据。
 
-## Template outline
+## 文章结构模板
 
 ```
 标题：我做了一个 <名字>：<解决什么问题>（附实现思路）
@@ -31,10 +32,9 @@ Articles are indexed by search engines and keep bringing readers.
 六、还没做好的地方 & 后续计划
 ```
 
-Use **沸点** for a short "刚开源了一个小工具" post with a screenshot on launch day,
-linking to the article.
+发布当天可以再发一条**沸点**：「刚开源了一个小工具」+ 截图 + 文章链接。
 
-## Pitfalls
+## 常见坑
 
-- A short advert disguised as an article → low recommendation, critical comments.
-- Copying the README verbatim → no reason to read the article.
+- 披着文章外衣的短广告 → 推荐量低，评论区不友好。
+- 把 README 原样贴过来 → 读者没有理由读这篇文章。

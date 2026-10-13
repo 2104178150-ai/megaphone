@@ -45,6 +45,13 @@ const STRINGS = {
     installThen: 'Then ask your agent: “launch this repo” — or “帮我推广这个项目”.',
     privacy: 'Runs entirely in your browser using GitHub’s public API. Nothing is stored on a server.',
     rate: (n) => `GitHub API: ${n} requests left this hour`,
+    tokenPrompt: 'Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).',
+    tokenPlaceholder: 'github_pat_… or ghp_…',
+    tokenRetry: 'Retry with token',
+    tokenHint: 'Create one at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> — read-only access to public repositories is enough. It stays in this browser tab and is only sent to api.github.com.',
+    tokenActive: 'Using your GitHub token',
+    tokenClear: 'Forget it',
+    errBadToken: 'GitHub rejected that token. Check it and try again.',
     pts: 'pts',
   },
   zh: {
@@ -87,11 +94,18 @@ const STRINGS = {
     installThen: '然后对你的 AI 说：「帮我推广这个项目」——或者 “launch this repo”。',
     privacy: '完全在你的浏览器里运行，只调用 GitHub 公开 API，不在任何服务器上保存数据。',
     rate: (n) => `GitHub API 本小时剩余 ${n} 次请求`,
+    tokenPrompt: '匿名额度用完了？粘贴一个 GitHub token 就能继续检测（每小时 5000 次）。',
+    tokenPlaceholder: 'github_pat_… 或 ghp_…',
+    tokenRetry: '用 token 重试',
+    tokenHint: '在 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> 创建，只给「公开仓库只读」权限就够了。token 只保存在当前标签页，只会发给 api.github.com。',
+    tokenActive: '正在使用你的 GitHub token',
+    tokenClear: '清除',
+    errBadToken: 'GitHub 不认这个 token，检查一下再试。',
     pts: '分',
   },
 };
 
-const HTML_KEYS = new Set(['heroTitle']);
+const HTML_KEYS = new Set(['heroTitle', 'tokenHint']);
 const SHIELD_COLORS = { great: 'brightgreen', good: 'green', ok: 'yellow', low: 'orange', mute: 'red' };
 
 let lang = pickLanguage();
@@ -152,6 +166,7 @@ function applyLanguage() {
   $('#gh-link').href = `https://github.com/${p}`;
   $('#install-npx').textContent = `npx skills add ${p}`;
   $('#install-cc').textContent = `/plugin marketplace add ${p}`;
+  renderTokenState();
   if (last) render(last.analysis);
 }
 
@@ -169,16 +184,62 @@ function setLoading(on) {
   $('#art').classList.toggle('loading', on);
 }
 
+// Results are cached in this browser for an hour so re-checks don't spend the
+// 60-requests-an-hour anonymous GitHub API budget.
+const CACHE_PREFIX = 'megaphone:cache:';
+const CACHE_TTL = 60 * 60 * 1000;
+const CACHE_MAX = 15;
+
 function cacheGet(key) {
   try {
-    const hit = JSON.parse(sessionStorage.getItem(key) || 'null');
-    if (hit && Date.now() - hit.at < 10 * 60 * 1000) return hit.data;
-  } catch (_) { /* ignore */ }
+    const hit = JSON.parse(localStorage.getItem(CACHE_PREFIX + key) || 'null');
+    if (hit && Date.now() - hit.at < CACHE_TTL) return hit.data;
+  } catch (_) { /* storage blocked or corrupt */ }
   return null;
 }
 
 function cacheSet(key, data) {
-  try { sessionStorage.setItem(key, JSON.stringify({ at: Date.now(), data })); } catch (_) { /* quota or blocked */ }
+  try {
+    const keys = Object.keys(localStorage).filter((k) => k.startsWith(CACHE_PREFIX));
+    if (keys.length >= CACHE_MAX) {
+      keys.map((k) => [k, (JSON.parse(localStorage.getItem(k) || '{}') || {}).at || 0])
+        .sort((a, b) => a[1] - b[1])
+        .slice(0, keys.length - CACHE_MAX + 1)
+        .forEach(([k]) => localStorage.removeItem(k));
+    }
+    const { rate, apiCalls, ...rest } = data;
+    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ at: Date.now(), data: rest }));
+  } catch (_) { /* quota or blocked */ }
+}
+
+// A visitor's own token lifts the limit to 5,000 requests an hour. It lives only in
+// this tab's sessionStorage and is only ever sent to api.github.com.
+function getToken() {
+  try { return sessionStorage.getItem('megaphone-token') || null; } catch (_) { return null; }
+}
+
+function setToken(value) {
+  try {
+    if (value) sessionStorage.setItem('megaphone-token', value);
+    else sessionStorage.removeItem('megaphone-token');
+  } catch (_) { /* storage blocked */ }
+  renderTokenState();
+}
+
+function renderTokenState() {
+  const el = $('#token-state');
+  if (getToken()) {
+    el.hidden = false;
+    el.innerHTML = `${esc(t('tokenActive'))} · <button class="link-btn" type="button" id="token-clear">${esc(t('tokenClear'))}</button>`;
+  } else {
+    el.hidden = true;
+    el.textContent = '';
+  }
+}
+
+function showTokenForm(show) {
+  $('#token-form').hidden = !show;
+  if (show) $('#token').focus();
 }
 
 async function run(input) {
@@ -190,22 +251,29 @@ async function run(input) {
   setLoading(true);
   setStatus(t('checking'));
   try {
-    const key = 'megaphone:' + full.toLowerCase();
+    const key = full.toLowerCase();
     let data = cacheGet(key);
     if (!data) {
-      data = await fetchRepoData(full);
+      data = await fetchRepoData(full, { token: getToken() });
       cacheSet(key, data);
+      if (data.rate) $('#rate').textContent = t('rate')(data.rate.remaining);
     }
-    if (data.rate) $('#rate').textContent = t('rate')(data.rate.remaining);
     const analysis = analyze(data);
     last = { analysis, data };
     setStatus('');
+    showTokenForm(false);
     render(analysis, true);
   } catch (err) {
     if (err instanceof FetchError) {
       if (err.kind === 'notfound') setStatus(t('errNotFound'), true);
-      else if (err.kind === 'rate') setStatus(t('errRate')(new Date(err.reset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })), true);
-      else setStatus(t('errHttp')(err.message), true);
+      else if (err.kind === 'rate') {
+        setStatus(t('errRate')(new Date(err.reset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })), true);
+        showTokenForm(true);
+      } else if (err.kind === 'badtoken') {
+        setToken(null);
+        setStatus(t('errBadToken'), true);
+        showTokenForm(true);
+      } else setStatus(t('errHttp')(err.message), true);
     } else {
       console.error(err);
       setStatus(t('errNetwork'), true);
@@ -354,6 +422,17 @@ async function copyText(btn) {
 // Wiring
 
 $('#form').addEventListener('submit', (e) => { e.preventDefault(); run($('#repo').value); });
+$('#token-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const value = $('#token').value.trim();
+  if (!value) return;
+  $('#token').value = '';
+  setToken(value);
+  run($('#repo').value);
+});
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'token-clear') setToken(null);
+});
 document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => run(c.dataset.repo)));
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.copy');

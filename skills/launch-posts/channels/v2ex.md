@@ -1,50 +1,53 @@
 # V2EX — 分享创造
 
-> Last checked: 2026-10 against the node page [v2ex.com/go/create](https://www.v2ex.com/go/create).
-> The node describes itself as 「爱意满满的作品展示区」 and invites you to post your
-> latest work there. Registration and posting limits for new accounts change from time
-> to time — check before launch day.
+> **English summary:** China's most influential general developer forum. Post your own
+> work in the 分享创造 ("share your creation") node, write as a person in Chinese, show a
+> screenshot, and reply to every comment. New accounts now need an invite code
+> (Google sign-up) or a V2EX Coin balance, so line up an account well before launch day.
+>
+> 最近核对：2026-10，依据节点页 [v2ex.com/go/create](https://www.v2ex.com/go/create) 与注册页
+> [v2ex.com/signup](https://www.v2ex.com/signup)。节点自我介绍是「爱意满满的作品展示区」，欢迎发布
+> 自己的最新作品。
 
-## Fit
+## 适合什么项目
 
-China's most influential general developer forum. 分享创造 is the node built for
-showing your own work, and readers are used to trying things and leaving blunt,
-useful feedback. Strong for developer tools, macOS/iOS apps, self-hosted software,
-browser extensions and side projects.
+国内影响力最大的综合开发者社区。「分享创造」节点专门用来展示自己的作品，读者习惯上手试用，
+反馈直接、有用。开发者工具、macOS / iOS 应用、可自部署的软件、浏览器插件、个人项目都很合适。
 
-## Rules and norms
+## 先解决账号问题
 
-- Post in **分享创造**, not in technical Q&A nodes. Every topic belongs to exactly one
-  node; promotion in other nodes gets moved, sunk or reported.
-- **Write as a person, not a brand.** "我做了一个…" is the norm. Corporate tone is
-  ignored or mocked.
-- **Don't repost** the same project every week. A second post makes sense for a major
-  new version, written as an update.
-- Giveaways (redemption codes for paid apps) are common in this node, but an open-source
-  project doesn't need one.
-- Reply to comments yourself, quickly, including criticism. V2EX readers judge the
-  author as much as the project.
+- **注册门槛变高了。** 注册页写明：2024 年 6 月之后用 Google 注册的新账号需要**邀请码**才能激活；
+  另一种方式是持有一定数量的 V2EX Coin。没有账号的话，提前找有账号的朋友要邀请码，别等到发布当天。
+- **新账号发帖可能有限制**，规则会变，发布前先确认自己能在该节点发主题。
 
-## Format
+## 规则与社区习惯
 
-- **Title** (Chinese, specific, no clickbait). Typical shape seen on the node:
-  `做了一个 <什么>：<亮点 1>，<亮点 2>`.
+- 发在**「分享创造」**，不要发到技术问答类节点。每个主题只能属于一个节点，发错节点会被移动、沉帖或被举报。
+- **以个人身份写，不要用品牌口吻。**「我做了一个……」是常见写法，官方腔调会被无视甚至嘲讽。
+- **不要每周重复发同一个项目。** 有重大新版本时再发一次，写成更新说明。
+- 付费应用常在这里送兑换码，开源项目不需要。
+- **自己及时回复评论**，包括批评。V2EX 读者评价作者的分量不亚于评价项目本身。
+- 如果项目是和 AI 一起做的，**坦白说明**。社区对隐瞒 AI 生成内容比较反感。
+
+## 格式
+
+- **标题**（中文、具体、不标题党）。节点里常见的写法：`做了一个 <什么>：<亮点 1>，<亮点 2>`
   - ✅ `做了一个给开源项目打分的工具：粘贴仓库地址，告诉你发布前最该改的三件事`
   - ❌ `【重磅】史上最强开源推广神器！！`
-- **Body** (Markdown is supported):
+- **正文**（支持 Markdown）：
   1. 一两句话说清楚是什么、给谁用。
   2. 为什么做：你自己遇到的具体场景。
-  3. 截图或 GIF（直接贴图）。
-  4. 怎么用：一行命令或链接。
+  3. 截图或 GIF。图片需要外链地址，可以用 GitHub Pages 或仓库里的图片链接。
+  4. 怎么用：一行命令或一个链接。
   5. 开源协议 + 仓库地址。
   6. 目前的不足 + 想听哪方面的意见。
 
-## Timing
+## 时机
 
-Weekday working hours (Beijing time) and early evenings are active. Pick a time when
-you can reply for the next few hours.
+工作日北京时间白天和傍晚比较活跃。挑一个发完后能连续回复几个小时的时间。人在海外要换算时差，
+比如英国夏令时的中午 12–14 点，对应北京时间晚上 19–21 点。
 
-## Template
+## 模板
 
 ```
 标题：做了一个 <名字>：<一句话说清楚它做什么>
@@ -65,8 +68,9 @@ you can reply for the next few hours.
 还不支持：<诚实的局限>。想听听大家对 <具体问题> 的意见，谢谢！
 ```
 
-## Pitfalls
+## 常见坑
 
-- Posting in the wrong node → moved or sunk, and people remember.
-- Marketing language (「神器」「颠覆」「史上最强」) → instant skepticism.
-- Disappearing after posting → the thread goes cold; V2EX rewards visible authors.
+- 发错节点 → 被移走或沉帖，而且大家会记住。
+- 营销腔（「神器」「颠覆」「史上最强」）→ 立刻引来怀疑。
+- 发完就消失 → 帖子很快冷掉。V2EX 更认可在评论区露面的作者。
+- 发布当天才发现没有账号或发不了帖 → 提前准备好账号。

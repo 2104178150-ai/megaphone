@@ -478,10 +478,35 @@ function decodeBase64Utf8(b64) {
   return new TextDecoder('utf-8').decode(bytes);
 }
 
-export async function fetchRepoData(fullName, fetchImpl = fetch) {
+const RAW = 'https://raw.githubusercontent.com';
+const RAW_TIMEOUT_MS = 4000;
+
+// raw.githubusercontent.com doesn't count against the API's 60-requests-an-hour limit,
+// but it's blocked on some networks (notably mainland China). Give up quickly and return
+// null so the caller falls back to the API.
+async function fetchRawReadme(fullName, fetchImpl) {
+  const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+  const timer = ctrl ? setTimeout(() => ctrl.abort(), RAW_TIMEOUT_MS) : null;
+  try {
+    const res = await fetchImpl(`${RAW}/${fullName}/HEAD/README.md`, ctrl ? { signal: ctrl.signal } : {});
+    return res.ok ? await res.text() : null;
+  } catch (_) {
+    return null;
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
+// token: optional GitHub token from the visitor, for 5,000 instead of 60 requests an hour.
+export async function fetchRepoData(fullName, { fetchImpl = fetch, token = null } = {}) {
   let rate = null;
+  let apiCalls = 0;
+  const headers = { Accept: 'application/vnd.github+json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
+
   const get = async (path, { optional = false } = {}) => {
-    const res = await fetchImpl(API + path, { headers: { Accept: 'application/vnd.github+json' } });
+    apiCalls++;
+    const res = await fetchImpl(API + path, { headers });
     const remaining = res.headers.get('x-ratelimit-remaining');
     if (remaining !== null) {
       rate = { remaining: Number(remaining), reset: Number(res.headers.get('x-ratelimit-reset')) * 1000 };
@@ -490,18 +515,23 @@ export async function fetchRepoData(fullName, fetchImpl = fetch) {
     if ((res.status === 403 || res.status === 429) && rate && rate.remaining === 0) {
       throw new FetchError('rate', 'GitHub API rate limit reached', { reset: rate.reset });
     }
+    if (res.status === 401 && token) throw new FetchError('badtoken', 'GitHub rejected the token');
     if (optional && res.status === 404) return null;
     if (res.status === 404) throw new FetchError('notfound', 'Repository not found');
     throw new FetchError('http', `GitHub returned ${res.status}`);
   };
 
   const repo = await get(`/repos/${fullName}`);
-  const [readmeJson, community, releases] = await Promise.all([
-    get(`/repos/${repo.full_name}/readme`, { optional: true }),
+  const [rawReadme, community, releases] = await Promise.all([
+    fetchRawReadme(repo.full_name, fetchImpl),
     get(`/repos/${repo.full_name}/community/profile`, { optional: true }).catch(() => null),
     get(`/repos/${repo.full_name}/releases?per_page=1`, { optional: true }),
   ]);
-  const readme = readmeJson && readmeJson.content ? decodeBase64Utf8(readmeJson.content) : '';
+  let readme = rawReadme;
+  if (readme === null) {
+    const readmeJson = await get(`/repos/${repo.full_name}/readme`, { optional: true });
+    readme = readmeJson && readmeJson.content ? decodeBase64Utf8(readmeJson.content) : '';
+  }
 
   // The community profile misses issue *forms* (.github/ISSUE_TEMPLATE/*.yml), so look directly.
   let issueTemplates = !!(community && community.files && community.files.issue_template);
@@ -509,5 +539,5 @@ export async function fetchRepoData(fullName, fetchImpl = fetch) {
     const dir = await get(`/repos/${repo.full_name}/contents/.github/ISSUE_TEMPLATE`, { optional: true }).catch(() => null);
     issueTemplates = Array.isArray(dir) && dir.length > 0;
   }
-  return { repo, readme, community, releases: releases || [], issueTemplates, rate };
+  return { repo, readme, community, releases: releases || [], issueTemplates, rate, apiCalls };
 }

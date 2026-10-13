@@ -1,40 +1,40 @@
-# 即刻 (Jike)
+# 即刻
 
-> Last checked: 2026-10. 即刻 has no special rules for project posts beyond its community
-> guidelines; norms below are community conventions, not official policy.
+> **English summary:** A Chinese social app popular with indie developers, product
+> people and AI builders. Short, personal "I made a thing" posts with screenshots do well;
+> post in one or two relevant topic circles (圈子). No special rules beyond the community
+> guidelines — the notes below are community conventions.
+>
+> 最近核对：2026-10。即刻对项目推广没有专门规则，以下是社区习惯，不是官方政策。
 
-## Fit
+## 适合什么项目
 
-A social app popular with Chinese indie developers, product managers, designers and
-AI builders. Posts are short and personal; "我做了个东西" stories, build-in-public
-progress and AI tool demos travel well. Content is organised in **圈子** (topic circles)
-as well as your followers' feeds.
+国内独立开发者、产品经理、设计师和 AI 从业者聚集的社交 App。帖子短、偏个人表达。
+「我做了个东西」的故事、build in public 式的进展分享、AI 工具演示都很受欢迎。
+内容既出现在关注者的信息流里，也按**圈子**（话题圈）聚合。
 
-## Format
+## 格式
 
-- **Personal voice**, first person, conversational. Tell the moment that made you
-  build it.
-- **Images or a short video** are almost mandatory — up to a few screenshots that show
-  the result, not the code.
-- Put the link in the post; mention it's open source.
-- Post in **one or two relevant circles** (search for circles about 独立开发, AI 工具,
-  开源, 效率工具, 产品 — pick ones that are active) rather than many.
+- **个人口吻**，第一人称、口语化，讲清楚让你决定动手做的那一刻。
+- **图片或短视频几乎是必需的**：放几张展示结果的截图，不要放代码截图。
+- 链接直接放在帖子里，说明是开源的。
+- 只发到**一两个相关圈子**（搜索独立开发、AI 工具、开源、效率工具、产品等主题，挑活跃的圈子），不要群发。
 
-## Template
+## 模板
 
 ```
 花了 <时间> 做了个小工具 <名字>：<一句话它做什么>。
 
 起因是 <具体场景>，每次都要 <麻烦的事>。
 
-现在 <一步就能做到的结果>。（图）
+现在 <一步就能做到的结果>。（配图）
 
 开源免费：<链接>
 还在早期，想听听大家觉得 <具体问题> 怎么样～
 ```
 
-## Pitfalls
+## 常见坑
 
-- Copy-pasting the Hacker News text → reads cold and translated.
-- Posting to many circles at once → looks like spam.
-- No image → scrolled past.
+- 把发 Hacker News 的英文稿翻译过来 → 读起来冷冰冰、一股翻译腔。
+- 一次发到很多圈子 → 像广告。
+- 没有配图 → 直接被划走。
