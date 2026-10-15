@@ -18,6 +18,7 @@ Traffic data (views, clones, referrers, popular paths) needs push access to the 
 
 import argparse
 import csv
+import io
 import json
 import math
 import os
@@ -190,6 +191,13 @@ def to_local(moment, tz):
 
 # --- data ------------------------------------------------------------------------------
 
+def stargazer_page(repo, page, token):
+    return api_get(
+        "/repos/%s/stargazers?per_page=%d&page=%d" % (repo, PER_PAGE, page),
+        token, accept="application/vnd.github.star+json",
+    )
+
+
 def recent_stars(repo, total, since, token, notes):
     """Walk the stargazer list from the newest page backwards until we pass `since`."""
     pages = math.ceil(total / PER_PAGE)
@@ -200,21 +208,35 @@ def recent_stars(repo, total, since, token, notes):
             "incomplete."
         )
         pages = MAX_PAGES
-    times = []
-    for page in range(pages, 0, -1):
-        batch = api_get(
-            "/repos/%s/stargazers?per_page=%d&page=%d" % (repo, PER_PAGE, page),
-            token, accept="application/vnd.github.star+json",
+    if not pages:
+        return []
+    # stargazers_count can run ahead of the list (a star removed since the /repos call, or
+    # accounts GitHub counts but doesn't list) or behind it (a star added since), so the page
+    # it points at may be empty, or may not be the newest one.
+    page, batch = pages, stargazer_page(repo, pages, token)
+    if not batch and page > 1 and stargazer_page(repo, 1, token):
+        while not batch and page > 1:  # the list exists: step back to its real last page
+            page -= 1
+            batch = stargazer_page(repo, page, token)
+    if not batch:
+        notes.append(
+            "GitHub returned an empty stargazer list although the repo has %d stars, so "
+            "star numbers below are missing.%s" % (total, STARGAZER_ACCESS.replace("\n", " "))
         )
-        if page == pages and not batch:
-            notes.append(
-                "GitHub returned an empty stargazer list although the repo has %d stars, so "
-                "star numbers below are missing.%s" % (total, STARGAZER_ACCESS.replace("\n", " "))
-            )
+        return []
+    while page >= pages and len(batch) == PER_PAGE and page < MAX_PAGES:
+        newer = stargazer_page(repo, page + 1, token)  # stars added after the /repos call
+        if not newer:
+            break
+        page, batch = page + 1, newer
+    times = []
+    while True:
         stamps = [parse_time(s["starred_at"]) for s in batch if s.get("starred_at")]
         times.extend(t for t in stamps if t >= since)
-        if not stamps or min(stamps) < since:
+        if not stamps or min(stamps) < since or page == 1:
             break
+        page -= 1
+        batch = stargazer_page(repo, page, token)
     return sorted(times)
 
 
@@ -230,12 +252,16 @@ def fetch_traffic(repo, token):
     return out
 
 
-def save_snapshot(directory, traffic):
+def snapshot_name(repo, stamp):
+    return "%s-%s.json" % (stamp, repo.replace("/", "__"))
+
+
+def save_snapshot(directory, traffic, repo):
     os.makedirs(directory, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    path = os.path.join(directory, stamp + ".json")
+    path = os.path.join(directory, snapshot_name(repo, stamp))
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"taken_at": stamp, **traffic}, f, ensure_ascii=False, indent=2)
+        json.dump({"repo": repo, "taken_at": stamp, **traffic}, f, ensure_ascii=False, indent=2)
     return path
 
 
@@ -249,8 +275,10 @@ def ignored_by_git(path):
     return {0: True, 1: False}.get(r.returncode)
 
 
-def load_snapshots(directory):
-    snaps = []
+def load_snapshots(directory, repo=None, notes=None):
+    """Snapshots for `repo`. Older snapshots without a repo name are included with a note;
+    snapshots of other repos are skipped."""
+    snaps, legacy, other = [], 0, 0
     if not os.path.isdir(directory):
         return snaps
     for name in sorted(os.listdir(directory)):
@@ -260,9 +288,22 @@ def load_snapshots(directory):
                     snap = json.load(f)
             except (OSError, ValueError):
                 continue
-            if isinstance(snap, dict):
-                snap.setdefault("taken_at", name[:-5])
-                snaps.append(snap)
+            if not isinstance(snap, dict):
+                continue
+            owner = snap.get("repo")
+            if repo and owner and owner.lower() != repo.lower():
+                other += 1
+                continue
+            if repo and not owner:
+                legacy += 1
+            snap.setdefault("taken_at", name[:10])
+            snaps.append(snap)
+    if notes is not None and other:
+        notes.append("Ignored %d snapshot(s) in %s that belong to another repo." % (other, directory))
+    if notes is not None and legacy:
+        notes.append("%d older snapshot(s) in %s don't record which repo they're for; they were "
+                     "counted as %s's." % (legacy, directory, repo))
+    snaps.sort(key=lambda x: x.get("taken_at", ""))
     return snaps
 
 
@@ -277,59 +318,74 @@ def daily_traffic(snapshots, kind):
     return days
 
 
-def read_log(path, tz):
-    """Parse the launch log. Returns (entries, skipped); skipped rows are reported in Notes.
+def read_log(path, tz, notes=None):
+    """Parse the launch log. Returns (entries, skipped); skipped rows are reported in Notes,
+    and anything else worth saying about the file is appended to `notes`.
 
     `date` is YYYY-MM-DD and `time` 24-hour HH:MM, both in `tz`. An empty time counts
     from the start of that day and is marked as not logged."""
     entries, skipped = [], []
     if not path or not os.path.exists(path):
         return entries, skipped
-    with open(path, newline="", encoding="utf-8-sig") as f:
-        reader = csv.DictReader(f)
-        if reader.fieldnames:
-            reader.fieldnames = [(n or "").strip().lower() for n in reader.fieldnames]
-        if "date" not in (reader.fieldnames or []):
-            skipped.append("%s has no `date` column, so no row could be read. Its first line "
-                           "must be the header date,time,channel,url,notes" % path)
+    with open(path, "rb") as f:
+        raw = f.read()
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        try:
+            # Excel on Chinese Windows saves "CSV" as GBK; GB18030 is a superset.
+            text = raw.decode("gb18030")
+            if notes is not None:
+                notes.append("%s isn't UTF-8, so it was read as GB18030/GBK (how Excel on Chinese "
+                             "Windows saves CSV). To be safe, save it as \"CSV UTF-8\"." % path)
+        except UnicodeDecodeError:
+            skipped.append("%s is neither UTF-8 nor GBK, so no row could be read (save it as "
+                           "\"CSV UTF-8\")" % path)
             return entries, skipped
-        for row in reader:
-            def field(name):
-                value = row.get(name)
-                return value.strip() if isinstance(value, str) else ""
+    reader = csv.DictReader(io.StringIO(text, newline=""))
+    if reader.fieldnames:
+        reader.fieldnames = [(n or "").strip().lower() for n in reader.fieldnames]
+    if "date" not in (reader.fieldnames or []):
+        skipped.append("%s has no `date` column, so no row could be read. Its first line "
+                       "must be the header date,time,channel,url,notes" % path)
+        return entries, skipped
+    for row in reader:
+        def field(name):
+            value = row.get(name)
+            return value.strip() if isinstance(value, str) else ""
 
-            date, clock = field("date"), field("time")
-            channel = field("channel") or "?"
-            where = "line %d (%s)" % (reader.line_num, channel)
-            if not date:
-                if any(isinstance(v, str) and v.strip() for v in row.values()):
-                    skipped.append("%s: no date" % where)
+        date, clock = field("date"), field("time")
+        channel = field("channel") or "?"
+        where = "line %d (%s)" % (reader.line_num, channel)
+        if not date:
+            if any(isinstance(v, str) and v.strip() for v in row.values()):
+                skipped.append("%s: no date" % where)
+            continue
+        try:
+            local = datetime.strptime(date, "%Y-%m-%d")
+        except ValueError:
+            skipped.append("%s: date %r isn't YYYY-MM-DD" % (where, date))
+            continue
+        if clock:
+            parsed = None
+            for fmt in ("%H:%M", "%H:%M:%S"):
+                try:
+                    parsed = datetime.strptime(clock, fmt)
+                    break
+                except ValueError:
+                    pass
+            if parsed is None:
+                skipped.append("%s: time %r isn't 24-hour HH:MM" % (where, clock))
                 continue
-            try:
-                local = datetime.strptime(date, "%Y-%m-%d")
-            except ValueError:
-                skipped.append("%s: date %r isn't YYYY-MM-DD" % (where, date))
-                continue
-            if clock:
-                parsed = None
-                for fmt in ("%H:%M", "%H:%M:%S"):
-                    try:
-                        parsed = datetime.strptime(clock, fmt)
-                        break
-                    except ValueError:
-                        pass
-                if parsed is None:
-                    skipped.append("%s: time %r isn't 24-hour HH:MM" % (where, clock))
-                    continue
-                local = local.replace(hour=parsed.hour, minute=parsed.minute)
-            entries.append({
-                "local": local,
-                "when": to_utc(local, tz),
-                "time_logged": bool(clock),
-                "channel": channel,
-                "url": field("url"),
-                "notes": field("notes"),
-            })
+            local = local.replace(hour=parsed.hour, minute=parsed.minute)
+        entries.append({
+            "local": local,
+            "when": to_utc(local, tz),
+            "time_logged": bool(clock),
+            "channel": channel,
+            "url": field("url"),
+            "notes": field("notes"),
+        })
     return sorted(entries, key=lambda e: e["when"]), skipped
 
 
@@ -507,7 +563,17 @@ def build_report(args, repo_info, stars, since, log, traffic, snapshots, notes, 
     return "\n".join(lines)
 
 
+def utf8_output():
+    """Print UTF-8 even where the console or pipe defaults to cp1252 or GBK (Windows)."""
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
 def main(argv=None):
+    utf8_output()
     argv = list(sys.argv[1:] if argv is None else argv)
     p = argparse.ArgumentParser(description="Star history, traffic and launch attribution for a GitHub repo.")
     p.add_argument("repo", help="OWNER/REPO")
@@ -567,7 +633,7 @@ def main(argv=None):
                          "permission, read)." % e.status)
     if args.snapshot:
         if traffic:
-            path = save_snapshot(args.snapshot_dir, traffic)
+            path = save_snapshot(args.snapshot_dir, traffic, args.repo)
             notes.append("Saved traffic snapshot: %s" % path)
             if ignored_by_git(path) is False:
                 notes.append("Warning: %s is not ignored by git. Snapshots hold traffic data that "
@@ -576,7 +642,7 @@ def main(argv=None):
         else:
             notes.append("--snapshot was requested but there was no traffic data to save.")
 
-    log, skipped = read_log(args.log, tz)
+    log, skipped = read_log(args.log, tz, notes)
     if not log and not skipped:
         notes.append("No launch log found at %s, so posts aren't marked on the chart." % args.log)
     for s in skipped:
@@ -589,12 +655,12 @@ def main(argv=None):
                      "in another zone, rerun with --tz (%s)." % (tz_label(None), TZ_EXAMPLES))
 
     report = build_report(args, repo_info, stars, since, log, traffic,
-                          load_snapshots(args.snapshot_dir), notes, now=now)
-    print(report)
-    if args.out:
+                          load_snapshots(args.snapshot_dir, args.repo, notes), notes, now=now)
+    if args.out:  # write the file first, so a console that can't print the report doesn't lose it
         os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
         with open(args.out, "w", encoding="utf-8") as f:
             f.write(report + "\n")
+    print(report)
 
 
 if __name__ == "__main__":

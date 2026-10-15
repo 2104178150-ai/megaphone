@@ -15,6 +15,7 @@ tests/fixtures/rubric-cases.json keep the two implementations in agreement — c
 
 import argparse
 import base64
+import http.client
 import json
 import math
 import os
@@ -104,26 +105,60 @@ def level_for(score):
 # README facts (mirrors readmeFacts in docs/checker.js)
 
 A = re.ASCII
+# JavaScript's \s (ECMAScript WhiteSpace + LineTerminator). Patterns compiled with re.ASCII keep
+# JS's ASCII-only \b and \w, but their \s/\S must still match full-width spaces from Chinese
+# IMEs (U+3000), NBSP and friends, as they do in the browser.
+JS_WS = "\t\n\x0b\x0c\r \xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff"
+
+
+def jsre(pattern, flags=0):
+    """Compile `pattern` with \s and \S meaning what they mean in JavaScript."""
+    out, i, in_class = [], 0, False
+    while i < len(pattern):
+        c = pattern[i]
+        if c == "\\" and i + 1 < len(pattern):
+            nxt = pattern[i + 1]
+            if nxt == "s":
+                out.append(JS_WS if in_class else "[" + JS_WS + "]")
+            elif nxt == "S":
+                if in_class:
+                    raise ValueError("\\S inside a character class isn't supported: " + pattern)
+                out.append("[^" + JS_WS + "]")
+            else:
+                out.append(c + nxt)
+            i += 2
+            continue
+        if c == "[" and not in_class:
+            in_class = True
+        elif c == "]" and in_class:
+            in_class = False
+        out.append(c)
+        i += 1
+    return re.compile("".join(out), flags)
+
+
 BADGE_RE = re.compile(r"shields\.io|badgen\.net|badge|codecov|travis-ci|circleci|/workflows/", re.I)
 IMAGE_RE = re.compile(r"!\[([^\]]*)\]\(\s*<?([^)\s>]+)")
-HTML_MEDIA_RE = re.compile(r"<(img|source|video)\b[^>]*>", re.I | A)
+HTML_MEDIA_RE = jsre(r"<(img|source|video)\b[^>]*>", re.I | A)
 LOGO_RE = re.compile(r"logo|icon|avatar|favicon", re.I)
 SMALL_PX = 128
 ATTACHMENT_RE = re.compile(r"^\s*https://(?:github\.com/user-attachments/assets/|user-images\.githubusercontent\.com/)\S+\s*$")
-HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s+\S|^\s*<h[1-6]\b", re.I | A)
+HEADING_RE = jsre(r"^\s{0,3}#{1,6}\s+\S|^\s*<h[1-6]\b", re.I | A)
 FENCE_RE = re.compile(r"^\s{0,3}(```|~~~)")
 CJK_RE = re.compile("[㐀-鿿豈-﫿]")
 LATIN_WORD_RE = re.compile(r"[A-Za-z][A-Za-z'’-]*")
 
-INSTALL_RES = [re.compile(p, A) for p in [
+INSTALL_RES = [jsre(p, A) for p in [
     r"\bnpm\s+(?:i|install)\s+(?:-g\s+|--global\s+)?[@\w]",
     r"\bnpx\s+[@\w]",
     r"\bpnpm\s+(?:add|dlx)\s+\S",
     r"\byarn\s+(?:add|dlx|global\s+add)\s+\S",
-    r"\bbunx?\s+(?:add\s+|x\s+)?[@\w]",
+    r"\bbun\s+(?:add|install|i|x|create)\s+[@\w]",
+    r"\bbunx\s+[@\w]",
     r"\bpip3?\s+install\s+(?!-r\b)\S",
     r"\bpipx\s+(?:install|run)\s+\S",
-    r"\buvx?\s+(?:tool\s+install\s+|pip\s+install\s+|add\s+)?[\w-]+",
+    r"\buv\s+(?:tool\s+(?:install|run)|pip\s+install|add|run)\s+\S",
+    r"\buvx\s+[@\w]",
     r"\bbrew\s+install\s+\S",
     r"\bport\s+install\s+\S",
     r"\bcargo\s+(?:install|add|binstall)\s+\S",
@@ -145,8 +180,8 @@ INSTALL_RES = [re.compile(p, A) for p in [
 ]]
 
 GETTING_STARTED_RE = re.compile(r"install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|安装|快速开始|快速上手|上手|开始使用|使用")
-SHOWCASE_RE = re.compile(r"feature|usage|example|demo|screenshot|how it works|what it does|功能|特性|示例|例子|演示|截图|效果")
-WHY_RE = re.compile(r"\bwhy\b|motivation|comparison|compare|\bvs\.?\b|alternative|difference|为什么|对比|比较|动机|初衷", A)
+SHOWCASE_RE = re.compile(r"feature|usage|example|demo|screenshot|how it works|what it does|tutorial|walkthrough|tour|showcase|gallery|功能|特性|示例|例子|演示|截图|效果|教程")
+WHY_RE = jsre(r"\bwhy\b|motivation|comparison|compare|\bvs\.?\b|alternative|difference|为什么|对比|比较|动机|初衷", A)
 TRANSLATION_FILE_RE = re.compile(r"README[._-]?(zh|cn|en|ja|ko|es|fr|de|ru|pt|tw|hk)[\w-]*\.md", re.I | A)
 TRANSLATION_LINK_RE = re.compile(r"\[(简体中文|中文|English|繁體中文|日本語)\]\(")
 COMMUNITY_RE = re.compile(r"discord\.(gg|com/invite)|t\.me/|slack\.com|gitter\.im|matrix\.to|微信群|qq群|QQ群|telegram", re.I)
@@ -178,7 +213,7 @@ def prose_of(text):
 
 
 def attr(tag, name):
-    m = re.search(r"\b%s\s*=\s*(?:\"([^\"]*)\"|'([^']*)'|([^\s>]+))" % name, tag, re.I | A)
+    m = jsre(r"\b%s\s*=\s*(?:\"([^\"]*)\"|'([^']*)'|([^\s>]+))" % name, re.I | A).search(tag)
     if not m:
         return ""
     return next((g for g in m.groups() if g is not None), "")
@@ -196,7 +231,10 @@ def _int(s):
 
 
 def readme_facts(md):
-    text = (md or "").replace("\r\n", "\n").replace("\r", "\n")
+    text = (md or "")
+    if text.startswith("\ufeff"):
+        text = text[1:]
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     lines = text.split("\n")
 
     in_fence = []
@@ -254,7 +292,7 @@ def readme_facts(md):
         w = count_words(t)
         if w["latin"] < 3 and w["cjk"] < 8:
             continue
-        if re.match(r"^(english|简体中文|中文|繁體中文|日本語)\b", t, re.I) and "|" in t:
+        if re.match(r"^(english|简体中文|中文|繁體中文|日本語)(?![a-z])", t, re.I) and "|" in t:
             continue
         tagline = t
         break
@@ -419,6 +457,10 @@ class FetchError(Exception):
     pass
 
 
+class RateLimited(FetchError):
+    """The API budget ran out. Never swallowed: a partial fetch would quietly cost points."""
+
+
 def _get(url, token=None, accept="application/vnd.github+json", timeout=30):
     req = urllib.request.Request(url, headers={"Accept": accept, "User-Agent": "megaphone-audit"})
     if token and url.startswith(API):
@@ -435,9 +477,14 @@ def _api(path, token, optional=False):
             return None
         if e.code == 404:
             raise FetchError("Repository not found (private or misspelled?)")
-        if e.code in (403, 429):
-            raise FetchError("GitHub API rate limit or access problem (%d). Set GITHUB_TOKEN and retry." % e.code)
+        if e.code == 429 or (e.code == 403 and e.headers.get("x-ratelimit-remaining") == "0"):
+            raise RateLimited("GitHub API rate limit reached (%d). Set GITHUB_TOKEN or wait an hour, then retry." % e.code)
+        if e.code == 403:
+            raise FetchError("GitHub refused %s (403)." % path)
         raise FetchError("GitHub returned %d for %s" % (e.code, path))
+    except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError) as e:
+        # timeouts, dropped connections and truncated bodies — common on slow links
+        raise FetchError("network problem while reading %s: %s" % (path, e))
 
 
 def fetch_repo_data(full_name, token=None):
@@ -445,13 +492,15 @@ def fetch_repo_data(full_name, token=None):
     name = repo["full_name"]
     try:
         readme = _get("%s/%s/HEAD/README.md" % (RAW, name), timeout=4).decode("utf-8", "replace")
-    except (urllib.error.URLError, OSError):
+    except (urllib.error.URLError, http.client.HTTPException, OSError):
         readme = None
     if readme is None:
         j = _api("/repos/%s/readme" % name, token, optional=True)
         readme = base64.b64decode(j["content"]).decode("utf-8", "replace") if j and j.get("content") else ""
     try:
         community = _api("/repos/%s/community/profile" % name, token, optional=True)
+    except RateLimited:
+        raise
     except FetchError:
         community = None
     releases = _api("/repos/%s/releases?per_page=1" % name, token, optional=True) or []
@@ -460,6 +509,8 @@ def fetch_repo_data(full_name, token=None):
         try:
             d = _api("/repos/%s/contents/.github/ISSUE_TEMPLATE" % name, token, optional=True)
             templates = isinstance(d, list) and len(d) > 0
+        except RateLimited:
+            raise
         except FetchError:
             templates = False
     return {"repo": repo, "readme": readme, "community": community, "releases": releases, "issueTemplates": templates}
@@ -487,7 +538,17 @@ def to_markdown(a):
     return "\n".join(lines)
 
 
+def utf8_output():
+    """Print UTF-8 even where the console or pipe defaults to cp1252 or GBK (Windows)."""
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
 def main():
+    utf8_output()
     p = argparse.ArgumentParser(description="Megaphone launch-readiness score (same rubric as the web checker).")
     p.add_argument("repo", help="OWNER/REPO")
     p.add_argument("--readme", help="score this local README file instead of the one on GitHub")
@@ -501,7 +562,7 @@ def main():
     except (FetchError, urllib.error.URLError) as e:
         sys.exit("Couldn't read %s: %s" % (args.repo, e))
     if args.readme:
-        with open(args.readme, encoding="utf-8") as fh:
+        with open(args.readme, encoding="utf-8-sig") as fh:
             data["readme"] = fh.read()
     a = analyze(data)
     if args.json:

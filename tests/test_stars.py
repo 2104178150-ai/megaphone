@@ -363,5 +363,77 @@ class StarsTest(unittest.TestCase):
         self.assertNotIn("GITHUB_TOKEN", str(cm.exception))
 
 
+def with_count(api_get, count):
+    """Wrap a fake so /repos reports `count` stars regardless of how many are listed."""
+    def wrapped(path, token, accept=None):
+        if path == "/repos/acme/rocket":
+            return {"stargazers_count": count}
+        return api_get(path, token, accept)
+    return wrapped
+
+
+class EdgeCaseTest(unittest.TestCase):
+    """Cases found in review: count/list races, GBK logs, snapshots of other repos."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.snaps = os.path.join(self.tmp.name, "snaps")
+        self.log = os.path.join(self.tmp.name, "log.csv")
+        # 150 old stars and 50 in the last three days: exactly two full pages
+        self.times = ([NOW - timedelta(days=400, minutes=i) for i in range(150)]
+                      + [NOW - timedelta(days=2, minutes=i) for i in range(50)])
+
+    def run_with(self, api_get, *extra):
+        return run_main(["acme/rocket", "--days", "14", "--tz", "+00:00", "--log", self.log,
+                         "--snapshot-dir", self.snaps] + list(extra), api_get)
+
+    def test_count_ahead_of_list_across_a_page_boundary(self):
+        # Someone unstarred between the two calls (or GitHub counts hidden accounts).
+        report = self.run_with(with_count(fake_github(self.times), 201))
+        self.assertIn("Stars gained in window: **50**", report)
+        self.assertNotIn("empty stargazer list", report)
+
+    def test_count_far_ahead_of_list(self):
+        report = self.run_with(with_count(fake_github(self.times), 350))
+        self.assertIn("Stars gained in window: **50**", report)
+
+    def test_count_behind_list_still_reads_the_newest_page(self):
+        times = self.times + [NOW - timedelta(hours=1)]  # a star added after the /repos call
+        report = self.run_with(with_count(fake_github(times), 200))
+        self.assertIn("Stars gained in window: **51**", report)
+
+    def test_gbk_log_from_excel_is_read(self):
+        day = (NOW - timedelta(days=2)).strftime("%Y-%m-%d")
+        with open(self.log, "wb") as f:
+            f.write(("date,time,channel,url,notes\n%s,09:00,即刻,https://okjike.com/x,\n" % day).encode("gbk"))
+        report = self.run_with(fake_github(self.times))
+        self.assertIn("即刻", section(report, "Per post"))
+        self.assertIn("read as GB18030/GBK", section(report, "Notes"))
+        self.assertNotIn("Skipped log row", report)
+
+    def test_snapshots_of_other_repos_are_ignored(self):
+        os.makedirs(self.snaps)
+        other = (NOW - timedelta(days=3)).strftime("%Y-%m-%d")
+        with open(os.path.join(self.snaps, "%s-acme__other.json" % other), "w", encoding="utf-8") as f:
+            json.dump({"repo": "acme/other", "taken_at": other,
+                       "views": {"views": [{"timestamp": other + "T00:00:00Z", "count": 999, "uniques": 1}]},
+                       "referrers": [{"referrer": "elsewhere.example", "count": 5, "uniques": 5}]}, f)
+        report = self.run_with(fake_github(self.times), "--snapshot")
+        self.assertNotIn("999", report)
+        self.assertNotIn("elsewhere.example", report)
+        self.assertIn("belong to another repo", section(report, "Notes"))
+        saved = [n for n in os.listdir(self.snaps) if n.endswith("acme__rocket.json")]
+        self.assertEqual(len(saved), 1)
+        with open(os.path.join(self.snaps, saved[0]), encoding="utf-8") as f:
+            self.assertEqual(json.load(f)["repo"], "acme/rocket")
+
+    def test_out_file_is_written(self):
+        out = os.path.join(self.tmp.name, "nested", "report.md")
+        report = self.run_with(fake_github(self.times), "--out", out)
+        with open(out, encoding="utf-8") as f:
+            self.assertEqual(f.read().strip(), report.strip())
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -44,7 +44,8 @@ such as `Asia/Shanghai` need Python 3.9+).
      ("Stars per day", "Best day") are counted in that zone too. Without `--tz` the script
      uses this machine's zone, which is wrong in a cloud sandbox or CI, so always pass it.
    - **`--snapshot`** saves today's traffic (views, clones, referrers, popular pages) to
-     `.megaphone/snapshots/YYYY-MM-DD.json` (UTC date). GitHub only keeps the last 14 days,
+     `.megaphone/snapshots/YYYY-MM-DD-OWNER__REPO.json` (UTC date; the report only reads
+     snapshots of the repo you asked about). GitHub only keeps the last 14 days,
      so run it every few days during a launch and for two weeks after.
    - **`--days`** must reach back past the first post; if it doesn't, that post's row says
      which value to rerun with.

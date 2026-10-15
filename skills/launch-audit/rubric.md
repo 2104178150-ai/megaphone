@@ -81,7 +81,7 @@ image whose URL or alt text contains `logo`, `icon`, `avatar` or `favicon`, or w
 | B1 | Getting-started section | 7 | A heading containing install, quick start, getting started, get started, setup, set up, usage, how to use, run, 安装, 快速开始, 快速上手, 上手, 开始使用 or 使用 |
 | B2 | Code block early | 5 | A fenced code block starts within the first 150 lines |
 | B3 | One step to try it | 8 | A recognised one-line install or run command anywhere in the README — `npm i`, `npx`, `pnpm add/dlx`, `yarn add/dlx`, `bun add`/`bunx`, `pip install <pkg>` (not `pip install -r`), `pipx`, `uv`/`uvx`, `brew install`, `port install`, `cargo install`, `go install`/`go get`, `docker run`/`pull`, `docker compose up`, `curl … \| sh`, `iwr … \| iex`, `gem install`, `composer require`, `dotnet tool install`, `winget`/`scoop`/`choco install`, `apt install`, `snap`/`flatpak install`, `nix run`, `helm install`, `npx skills add`, `claude plugin install` — **or** a homepage that passes A6 (a hosted version people can try) |
-| B4 | Shows what it does | 5 | Within the first 120 lines, a heading containing feature, usage, example, demo, screenshot, how it works, what it does, 功能, 特性, 示例, 例子, 演示, 截图 or 效果; or ≥ 3 `-`/`*`/`+` bullet points in the first 80 lines |
+| B4 | Shows what it does | 5 | Within the first 120 lines, a heading containing feature, usage, example, demo, screenshot, how it works, what it does, tutorial, walkthrough, tour, showcase, gallery, 功能, 特性, 示例, 例子, 演示, 截图, 效果 or 教程; or ≥ 3 `-`/`*`/`+` bullet points in the first 80 lines |
 
 B3 is the check most likely to pass on a technicality: an install command proves the
 project installs, not that the first run shows anything. That's what the *Quick start

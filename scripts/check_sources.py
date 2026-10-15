@@ -12,7 +12,9 @@ Exit code: 0 all found, 1 something missing or unreachable.
 """
 
 import html
+import http.client
 import json
+import re
 import sys
 import urllib.error
 import urllib.request
@@ -110,7 +112,27 @@ def fetch(url):
         return html.unescape(resp.read().decode("utf-8", errors="replace"))
 
 
+def normalize(text):
+    """Collapse markup and whitespace (incl. NBSP) so rewrapped or re-tagged text still matches."""
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def found(phrase, page):
+    return phrase in page or normalize(phrase) in normalize(page)
+
+
+def utf8_output():
+    """Print UTF-8 even where the console or pipe defaults to cp1252 or GBK (Windows)."""
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
 def main():
+    utf8_output()
     as_json = "--json" in sys.argv
     pages = {}
     results = []
@@ -118,14 +140,14 @@ def main():
         if url not in pages:
             try:
                 pages[url] = fetch(url)
-            except (urllib.error.URLError, OSError) as e:
+            except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError) as e:
                 pages[url] = e
         page = pages[url]
         if isinstance(page, Exception):
             status = "unreachable"
             detail = str(page)
         else:
-            status = "ok" if phrase in page else "missing"
+            status = "ok" if found(phrase, page) else "missing"
             detail = ""
         results.append({"playbook": playbook, "url": url, "phrase": phrase, "status": status, "detail": detail})
 

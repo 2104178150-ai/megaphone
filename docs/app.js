@@ -242,7 +242,11 @@ function showTokenForm(show) {
   if (show) $('#token').focus();
 }
 
+// Each check gets an id; a slower earlier check never overwrites a newer one.
+let currentRun = 0;
+
 async function run(input) {
+  const runId = ++currentRun;
   const full = parseRepoInput(input);
   if (!full) { setStatus(t('errInvalid'), true); return; }
   $('#repo').value = full;
@@ -254,16 +258,22 @@ async function run(input) {
     const key = full.toLowerCase();
     let data = cacheGet(key);
     if (!data) {
-      data = await fetchRepoData(full, { token: getToken() });
-      cacheSet(key, data);
+      const token = getToken();
+      data = await fetchRepoData(full, { token });
+      if (runId !== currentRun) return;
+      // Only cache what anyone could see: never results fetched with a visitor's token
+      // (they may include private repos), which would outlive the token in localStorage.
+      if (!token && !(data.repo && data.repo.private)) cacheSet(key, data);
       if (data.rate) $('#rate').textContent = t('rate')(data.rate.remaining);
     }
+    if (runId !== currentRun) return;
     const analysis = analyze(data);
     last = { analysis, data };
     setStatus('');
     showTokenForm(false);
     render(analysis, true);
   } catch (err) {
+    if (runId !== currentRun) return;
     if (err instanceof FetchError) {
       if (err.kind === 'notfound') setStatus(t('errNotFound'), true);
       else if (err.kind === 'rate') {
@@ -279,7 +289,7 @@ async function run(input) {
       setStatus(t('errNetwork'), true);
     }
   } finally {
-    setLoading(false);
+    if (runId === currentRun) setLoading(false);
   }
 }
 
@@ -424,8 +434,10 @@ async function copyText(btn) {
 $('#form').addEventListener('submit', (e) => { e.preventDefault(); run($('#repo').value); });
 $('#token-form').addEventListener('submit', (e) => {
   e.preventDefault();
-  const value = $('#token').value.trim();
+  // Strip whitespace and zero-width characters that ride along when copying from rich text.
+  const value = $('#token').value.replace(/[\s\u200B-\u200D\u2060\uFEFF]/g, '');
   if (!value) return;
+  if (!/^[\x21-\x7E]+$/.test(value)) { setStatus(t('errBadToken'), true); return; }
   $('#token').value = '';
   setToken(value);
   run($('#repo').value);

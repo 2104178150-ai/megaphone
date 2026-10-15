@@ -145,10 +145,12 @@ const INSTALL_RES = [
   /\bnpx\s+[@\w]/,
   /\bpnpm\s+(?:add|dlx)\s+\S/,
   /\byarn\s+(?:add|dlx|global\s+add)\s+\S/,
-  /\bbunx?\s+(?:add\s+|x\s+)?[@\w]/,
+  /\bbun\s+(?:add|install|i|x|create)\s+[@\w]/,
+  /\bbunx\s+[@\w]/,
   /\bpip3?\s+install\s+(?!-r\b)\S/,
   /\bpipx\s+(?:install|run)\s+\S/,
-  /\buvx?\s+(?:tool\s+install\s+|pip\s+install\s+|add\s+)?[\w-]+/,
+  /\buv\s+(?:tool\s+(?:install|run)|pip\s+install|add|run)\s+\S/,
+  /\buvx\s+[@\w]/,
   /\bbrew\s+install\s+\S/,
   /\bport\s+install\s+\S/,
   /\bcargo\s+(?:install|add|binstall)\s+\S/,
@@ -202,7 +204,7 @@ function countWords(text) {
 }
 
 export function readmeFacts(md) {
-  const text = (md || '').replace(/\r\n?/g, '\n');
+  const text = (md || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
   const lines = text.split('\n');
 
   // Skip fenced code when looking for headings, bullets and prose.
@@ -256,7 +258,7 @@ export function readmeFacts(md) {
     if (t.length < 10 || t.length > 200) continue;
     const w = countWords(t);
     if (w.latin < 3 && w.cjk < 8) continue;
-    if (/^(english|简体中文|中文|繁體中文|日本語)\b/i.test(t) && t.includes('|')) continue;
+    if (/^(english|简体中文|中文|繁體中文|日本語)(?![a-z])/i.test(t) && t.includes('|')) continue;
     tagline = t;
     break;
   }
@@ -272,7 +274,7 @@ export function readmeFacts(md) {
 
   const findHeading = (re, within = Infinity) => headings.find((h) => h.i < within && re.test(h.text)) || null;
   const gettingStarted = findHeading(/install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|安装|快速开始|快速上手|上手|开始使用|使用/);
-  const showcase = findHeading(/feature|usage|example|demo|screenshot|how it works|what it does|功能|特性|示例|例子|演示|截图|效果/, 120);
+  const showcase = findHeading(/feature|usage|example|demo|screenshot|how it works|what it does|tutorial|walkthrough|tour|showcase|gallery|功能|特性|示例|例子|演示|截图|效果|教程/, 120);
   const why = findHeading(/\bwhy\b|motivation|comparison|compare|\bvs\.?\b|alternative|difference|为什么|对比|比较|动机|初衷/);
 
   let bullets = 0;
@@ -565,6 +567,8 @@ async function fetchRawReadme(fullName, fetchImpl) {
 export async function fetchRepoData(fullName, { fetchImpl = fetch, token = null } = {}) {
   let rate = null;
   let apiCalls = 0;
+  // A pasted token can carry invisible characters that fetch() refuses in a header.
+  if (token && !/^[\x21-\x7E]+$/.test(token)) throw new FetchError('badtoken', 'The token contains characters a GitHub token never has');
   const headers = { Accept: 'application/vnd.github+json' };
   if (token) headers.Authorization = `Bearer ${token}`;
 
@@ -585,10 +589,17 @@ export async function fetchRepoData(fullName, { fetchImpl = fetch, token = null 
     throw new FetchError('http', `GitHub returned ${res.status}`);
   };
 
+  // Optional lookups may fail quietly — but not on a rate limit or a bad token, or the
+  // score would silently lose points.
+  const softFail = (e) => {
+    if (e instanceof FetchError && (e.kind === 'rate' || e.kind === 'badtoken')) throw e;
+    return null;
+  };
+
   const repo = await get(`/repos/${fullName}`);
   const [rawReadme, community, releases] = await Promise.all([
     fetchRawReadme(repo.full_name, fetchImpl),
-    get(`/repos/${repo.full_name}/community/profile`, { optional: true }).catch(() => null),
+    get(`/repos/${repo.full_name}/community/profile`, { optional: true }).catch(softFail),
     get(`/repos/${repo.full_name}/releases?per_page=1`, { optional: true }),
   ]);
   let readme = rawReadme;
@@ -600,7 +611,7 @@ export async function fetchRepoData(fullName, { fetchImpl = fetch, token = null 
   // The community profile misses issue *forms* (.github/ISSUE_TEMPLATE/*.yml), so look directly.
   let issueTemplates = !!(community && community.files && community.files.issue_template);
   if (!issueTemplates) {
-    const dir = await get(`/repos/${repo.full_name}/contents/.github/ISSUE_TEMPLATE`, { optional: true }).catch(() => null);
+    const dir = await get(`/repos/${repo.full_name}/contents/.github/ISSUE_TEMPLATE`, { optional: true }).catch(softFail);
     issueTemplates = Array.isArray(dir) && dir.length > 0;
   }
   return { repo, readme, community, releases: releases || [], issueTemplates, rate, apiCalls };

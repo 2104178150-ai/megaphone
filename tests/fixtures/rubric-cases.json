@@ -520,6 +520,186 @@
      "D5": 0
     }
    }
+  },
+  {
+   "name": "edge-bom-and-fullwidth-spaces",
+   "data": {
+    "repo": {
+     "full_name": "acme/fw",
+     "description": "A description that is long enough",
+     "topics": [
+      "a",
+      "b",
+      "c"
+     ],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "community": null,
+    "releases": [],
+    "readme": "﻿#　歌单工具\n\n一行命令把歌单导出成表格，适合想备份歌单的人。\n\n##　安装\n\n```\nnpm　install playlist-tool\n```\n\n## 为什么\n\n因为截图太麻烦。\n"
+   },
+   "expected": {
+    "score": 48,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 7,
+     "B2": 5,
+     "B3": 8,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 4,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "edge-chinese-language-switcher-first",
+   "data": {
+    "repo": {
+     "full_name": "acme/sw",
+     "description": "A description that is long enough",
+     "topics": [
+      "a",
+      "b",
+      "c"
+     ],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "community": null,
+    "releases": [],
+    "readme": "# 工具\n\n简体中文 | English | 日本語 | 繁體中文 | 한국어\n\n这是一个可以把歌单导出成表格的工具，适合想备份歌单的人。\n"
+   },
+   "expected": {
+    "score": 24,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "edge-bun-uv-in-prose",
+   "data": {
+    "repo": {
+     "full_name": "acme/pr",
+     "description": "A description that is long enough",
+     "topics": [
+      "a",
+      "b",
+      "c"
+     ],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "community": null,
+    "releases": [],
+    "readme": "# Tool\n\nA small tool, managed with uv and ruff, and tested on Node.js and bun runtimes.\n\n## Usage\n\nRun it from the repo after cloning.\n"
+   },
+   "expected": {
+    "score": 36,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 7,
+     "B2": 0,
+     "B3": 0,
+     "B4": 5,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "edge-tutorial-heading",
+   "data": {
+    "repo": {
+     "full_name": "acme/tape",
+     "description": "A description that is long enough",
+     "topics": [
+      "a",
+      "b",
+      "c"
+     ],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "community": null,
+    "releases": [],
+    "readme": "# Tape\n\nRecord terminal sessions as code.\n\n## Tutorial\n\nWrite a tape file and run it.\n\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\nmore text\n\n## Examples\n"
+   },
+   "expected": {
+    "score": 32,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 3,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 5,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
   }
  ]
 }
