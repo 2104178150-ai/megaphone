@@ -1,0 +1,525 @@
+{
+ "now": "2026-10-12T00:00:00Z",
+ "cases": [
+  {
+   "name": "good",
+   "data": {
+    "repo": {
+     "full_name": "acme/rocket",
+     "description": "Ship static sites to any CDN with one command.",
+     "topics": [
+      "cli",
+      "deploy",
+      "static-site",
+      "cdn"
+     ],
+     "homepage": "https://rocket.dev",
+     "license": {
+      "spdx_id": "MIT",
+      "name": "MIT License"
+     },
+     "pushed_at": "2026-10-09T00:00:00Z",
+     "has_discussions": false,
+     "language": "TypeScript",
+     "archived": false
+    },
+    "readme": "<h1 align=\"center\">Rocket</h1>\n<p align=\"center\">Ship static sites to any CDN with one command, no config files.</p>\n\n[![npm](https://img.shields.io/npm/v/rocket)](https://npmjs.com/rocket) [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)\n\nEnglish | [简体中文](README.zh-CN.md)\n\n![Rocket deploying a site](docs/demo.gif)\n\n- **Fast** — deploys in seconds\n- **Simple** — zero config\n- **Portable** — works with any CDN\n\n## Quick start\n\n```bash\nnpx rocket deploy ./dist\n```\n\n## Why Rocket?\n\nOther tools need a config file per provider. Rocket detects the provider for you and keeps the same command everywhere.\n\n## Features\n\nRocket handles uploads, cache headers, atomic switches and rollbacks. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. It is designed to be small and predictable. \n\nJoin us on [Discord](https://discord.gg/rocket).\n",
+    "community": {
+     "files": {
+      "contributing": {},
+      "issue_template": {},
+      "code_of_conduct": {}
+     }
+    },
+    "releases": [
+     {
+      "tag_name": "v1.0.0"
+     }
+    ]
+   },
+   "expected": {
+    "score": 100,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 8,
+     "A6": 4,
+     "A7": 3,
+     "B1": 7,
+     "B2": 5,
+     "B3": 8,
+     "B4": 5,
+     "C1": 6,
+     "C2": 4,
+     "C3": 4,
+     "C4": 3,
+     "C5": 3,
+     "D1": 5,
+     "D2": 4,
+     "D3": 5,
+     "D4": 3,
+     "D5": 3
+    }
+   }
+  },
+  {
+   "name": "empty",
+   "data": {
+    "repo": {
+     "full_name": "acme/empty",
+     "description": null,
+     "topics": [],
+     "homepage": "",
+     "license": null,
+     "pushed_at": "2024-08-01T00:00:00Z",
+     "has_discussions": false,
+     "language": null,
+     "archived": false
+    },
+    "readme": "",
+    "community": null,
+    "releases": []
+   },
+   "expected": {
+    "score": 0,
+    "points": {
+     "A1": 0,
+     "A2": 0,
+     "A3": 0,
+     "A4": 0,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 0,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "chinese-consumer-tool",
+   "data": {
+    "repo": {
+     "full_name": "acme/geli",
+     "description": "歌单导出工具：QQ 音乐 / 网易云 / 酷狗 歌单一键导出为 Excel、CSV、TXT",
+     "topics": [
+      "music",
+      "playlist"
+     ],
+     "homepage": "https://geli.example.cn",
+     "license": null,
+     "pushed_at": "2026-03-01T00:00:00Z",
+     "has_discussions": false,
+     "language": null,
+     "archived": false
+    },
+    "readme": "<div align=\"center\">\n<img src=\"assets/brand.png\" alt=\"Playlist logo\" width=\"120\">\n<h1>歌单搬家</h1>\n<p>粘贴链接，把 QQ 音乐、网易云的歌单导出成表格。</p>\n</div>\n\n这是一个把歌单导出成表格的工具，支持多个音乐平台，完全免费开源，适合想备份歌单的人。这是一个把歌单导出成表格的工具，支持多个音乐平台，完全免费开源，适合想备份歌单的人。这是一个把歌单导出成表格的工具，支持多个音乐平台，完全免费开源，适合想备份歌单的人。这是一个把歌单导出成表格的工具，支持多个音乐平台，完全免费开源，适合想备份歌单的人。\n\n- [链接 0](https://example.com/some/long/path/with/many/english/words/0) `npm run build --watch`\n- [链接 1](https://example.com/some/long/path/with/many/english/words/1) `npm run build --watch`\n- [链接 2](https://example.com/some/long/path/with/many/english/words/2) `npm run build --watch`\n- [链接 3](https://example.com/some/long/path/with/many/english/words/3) `npm run build --watch`\n- [链接 4](https://example.com/some/long/path/with/many/english/words/4) `npm run build --watch`\n- [链接 5](https://example.com/some/long/path/with/many/english/words/5) `npm run build --watch`\n- [链接 6](https://example.com/some/long/path/with/many/english/words/6) `npm run build --watch`\n- [链接 7](https://example.com/some/long/path/with/many/english/words/7) `npm run build --watch`\n- [链接 8](https://example.com/some/long/path/with/many/english/words/8) `npm run build --watch`\n- [链接 9](https://example.com/some/long/path/with/many/english/words/9) `npm run build --watch`\n- [链接 10](https://example.com/some/long/path/with/many/english/words/10) `npm run build --watch`\n- [链接 11](https://example.com/some/long/path/with/many/english/words/11) `npm run build --watch`\n- [链接 12](https://example.com/some/long/path/with/many/english/words/12) `npm run build --watch`\n- [链接 13](https://example.com/some/long/path/with/many/english/words/13) `npm run build --watch`\n- [链接 14](https://example.com/some/long/path/with/many/english/words/14) `npm run build --watch`\n- [链接 15](https://example.com/some/long/path/with/many/english/words/15) `npm run build --watch`\n- [链接 16](https://example.com/some/long/path/with/many/english/words/16) `npm run build --watch`\n- [链接 17](https://example.com/some/long/path/with/many/english/words/17) `npm run build --watch`\n- [链接 18](https://example.com/some/long/path/with/many/english/words/18) `npm run build --watch`\n- [链接 19](https://example.com/some/long/path/with/many/english/words/19) `npm run build --watch`\n- [链接 20](https://example.com/some/long/path/with/many/english/words/20) `npm run build --watch`\n- [链接 21](https://example.com/some/long/path/with/many/english/words/21) `npm run build --watch`\n- [链接 22](https://example.com/some/long/path/with/many/english/words/22) `npm run build --watch`\n- [链接 23](https://example.com/some/long/path/with/many/english/words/23) `npm run build --watch`\n- [链接 24](https://example.com/some/long/path/with/many/english/words/24) `npm run build --watch`\n- [链接 25](https://example.com/some/long/path/with/many/english/words/25) `npm run build --watch`\n- [链接 26](https://example.com/some/long/path/with/many/english/words/26) `npm run build --watch`\n- [链接 27](https://example.com/some/long/path/with/many/english/words/27) `npm run build --watch`\n- [链接 28](https://example.com/some/long/path/with/many/english/words/28) `npm run build --watch`\n- [链接 29](https://example.com/some/long/path/with/many/english/words/29) `npm run build --watch`\n- [链接 30](https://example.com/some/long/path/with/many/english/words/30) `npm run build --watch`\n- [链接 31](https://example.com/some/long/path/with/many/english/words/31) `npm run build --watch`\n- [链接 32](https://example.com/some/long/path/with/many/english/words/32) `npm run build --watch`\n- [链接 33](https://example.com/some/long/path/with/many/english/words/33) `npm run build --watch`\n- [链接 34](https://example.com/some/long/path/with/many/english/words/34) `npm run build --watch`\n- [链接 35](https://example.com/some/long/path/with/many/english/words/35) `npm run build --watch`\n- [链接 36](https://example.com/some/long/path/with/many/english/words/36) `npm run build --watch`\n- [链接 37](https://example.com/some/long/path/with/many/english/words/37) `npm run build --watch`\n- [链接 38](https://example.com/some/long/path/with/many/english/words/38) `npm run build --watch`\n- [链接 39](https://example.com/some/long/path/with/many/english/words/39) `npm run build --watch`\n\n## 使用\n\n在线体验：直接打开网站即可。\n\n```bash\npip install -r requirements.txt\npython app.py\n```\n",
+    "community": {
+     "files": {}
+    },
+    "releases": [],
+    "issueTemplates": true
+   },
+   "expected": {
+    "score": 51,
+    "points": {
+     "A1": 8,
+     "A2": 2,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 4,
+     "A7": 0,
+     "B1": 7,
+     "B2": 5,
+     "B3": 8,
+     "B4": 5,
+     "C1": 0,
+     "C2": 2,
+     "C3": 0,
+     "C4": 0,
+     "C5": 3,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "self-homepage",
+   "data": {
+    "repo": {
+     "full_name": "acme/site",
+     "description": "A short but valid description here",
+     "topics": [],
+     "homepage": "https://github.com/acme/site/",
+     "license": null,
+     "pushed_at": "2026-10-09T00:00:00Z",
+     "has_discussions": false,
+     "language": null,
+     "archived": false
+    },
+    "readme": "# Site\n\nA site generator that does one thing well.\n",
+    "community": null,
+    "releases": []
+   },
+   "expected": {
+    "score": 19,
+    "points": {
+     "A1": 8,
+     "A2": 0,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "video-attachment-and-vs",
+   "data": {
+    "repo": {
+     "full_name": "acme/clip",
+     "description": "📣 Record terminal sessions as crisp, shareable clips 🎬",
+     "topics": [
+      "cli",
+      "terminal",
+      "recording"
+     ],
+     "homepage": "",
+     "license": null,
+     "pushed_at": "2026-10-09T00:00:00Z",
+     "has_discussions": true,
+     "language": null,
+     "archived": false
+    },
+    "readme": "# Clip\n\n> Record terminal sessions as crisp, shareable clips.\n\n[![CI](https://github.com/acme/clip/actions/workflows/ci.yml/badge.svg)](x)\n\nhttps://github.com/user-attachments/assets/0f6a6c6e-1234-4c3a-9d1e-abcdef012345\n\n## Install\n\n```\nbrew install acme/tap/clip\n```\n\n## Clip vs. asciinema\n\nClip renders to GIF directly.\n",
+    "community": {
+     "files": {
+      "code_of_conduct_file": {}
+     }
+    },
+    "releases": [
+     {
+      "tag_name": "v0.2.0"
+     }
+    ]
+   },
+   "expected": {
+    "score": 71,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 8,
+     "A6": 0,
+     "A7": 0,
+     "B1": 7,
+     "B2": 5,
+     "B3": 8,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 4,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 4,
+     "D3": 5,
+     "D4": 3,
+     "D5": 3
+    }
+   }
+  },
+  {
+   "name": "headings-in-fence-and-late-features",
+   "data": {
+    "repo": {
+     "full_name": "acme/late",
+     "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "topics": [],
+     "homepage": "",
+     "license": null,
+     "pushed_at": "2026-10-09T00:00:00Z",
+     "has_discussions": false,
+     "language": null,
+     "archived": false
+    },
+    "readme": "Some intro text here for the project, explained plainly.\n\n```md\n# Install\n```\n\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\nfiller line\n\n## Features\n\n- one\n- two\n",
+    "community": null,
+    "releases": []
+   },
+   "expected": {
+    "score": 20,
+    "points": {
+     "A1": 4,
+     "A2": 0,
+     "A3": 0,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 3,
+     "B1": 0,
+     "B2": 5,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "megaphone-README.md",
+   "data": {
+    "repo": {
+     "full_name": "2104178150-ai/megaphone",
+     "description": "Launch your open-source project: readiness score, channel-native posts for HN, Reddit, Product Hunt, V2EX, HelloGitHub & more, plus launch tracking.",
+     "topics": [
+      "launch",
+      "marketing",
+      "open-source",
+      "developer-tools",
+      "agent-skills",
+      "claude-code",
+      "github",
+      "growth"
+     ],
+     "homepage": "https://2104178150-ai.github.io/megaphone/",
+     "license": {
+      "spdx_id": "MIT"
+     },
+     "pushed_at": "2026-10-09T00:00:00Z",
+     "has_discussions": true,
+     "language": null,
+     "archived": false
+    },
+    "readme": "# 📣 Megaphone\n\nLaunch your open-source project the way a marketer would — even if you've never launched anything.\n\n[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)\n[![Agent skills: 7](https://img.shields.io/badge/agent%20skills-7-e8501c)](skills)\n[![Channel playbooks: 16](https://img.shields.io/badge/channel%20playbooks-16-e8501c)](skills/launch-posts/channels)\n[![Works with Claude Code, Codex, OpenClaw](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20OpenClaw-1f1b16)](#quick-start)\n\nEnglish | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/)\n\n![Megaphone scoring a repo: 84/100, the three fixes that matter most, and where to launch it](docs/preview.svg)\n\n- **Know if you're ready** — a 0–100 launch score from 21 checks, with the fixes that matter most. [Try it in your browser](https://2104178150-ai.github.io/megaphone/), no install.\n- **A native post for every channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more, each written to that platform's rules, with sources and a \"last checked\" date.\n- **See what actually worked** — star history and referrers lined up against what you posted, when.\n\n## Quick start\n\nInstall the skills into your coding agent (Claude Code, Codex, OpenClaw, Cursor and [70+ others](https://github.com/vercel-labs/skills#supported-agents)):\n\n```bash\nnpx skills add 2104178150-ai/megaphone\n```\n\nThen, inside your project, ask your agent:\n\n> launch this repo\n\nPrefer a Claude Code plugin?\n\n```bash\nclaude plugin marketplace add 2104178150-ai/megaphone\nclaude plugin install megaphone@megaphone\n```\n\nInside a session the skills are then available as `/megaphone:launch`, `/megaphone:launch-audit` and so on.\n\n## Why Megaphone?\n\nMost good open-source projects don't fail because they're bad. They fail because the\nauthor posts one link to Hacker News, gets two upvotes, and concludes nobody cares.\nLaunching well is a skill — positioning, a README that converts, knowing each\ncommunity's rules, timing, and measuring — and most developers never had a reason to\nlearn it.\n\n| | Megaphone | Generic marketing prompt packs | \"Where to post\" lists |\n|---|---|---|---|\n| Reads your repo before writing anything | ✅ | ❌ | ❌ |\n| Channel rules with sources and dates | ✅ | Partly | ❌ |\n| Chinese developer channels (V2EX, HelloGitHub, 即刻, 小红书…) | ✅ | ❌ | Some |\n| Measures which channel worked | ✅ | ❌ | ❌ |\n| Try it without installing anything | ✅ [web checker](https://2104178150-ai.github.io/megaphone/) | ❌ | — |\n| Refuses vote-gaming | ✅ | Varies | Varies |\n\n## What's inside\n\n### Skills\n\n| Skill | What it does | Writes |\n|---|---|---|\n| [`launch`](skills/launch/SKILL.md) | Runs the whole pipeline below, pausing for your review at each step | — |\n| [`launch-audit`](skills/launch-audit/SKILL.md) | Scores readiness with the [public rubric](skills/launch-audit/rubric.md) plus a human-eyes review | `.megaphone/audit.md` |\n| [`launch-positioning`](skills/launch-positioning/SKILL.md) | Finds the one-liner: audience, alternative, proof, contrast | `.megaphone/brief.md` |\n| [`launch-readme`](skills/launch-readme/SKILL.md) | Rewrites the README's first screen; optional Chinese/English twin | `README.md` |\n| [`launch-posts`](skills/launch-posts/SKILL.md) | Picks channels and drafts one native post per channel | `.megaphone/posts/*.md` |\n| [`launch-plan`](skills/launch-plan/SKILL.md) | Dated, timezone-aware launch calendar and a log | `.megaphone/plan.md` |\n| [`launch-review`](skills/launch-review/SKILL.md) | Star history, traffic and per-post attribution | `.megaphone/report.md` |\n\n### Channel playbooks\n\nEach one covers fit, rules, format, timing, a template and pitfalls — and links to the\nplatform's own rules where they exist. [Browse all →](skills/launch-posts/channels)\n\n**Global:** [Hacker News](skills/launch-posts/channels/hacker-news.md) ·\n[Reddit](skills/launch-posts/channels/reddit.md) ·\n[Product Hunt](skills/launch-posts/channels/product-hunt.md) ·\n[X / Bluesky](skills/launch-posts/channels/x-twitter.md) ·\n[DEV & blogs](skills/launch-posts/channels/dev-blogs.md) ·\n[Lobsters](skills/launch-posts/channels/lobsters.md) ·\n[Awesome lists](skills/launch-posts/channels/awesome-lists.md) ·\n[Newsletters](skills/launch-posts/channels/newsletters.md) ·\n[GitHub itself](skills/launch-posts/channels/github-native.md)\n\n**Chinese:** [V2EX](skills/launch-posts/channels/v2ex.md) ·\n[HelloGitHub](skills/launch-posts/channels/hellogithub.md) ·\n[阮一峰周刊](skills/launch-posts/channels/ruanyf-weekly.md) ·\n[即刻](skills/launch-posts/channels/jike.md) ·\n[小红书](skills/launch-posts/channels/xiaohongshu.md) ·\n[掘金](skills/launch-posts/channels/juejin.md) ·\n[知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)\n— written in Chinese, each with an English summary at the top.\n\n### Web checker\n\n[`docs/`](docs) is a static page (no build, no dependencies, no server) that scores any\npublic repo with the same rubric, recommends channels, and gives you a badge for your\nREADME. It runs in the browser against GitHub's public API.\n\n## How a launch runs\n\n```text\naudit ──▶ positioning ──▶ README first screen ──▶ channel posts ──▶ plan ──▶ (you post) ──▶ review\n  │            │                   │                     │             │                        │\naudit.md    brief.md           README.md            posts/*.md      plan.md               report.md\n```\n\nEverything lands in a `.megaphone/` folder in your repo so you can read, edit and\ndecide. Megaphone never publishes, submits or emails anything on your behalf.\n\n## Principles\n\n- **You publish; the agent drafts.** Platforms punish automation, and your name is on it.\n- **Never ask for votes or stars.** It's against Hacker News, Product Hunt and Reddit\n  rules, and it gets posts killed.\n- **Honest claims only.** No invented numbers or testimonials; unknowns become `[TODO]`.\n- **Native, not translated.** Chinese channels get posts written in Chinese, for that\n  audience.\n\n## FAQ\n\n**Will this get me stars?** It gets your project in front of the people who'd want it,\nin a form they'll actually try. Whether they star it is up to the project.\n\n**Do I need a GitHub token?** Only for `launch-review`: GitHub lists stargazers only to\nauthenticated requests, and traffic data needs push access. Everything else works\nwithout one.\n\n**Is the checker private?** It runs entirely in your browser and only calls GitHub's\npublic API. Anonymous requests are limited to 60 per hour per IP; each check uses about five.\n\n**My project is in Chinese / English only. Is that a problem?** No. Two languages is\nworth 5 of the 100 points because it unlocks more channels — skip it if you don't need them.\n\n## Contributing\n\nPlatforms change their rules; the playbooks are only as good as the last person who\nchecked them. If you notice drift, [open a \"channel rule changed\" issue](../../issues/new/choose)\nor send a PR — every playbook has a \"Last checked\" line and links to its sources.\nSee [CONTRIBUTING.md](CONTRIBUTING.md) for adding a channel or changing the rubric.\n\nRun the tests:\n\n```bash\npython3 -m unittest discover -s tests       # launch-review script\npython3 -m http.server 8820                  # then open http://localhost:8820/tests/ for the checker\n```\n\nQuestions and launch stories are welcome in [Discussions](../../discussions).\n\n## License\n\n[MIT](LICENSE)\n",
+    "community": {
+     "files": {
+      "contributing": {},
+      "code_of_conduct_file": {}
+     }
+    },
+    "releases": [
+     {
+      "tag_name": "v0.1.0"
+     }
+    ],
+    "issueTemplates": true
+   },
+   "expected": {
+    "score": 100,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 8,
+     "A6": 4,
+     "A7": 3,
+     "B1": 7,
+     "B2": 5,
+     "B3": 8,
+     "B4": 5,
+     "C1": 6,
+     "C2": 4,
+     "C3": 4,
+     "C4": 3,
+     "C5": 3,
+     "D1": 5,
+     "D2": 4,
+     "D3": 5,
+     "D4": 3,
+     "D5": 3
+    }
+   }
+  },
+  {
+   "name": "megaphone-README.zh-CN.md",
+   "data": {
+    "repo": {
+     "full_name": "2104178150-ai/megaphone",
+     "description": "Launch your open-source project: readiness score, channel-native posts for HN, Reddit, Product Hunt, V2EX, HelloGitHub & more, plus launch tracking.",
+     "topics": [
+      "launch",
+      "marketing",
+      "open-source",
+      "developer-tools",
+      "agent-skills",
+      "claude-code",
+      "github",
+      "growth"
+     ],
+     "homepage": "https://2104178150-ai.github.io/megaphone/",
+     "license": {
+      "spdx_id": "MIT"
+     },
+     "pushed_at": "2026-10-09T00:00:00Z",
+     "has_discussions": true,
+     "language": null,
+     "archived": false
+    },
+    "readme": "# 📣 Megaphone 大喇叭\n\n用营销人的方法发布你的开源项目——哪怕你从来没发布过任何东西。\n\n[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)\n[![技能数: 7](https://img.shields.io/badge/agent%20skills-7-e8501c)](skills)\n[![渠道手册: 16](https://img.shields.io/badge/channel%20playbooks-16-e8501c)](skills/launch-posts/channels)\n[![支持 Claude Code、Codex、OpenClaw](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20OpenClaw-1f1b16)](#快速开始)\n\n[English](README.md) | 简体中文 · [**在线检测你的项目 →**](https://2104178150-ai.github.io/megaphone/)\n\n![Megaphone 给一个仓库打分：84/100，最该先改的三件事，以及适合去哪里发](docs/preview.svg)\n\n- **先知道准备好了没有**——21 项检查，给出 0–100 的发布就绪分和最该先改的几件事。[打开网页就能测](https://2104178150-ai.github.io/megaphone/)，不用安装。\n- **每个渠道一篇「原生」文案**——Show HN、Reddit、Product Hunt、X、V2EX、HelloGitHub、阮一峰周刊、小红书……每篇都按该平台的规则来写，规则注明出处和核对日期。\n- **看清到底哪个渠道有用**——把 star 增长和流量来源，对上你在什么时候发了什么。\n\n## 快速开始\n\n把技能装进你的 AI 编程助手（支持 Claude Code、Codex、OpenClaw、Cursor 等 [70 多种](https://github.com/vercel-labs/skills#supported-agents)）：\n\n```bash\nnpx skills add 2104178150-ai/megaphone\n```\n\n然后在你的项目里对 AI 说：\n\n> 帮我推广这个项目\n\n想用 Claude Code 插件的方式安装：\n\n```bash\nclaude plugin marketplace add 2104178150-ai/megaphone\nclaude plugin install megaphone@megaphone\n```\n\n装好后，在会话里可以直接用 `/megaphone:launch`、`/megaphone:launch-audit` 等命令。\n\n## 为什么做这个\n\n大多数好的开源项目没火起来，不是因为做得不好，而是作者往 Hacker News 发了一个链接，\n拿到两个赞，就以为没人在乎。把一个项目发布好，其实是一门手艺：定位、能留住人的 README、\n懂每个社区的规矩、挑对时机、事后复盘——而大部分开发者从来没有机会学。\n\n| | Megaphone | 通用营销提示词包 | 「推广渠道大全」清单 |\n|---|---|---|---|\n| 先读懂你的仓库再动笔 | ✅ | ❌ | ❌ |\n| 渠道规则注明出处和核对日期 | ✅ | 部分 | ❌ |\n| 覆盖中文开发者渠道（V2EX、HelloGitHub、即刻、小红书…） | ✅ | ❌ | 部分 |\n| 复盘哪个渠道真正有效 | ✅ | ❌ | ❌ |\n| 不安装也能先试 | ✅ [网页检测](https://2104178150-ai.github.io/megaphone/) | ❌ | — |\n| 拒绝刷票、求赞 | ✅ | 不一定 | 不一定 |\n\n## 里面有什么\n\n### 技能（Skills）\n\n| 技能 | 做什么 | 产出 |\n|---|---|---|\n| [`launch`](skills/launch/SKILL.md) | 串起下面整条流程，每一步都停下来让你确认 | — |\n| [`launch-audit`](skills/launch-audit/SKILL.md) | 按[公开的评分标准](skills/launch-audit/rubric.md)打分，再加一轮「像真人访客一样」的审视 | `.megaphone/audit.md` |\n| [`launch-positioning`](skills/launch-positioning/SKILL.md) | 找到一句话定位：给谁用、替代什么、凭什么信、和别人比好在哪 | `.megaphone/brief.md` |\n| [`launch-readme`](skills/launch-readme/SKILL.md) | 重写 README 首屏，可选生成中英双语版本 | `README.md` |\n| [`launch-posts`](skills/launch-posts/SKILL.md) | 选渠道，每个渠道写一篇原生文案 | `.megaphone/posts/*.md` |\n| [`launch-plan`](skills/launch-plan/SKILL.md) | 按时区排好日期的发布日历和发布记录表 | `.megaphone/plan.md` |\n| [`launch-review`](skills/launch-review/SKILL.md) | star 曲线、流量来源、每篇帖子带来的增长 | `.megaphone/report.md` |\n\n### 渠道手册\n\n每份手册都包含：适合什么项目、硬性规则、格式、时机、模板和常见坑，并尽量链接到平台自己的规则页面。[查看全部 →](skills/launch-posts/channels)\n\n**海外：** [Hacker News](skills/launch-posts/channels/hacker-news.md) ·\n[Reddit](skills/launch-posts/channels/reddit.md) ·\n[Product Hunt](skills/launch-posts/channels/product-hunt.md) ·\n[X / Bluesky](skills/launch-posts/channels/x-twitter.md) ·\n[DEV 与博客](skills/launch-posts/channels/dev-blogs.md) ·\n[Lobsters](skills/launch-posts/channels/lobsters.md) ·\n[Awesome 列表](skills/launch-posts/channels/awesome-lists.md) ·\n[Newsletter](skills/launch-posts/channels/newsletters.md) ·\n[GitHub 本身](skills/launch-posts/channels/github-native.md)\n\n**国内：** [V2EX](skills/launch-posts/channels/v2ex.md) ·\n[HelloGitHub](skills/launch-posts/channels/hellogithub.md) ·\n[阮一峰周刊](skills/launch-posts/channels/ruanyf-weekly.md) ·\n[即刻](skills/launch-posts/channels/jike.md) ·\n[小红书](skills/launch-posts/channels/xiaohongshu.md) ·\n[掘金](skills/launch-posts/channels/juejin.md) ·\n[知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)\n\n> 海外渠道的手册用英文写，中文渠道的手册用中文写，开头附英文摘要，方便海外开发者也能看懂怎么在中文社区发布。\n\n### 网页检测器\n\n[`docs/`](docs) 是一个纯静态页面（不用构建、没有依赖、没有服务器），用同一套标准给任意公开仓库打分、推荐渠道，并生成一枚可以放进 README 的徽章。它在浏览器里直接调用 GitHub 公开 API，国内网络也能打开。\n\n## 一次发布是怎么跑的\n\n```text\n体检 ──▶ 定位 ──▶ README 首屏 ──▶ 各渠道文案 ──▶ 排期 ──▶（你亲自发）──▶ 复盘\n │        │          │               │            │                     │\naudit.md brief.md  README.md      posts/*.md    plan.md             report.md\n```\n\n所有产出都放在仓库里的 `.megaphone/` 文件夹，你可以先看、再改、最后决定。Megaphone 永远不会替你发帖、投稿或发邮件。\n\n## 原则\n\n- **你来发，AI 只负责写稿。** 平台会惩罚自动化行为，而且署的是你的名字。\n- **绝不求赞、求 star。** 这违反 Hacker News、Product Hunt 和 Reddit 的规则，帖子会直接被降权。\n- **只说真话。** 不编数据、不编用户评价；不确定的地方标成 `[TODO]`。\n- **原生而不是翻译。** 中文渠道的文案直接用中文、按中文社区的习惯来写。\n\n## 常见问题\n\n**用了就能涨 star 吗？** 它能让对的人、以他们愿意尝试的方式看到你的项目。至于会不会点 star，取决于项目本身。\n\n**需要 GitHub token 吗？** 只有 `launch-review` 需要：GitHub 只对登录请求开放 stargazers 列表，流量数据还需要仓库的推送权限。其他功能都不需要。\n\n**网页检测安全吗？** 完全在你的浏览器里运行，只调用 GitHub 公开 API。匿名请求每个 IP 每小时 60 次，每次检测大约用 5 次。\n\n**我的项目只有中文 / 只有英文，会扣很多分吗？** 不会。双语只占 100 分里的 5 分，因为它能解锁更多渠道；用不到的话可以跳过。\n\n## 参与贡献\n\n平台规则一直在变，手册的准确度取决于最近一次是谁核对的。发现过时的地方，欢迎[提交「渠道规则变了」的 issue](../../issues/new/choose) 或直接发 PR——每份手册都有「Last checked」日期和出处链接。新增渠道或修改评分标准，请看 [CONTRIBUTING.md](CONTRIBUTING.md)。\n\n运行测试：\n\n```bash\npython3 -m unittest discover -s tests       # launch-review 脚本\npython3 -m http.server 8820                  # 然后打开 http://localhost:8820/tests/ 测检测器\n```\n\n有问题、想分享你的发布经历，欢迎来 [Discussions](../../discussions)。\n\n## 开源协议\n\n[MIT](LICENSE)\n",
+    "community": {
+     "files": {
+      "contributing": {},
+      "code_of_conduct_file": {}
+     }
+    },
+    "releases": [
+     {
+      "tag_name": "v0.1.0"
+     }
+    ],
+    "issueTemplates": true
+   },
+   "expected": {
+    "score": 100,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 8,
+     "A6": 4,
+     "A7": 3,
+     "B1": 7,
+     "B2": 5,
+     "B3": 8,
+     "B4": 5,
+     "C1": 6,
+     "C2": 4,
+     "C3": 4,
+     "C4": 3,
+     "C5": 3,
+     "D1": 5,
+     "D2": 4,
+     "D3": 5,
+     "D4": 3,
+     "D5": 3
+    }
+   }
+  },
+  {
+   "name": "mixed-chinese-with-english-terms",
+   "data": {
+    "repo": {
+     "full_name": "acme/mix",
+     "description": "A description that is long enough",
+     "topics": [],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "readme": "# 歌单工具\n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。支持 QQ Music、NetEase Cloud Music、Kugou、TXT、CSV、Excel、JSON、M3U8 格式，部署在 Cloudflare Workers 上，提供 REST API 和 CLI 命令行工具。\n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。支持 QQ Music、NetEase Cloud Music、Kugou、TXT、CSV、Excel、JSON、M3U8 格式，部署在 Cloudflare Workers 上，提供 REST API 和 CLI 命令行工具。\n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。支持 QQ Music、NetEase Cloud Music、Kugou、TXT、CSV、Excel、JSON、M3U8 格式，部署在 Cloudflare Workers 上，提供 REST API 和 CLI 命令行工具。\n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。支持 QQ Music、NetEase Cloud Music、Kugou、TXT、CSV、Excel、JSON、M3U8 格式，部署在 Cloudflare Workers 上，提供 REST API 和 CLI 命令行工具。\n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。支持 QQ Music、NetEase Cloud Music、Kugou、TXT、CSV、Excel、JSON、M3U8 格式，部署在 Cloudflare Workers 上，提供 REST API 和 CLI 命令行工具。\n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。支持 QQ Music、NetEase Cloud Music、Kugou、TXT、CSV、Excel、JSON、M3U8 格式，部署在 Cloudflare Workers 上，提供 REST API 和 CLI 命令行工具。\n\n",
+    "community": null,
+    "releases": []
+   },
+   "expected": {
+    "score": 18,
+    "points": {
+     "A1": 8,
+     "A2": 0,
+     "A3": 3,
+     "A4": 0,
+     "A5": 0,
+     "A6": 0,
+     "A7": 3,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "mixed-real-bilingual",
+   "data": {
+    "repo": {
+     "full_name": "acme/mix",
+     "description": "A description that is long enough",
+     "topics": [],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "readme": "# Playlist tool\n\nThis tool exports your playlists into spreadsheets so you can back them up and move between apps. This tool exports your playlists into spreadsheets so you can back them up and move between apps. \n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。\n\nThis tool exports your playlists into spreadsheets so you can back them up and move between apps. This tool exports your playlists into spreadsheets so you can back them up and move between apps. \n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。\n\nThis tool exports your playlists into spreadsheets so you can back them up and move between apps. This tool exports your playlists into spreadsheets so you can back them up and move between apps. \n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。\n\nThis tool exports your playlists into spreadsheets so you can back them up and move between apps. This tool exports your playlists into spreadsheets so you can back them up and move between apps. \n\n这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。这个工具可以把歌单导出成表格，支持多个平台，适合需要备份歌单的用户使用，完全免费。\n\n",
+    "community": null,
+    "releases": []
+   },
+   "expected": {
+    "score": 27,
+    "points": {
+     "A1": 8,
+     "A2": 0,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 3,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 5,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  }
+ ]
+}

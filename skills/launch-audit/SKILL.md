@@ -1,41 +1,55 @@
 ---
 name: launch-audit
-description: Score a GitHub repo's launch readiness (0–100) and list the fixes that matter most before promoting it — first impression, time-to-wow, trust signals, shareability. Use when the user asks "is my repo ready to launch", wants a README/repo review before posting, or says 发布前检查 / 体检 / 帮我看看仓库哪里不行.
+description: Check whether a GitHub repo is ready to be launched — blockers a visitor would hit, risks that grow with visibility (unofficial APIs, copyright, privacy, capacity), and a 0–100 readiness score from a public rubric — then list the fixes that matter most. Use when the user asks "is my repo ready to launch", wants a README/repo review before promoting it, or says 发布前检查 / 体检 / 帮我看看仓库哪里不行.
 ---
 
 # Launch audit
 
-Visitors from a launch decide in seconds. This audit finds what would make them bounce
-and ranks the fixes by impact. It uses the same rubric as the Megaphone web checker
-([rubric.md](rubric.md)), so the numbers match, and then adds the judgement calls a
-script can't make.
+Visitors from a launch decide in seconds. This audit finds what would make them leave,
+what could go wrong once the project is visible, and ranks the fixes by impact. The
+rubric lives in [rubric.md](rubric.md); read it first.
 
 ## Steps
 
-1. **Collect facts.** From the local checkout read the README (and any translations),
-   LICENSE, CONTRIBUTING, `.github/ISSUE_TEMPLATE/`, releases/tags (`git tag`), last
-   commit date, and package manifests. If `gh` is available and the repo is on GitHub,
-   also run `gh repo view --json description,repositoryTopics,homepageUrl,hasDiscussionsEnabled,isArchived,stargazerCount`.
-   If you can't get a fact, mark the check "unknown" rather than guessing.
-2. **Score the rubric.** Go through every check in [rubric.md](rubric.md) and record
-   pass / fail / unknown with the points. Add up the four categories.
-3. **Do the human review.** Read the README top to bottom as a stranger arriving from
-   Hacker News on a phone, and answer:
-   - Within the first screen, can I tell **what it is, who it's for, and why it's
-     better than what I use now**?
-   - Is there something to **see** (screenshot, GIF, demo link) before I have to read?
-   - Can I **try it in under a minute**? Count the steps from landing to first result.
-   - Does anything look **abandoned or risky** (stale badges, broken links, "WIP" with
-     no date, no license)?
-   - Would I **know what to type** if I wanted to tell a friend about it?
-4. **Rank the fixes.** Order by (visitor impact × ease). Blockers first: no license, no
-   way to try it, empty/placeholder README, broken install command. Name the Megaphone
-   skill that fixes each item when there is one (`launch-readme` for the first screen,
-   `launch-positioning` for an unclear pitch).
-5. **Write `.megaphone/audit.md`** using the template below, then summarise in chat:
-   score, the volume level, and the top three fixes.
+1. **Get the score.** Run the bundled script (Python 3.8+, no dependencies):
 
-## Volume levels
+   ```bash
+   python3 <this-skill-dir>/scripts/audit.py OWNER/REPO            # what's on GitHub now
+   python3 <this-skill-dir>/scripts/audit.py OWNER/REPO --readme README.md   # score a local draft
+   ```
+
+   It's the same code as the Megaphone web checker, so the numbers match. A token in
+   `GITHUB_TOKEN` is optional. If the repo isn't on GitHub yet or the network is
+   unavailable, score the README-based checks by hand from [rubric.md](rubric.md) and mark
+   the repo-based ones `unknown`.
+2. **Do the human review.** Read the README top to bottom as a stranger arriving from the
+   **channel you'll launch on first** (a Hacker News reader on a laptop, a 小红书 user on a
+   phone, a V2EX regular…). Answer:
+   - Within the first screen, can I tell **what it is, who it's for, and why it's better**
+     than what I use now?
+   - Is there something to **see** before I have to read?
+   - Can I **try it in under a minute**? Count the steps to the first result. Does that
+     first result actually show the headline feature?
+   - Is every **hard requirement** (browser, GPU, Docker, OS, account, paid key) stated up
+     front?
+   - Does anything look **abandoned, broken or risky** (stale badges, dead links, "WIP"
+     with no date, no license)?
+   - Would I **know what to say** if I told a friend about it?
+
+   Don't run the project's code unless the user asked you to; reason from the code and
+   docs, and say so.
+3. **Decide the blockers** from [rubric.md § Blockers](rubric.md). Any open blocker caps
+   the level at 🔉 *Needs polish* regardless of the score.
+4. **Answer risk & readiness** ([rubric.md § Risk & readiness](rubric.md)) — always, even
+   for harmless-looking projects; "none found" is a valid answer. Quote risky wording from
+   the repo and propose factual replacements. Don't give legal advice.
+5. **Rank the fixes.** Label each *Blocker*, *High* or *Medium* by visitor impact, and show
+   the rubric points it's worth (often +0 for the most important ones — that's fine). Name
+   the Megaphone skill that fixes it when there is one.
+6. **Write `.megaphone/audit.md`** (template below, headings in the user's language, check
+   IDs kept), then summarise in chat: blockers, level, the top three fixes.
+
+## Levels
 
 | Score | Level | Meaning |
 |---|---|---|
@@ -45,13 +59,34 @@ script can't make.
 | 35–54 | 🔈 Whispering | Fix the first screen and the try-it path before anything else. |
 | 0–34 | 🔇 Muted | Not ready for visitors yet. |
 
+**Any open blocker caps the level at 🔉 Needs polish.**
+
 ## Template for `.megaphone/audit.md`
 
 ```markdown
 # Launch audit — <repo> — <date>
 
-**Score: NN/100 · <volume level>**
+**Level: <emoji> <level>** · rubric score NN/100 · human-adjusted NN/100 (<why, if different>)
+Open blockers: N
 
+## Blockers
+| Blocker | Status | Evidence | Fix |
+|---|---|---|---|
+| Quick start doesn't show the point | open/closed | … | … |
+
+## Risk & readiness
+- Third parties: …
+- Claims in the repo: "<quote>" → "<factual replacement>"
+- Other people's data: …
+- Disclaimer: present / draft: "…"
+- Capacity: …
+- Reachability: …
+
+## Fix first
+1. <fix> — Blocker/High/Medium — why it matters, exactly what to change (+N pts)
+2. …
+
+## Rubric detail
 | Category | Score |
 |---|---|
 | First impression | NN/35 |
@@ -59,29 +94,27 @@ script can't make.
 | Trust | NN/20 |
 | Shareability | NN/20 |
 
-## Fix first
-1. <fix> — why it matters, exactly what to change (+N pts)
-2. …
-
-## Rubric detail
-- [x] A1 Description … (8/8)
-- [ ] A5 Visual in first screen … (0/8) — <evidence>
+- [x] A1 Description … (8/8) — <evidence>
+- [ ] A5 Visual in the first screen (0/8) — <evidence>
 
 ## Human review
 - First screen: …
 - Try-it path: N steps — …
-- Trust: …
+- Requirements: …
 - Word of mouth: "<how a user would describe it in one breath>"
+
+## Accepted trade-offs
+- D1 Two languages — the author keeps a Chinese-only README on purpose (scored NN/95 → NN/100)
 
 ## Manual checks (can't be detected automatically)
 - [ ] Social preview image set (Settings → General → Social preview)
-- [ ] Repo pinned on your profile
+- [ ] Repo pinned on the author's profile
 - [ ] Demo GIF under ~10 MB and loops cleanly
 ```
 
 ## Notes
 
-- Don't pad the score. A project with no way to try it is not "almost there" just
-  because it has a license and badges.
-- If the user disagrees with a check (e.g. they don't want a Chinese README), mark it
-  as an accepted trade-off rather than nagging.
+- Don't pad. A project nobody can try is not "almost there" because it has a license and
+  badges — that's what blockers are for.
+- If the user disagrees with a check (e.g. no second language), record it as an accepted
+  trade-off rather than nagging.

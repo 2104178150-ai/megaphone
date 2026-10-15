@@ -37,7 +37,7 @@ export const RUBRIC = [
            zh: '在标题下面直接写一句话介绍：能带来什么结果、给谁用。' } },
   { id: 'A5', cat: 'A', max: 8, skill: 'launch-readme',
     title: { en: 'Screenshot, GIF or video in the first screen', zh: '首屏有截图、GIF 或视频' },
-    fix: { en: 'Add a screenshot or a short GIF of the “aha” moment near the top. Visitors look before they read.',
+    fix: { en: 'Add a screenshot or a short GIF of the “aha” moment near the top — a logo doesn’t count. Visitors look before they read.',
            zh: '在 README 前部放一张截图或一段短 GIF，展示最惊艳的那一刻。访客先看图再读字。' } },
   { id: 'A6', cat: 'A', max: 4, skill: null,
     title: { en: 'Demo or website link', zh: '有演示或官网链接' },
@@ -57,9 +57,9 @@ export const RUBRIC = [
     fix: { en: 'Show the install or usage command in a code block near the top.',
            zh: '在靠前的位置用代码块写出安装或使用命令。' } },
   { id: 'B3', cat: 'B', max: 8, skill: 'launch-readme',
-    title: { en: 'One-command install or run', zh: '一行命令就能装 / 能跑' },
-    fix: { en: 'Offer a single command to try it (npx, pipx/uvx, brew, docker run, go install, a hosted demo…).',
-           zh: '提供一行命令就能试用（npx、pipx/uvx、brew、docker run、go install 或在线演示…）。' } },
+    title: { en: 'One step to try it (command or website)', zh: '一步就能试（一行命令或在线网站）' },
+    fix: { en: 'Offer a single command to try it (npx, pipx/uvx, brew, docker run, go install…) or a hosted version that needs no sign-up.',
+           zh: '提供一行命令就能试用（npx、pipx/uvx、brew、docker run、go install…），或者一个不用注册就能用的在线版本。' } },
   { id: 'B4', cat: 'B', max: 5, skill: 'launch-readme',
     title: { en: 'Shows what it does (features / examples)', zh: '展示它能做什么（功能 / 示例）' },
     fix: { en: 'Add a Features or Examples section, or three benefit bullets near the top.',
@@ -129,8 +129,11 @@ export function levelFor(score) {
 // README facts
 
 const BADGE_RE = /shields\.io|badgen\.net|badge|codecov|travis-ci|circleci|\/workflows\//i;
-const IMAGE_RE = /!\[[^\]]*\]\(\s*<?([^)\s>]+)/g;
-const HTML_IMG_RE = /<(?:img|source|video)\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/gi;
+const IMAGE_RE = /!\[([^\]]*)\]\(\s*<?([^)\s>]+)/g;
+const HTML_MEDIA_RE = /<(img|source|video)\b[^>]*>/gi;
+// A logo or icon is branding, not a picture of the product.
+const LOGO_RE = /logo|icon|avatar|favicon/i;
+const SMALL_PX = 128;
 const ATTACHMENT_RE = /^\s*https:\/\/(?:github\.com\/user-attachments\/assets\/|user-images\.githubusercontent\.com\/)\S+\s*$/;
 const HEADING_RE = /^\s{0,3}#{1,6}\s+\S|^\s*<h[1-6]\b/i;
 const FENCE_RE = /^\s{0,3}(```|~~~)/;
@@ -177,6 +180,21 @@ function stripInline(line) {
     .trim();
 }
 
+// Prose only: code, URLs, HTML and link targets don't count as words in any language.
+function proseOf(text) {
+  return text
+    .replace(/`[^`\n]*`/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\]\([^)]*\)/g, '] ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/https?:\/\/\S+/g, ' ');
+}
+
+function attr(tag, name) {
+  const m = tag.match(new RegExp(`\\b${name}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
+  return m ? (m[1] ?? m[2] ?? m[3] ?? '') : '';
+}
+
 function countWords(text) {
   const latin = (text.match(LATIN_WORD_RE) || []).length;
   const cjk = (text.match(CJK_RE) || []).length;
@@ -198,16 +216,29 @@ export function readmeFacts(md) {
   const nonEmpty = [];
   lines.forEach((l, i) => { if (l.trim()) nonEmpty.push(i); });
 
-  const imagesIn = (from, to) => {
+  // Each media item: { src, alt, video, small }
+  const mediaIn = (from, to) => {
     const found = [];
     for (let i = from; i < Math.min(to, lines.length); i++) {
       const l = lines[i];
-      for (const m of l.matchAll(IMAGE_RE)) found.push(m[1]);
-      for (const m of l.matchAll(HTML_IMG_RE)) found.push(m[1]);
-      if (ATTACHMENT_RE.test(l)) found.push(l.trim());
+      for (const m of l.matchAll(IMAGE_RE)) found.push({ src: m[2], alt: m[1], video: false, small: false });
+      for (const m of l.matchAll(HTML_MEDIA_RE)) {
+        const tag = m[0];
+        const w = parseInt(attr(tag, 'width'), 10);
+        const h = parseInt(attr(tag, 'height'), 10);
+        found.push({
+          src: attr(tag, 'src'),
+          alt: attr(tag, 'alt'),
+          video: m[1].toLowerCase() !== 'img',
+          small: (w > 0 && w <= SMALL_PX) || (h > 0 && h <= SMALL_PX),
+        });
+      }
+      if (ATTACHMENT_RE.test(l)) found.push({ src: l.trim(), alt: '', video: true, small: false });
     }
-    return found;
+    return found.filter((x) => x.src);
   };
+  const isBadge = (x) => BADGE_RE.test(x.src);
+  const isLogo = (x) => !x.video && (x.small || LOGO_RE.test(x.src) || LOGO_RE.test(x.alt));
 
   const headings = lines
     .map((l, i) => ({ l, i }))
@@ -230,16 +261,18 @@ export function readmeFacts(md) {
     break;
   }
 
-  const firstScreenImages = imagesIn(0, 60);
-  const visual = firstScreenImages.find((u) => !BADGE_RE.test(u)) || null;
-  const badges = imagesIn(0, 30).filter((u) => BADGE_RE.test(u));
+  const firstScreen = mediaIn(0, 60);
+  const visualItem = firstScreen.find((x) => !isBadge(x) && !isLogo(x));
+  const visual = visualItem ? visualItem.src : null;
+  const logoOnly = !visual && firstScreen.some((x) => !isBadge(x) && isLogo(x));
+  const badges = mediaIn(0, 30).filter(isBadge);
 
   const fenceStart = lines.findIndex((l) => FENCE_RE.test(l));
   const installLine = lines.find((l) => INSTALL_RES.some((re) => re.test(l))) || null;
 
-  const findHeading = (re) => headings.find((h) => re.test(h.text)) || null;
+  const findHeading = (re, within = Infinity) => headings.find((h) => h.i < within && re.test(h.text)) || null;
   const gettingStarted = findHeading(/install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|安装|快速开始|快速上手|上手|开始使用|使用/);
-  const showcase = findHeading(/feature|usage|example|demo|screenshot|how it works|what it does|功能|特性|示例|例子|演示|截图|效果/);
+  const showcase = findHeading(/feature|usage|example|demo|screenshot|how it works|what it does|功能|特性|示例|例子|演示|截图|效果/, 120);
   const why = findHeading(/\bwhy\b|motivation|comparison|compare|\bvs\.?\b|alternative|difference|为什么|对比|比较|动机|初衷/);
 
   let bullets = 0;
@@ -247,10 +280,14 @@ export function readmeFacts(md) {
     if (!inFence[i] && /^\s*[-*+]\s+\S/.test(lines[i]) && !BADGE_RE.test(lines[i])) bullets++;
   }
 
-  const words = countWords(lines.filter((_, i) => !inFence[i]).join('\n'));
+  const words = countWords(proseOf(lines.filter((_, i) => !inFence[i]).join('\n')));
   const translationLink = /README[._-]?(zh|cn|en|ja|ko|es|fr|de|ru|pt|tw|hk)[\w-]*\.md/i.test(text)
     || /\[(简体中文|中文|English|繁體中文|日本語)\]\(/.test(lines.slice(0, 40).join('\n'));
-  const bilingual = (words.cjk >= 30 && words.latin >= 80) || translationLink;
+  // Inline bilingual = real prose in both languages, each at least a quarter of the words.
+  // A Chinese README full of English product names and commands is still one language.
+  const latinShare = words.total ? words.latin / words.total : 0;
+  const inlineBilingual = words.cjk >= 30 && words.latin >= 80 && latinShare >= 0.25 && latinShare <= 0.75;
+  const bilingual = inlineBilingual || translationLink;
   const communityLink = /discord\.(gg|com\/invite)|t\.me\/|slack\.com|gitter\.im|matrix\.to|微信群|qq群|QQ群|telegram/i.test(text);
 
   return {
@@ -260,6 +297,7 @@ export function readmeFacts(md) {
     titleAtTop,
     tagline,
     visual,
+    logoOnly,
     badges: badges.length,
     fenceStart,
     installLine: installLine && installLine.trim(),
@@ -279,6 +317,15 @@ export function readmeFacts(md) {
 
 // ---------------------------------------------------------------------------
 // Scoring
+
+// The homepage counts as a demo/website only if it isn't just the repo page again.
+export function externalHomepage(repo) {
+  const url = (repo.homepage || '').trim().replace(/\/+$/, '').toLowerCase();
+  if (!url) return null;
+  const self = ('github.com/' + (repo.full_name || '')).toLowerCase();
+  const bare = url.replace(/^https?:\/\//, '').replace(/^www\./, '');
+  return bare === self ? null : repo.homepage.trim();
+}
 
 function daysSince(iso, now) {
   return iso ? (now - new Date(iso).getTime()) / 86400000 : Infinity;
@@ -303,15 +350,23 @@ export function analyze(data, now = Date.now()) {
     ev(topics.length ? `${topics.length} topics: ${topics.join(', ')}` : 'No topics', topics.length ? `${topics.length} 个：${topics.join('、')}` : '没有 topics'));
   set('A3', f.titleAtTop ? 3 : 0, f.titleAtTop ? ev('Heading found at the top', '顶部有标题') : ev('No heading in the first 15 lines', '前 15 行没有标题'));
   set('A4', f.tagline ? 4 : 0, f.tagline ? ev(`“${f.tagline}”`, `「${f.tagline}」`) : ev('No plain sentence near the top', '开头没有一句话介绍'));
-  set('A5', f.visual ? 8 : 0, f.visual ? ev('Found an image or video near the top', '前部有图片或视频') : ev('Only badges (or nothing) in the first 60 lines', '前 60 行只有徽章或没有图片'));
-  set('A6', repo.homepage ? 4 : 0, repo.homepage ? ev(repo.homepage, repo.homepage) : ev('Website field is empty', 'Website 字段为空'));
+  set('A5', f.visual ? 8 : 0, f.visual ? ev('Found a screenshot, GIF or video near the top', '前部有截图、GIF 或视频')
+    : f.logoOnly ? ev('Only a logo near the top — a logo isn’t a picture of the product', '前部只有 logo——logo 不算产品截图')
+      : ev('Only badges (or nothing) in the first 60 lines', '前 60 行只有徽章或没有图片'));
+  const site = externalHomepage(repo);
+  set('A6', site ? 4 : 0, site ? ev(site, site)
+    : repo.homepage ? ev('Website field points back to the repo itself', 'Website 字段填的是仓库自己的地址')
+      : ev('Website field is empty', 'Website 字段为空'));
   set('A7', f.words.total >= 150 ? 3 : 0, ev(`≈ ${f.words.total} words`, `约 ${f.words.total} 词`));
 
   // B — time to wow
   set('B1', f.gettingStarted ? 7 : 0, f.gettingStarted ? ev(`Section: “${f.gettingStarted.text}”`, `章节：「${f.gettingStarted.text}」`) : ev('No install / quick start heading', '没有安装 / 快速开始章节'));
   const earlyFence = f.fenceStart >= 0 && f.fenceStart < 150;
   set('B2', earlyFence ? 5 : 0, earlyFence ? ev(`First code block at line ${f.fenceStart + 1}`, `第一个代码块在第 ${f.fenceStart + 1} 行`) : ev('No code block in the first 150 lines', '前 150 行没有代码块'));
-  set('B3', f.installLine ? 8 : 0, f.installLine ? ev(`\`${f.installLine.slice(0, 90)}\``, `\`${f.installLine.slice(0, 90)}\``) : ev('No one-line install or run command found', '没找到一行安装 / 运行命令'));
+  set('B3', f.installLine || site ? 8 : 0,
+    f.installLine ? ev(`\`${f.installLine.slice(0, 90)}\``, `\`${f.installLine.slice(0, 90)}\``)
+      : site ? ev(`Try it online: ${site}`, `可以在线直接试用：${site}`)
+        : ev('No one-line install/run command and no website to try it', '没有一行安装 / 运行命令，也没有可在线试用的网站'));
   const shows = f.showcase || f.bullets >= 3;
   set('B4', shows ? 5 : 0, f.showcase ? ev(`Section: “${f.showcase.text}”`, `章节：「${f.showcase.text}」`) : shows ? ev(`${f.bullets} bullet points near the top`, `前部有 ${f.bullets} 条要点`) : ev('No features / examples section', '没有功能 / 示例章节'));
 
@@ -382,7 +437,7 @@ const LANG_CHANNELS = {
 export function recommendChannels(repo, f, results = {}) {
   const topics = (repo.topics || []).map((t) => t.toLowerCase());
   const has = (...words) => words.some((w) => topics.includes(w));
-  const runnable = !!(f.installLine || repo.homepage);
+  const runnable = !!(f.installLine || externalHomepage(repo));
   const out = [];
   const add = (id, file, name, why, weight) => out.push({ id, file, name, why, weight });
 
@@ -398,6 +453,15 @@ export function recommendChannels(repo, f, results = {}) {
   add('awesome', 'awesome-lists.md', ev('Awesome lists', 'Awesome 列表'),
     ev(repo.language ? `Look for awesome-${repo.language.toLowerCase()} and category lists.` : 'Find the awesome list for your category.',
        repo.language ? `找 awesome-${repo.language.toLowerCase()} 和对应类别的列表。` : '找到你所在类别的 awesome 列表。'), 80);
+
+  const host = ['vscode-extension', 'vscode', 'visual-studio-code', 'obsidian-plugin', 'obsidian', 'chrome-extension',
+    'browser-extension', 'firefox-addon', 'firefox-extension', 'webextension', 'raycast', 'raycast-extension',
+    'jetbrains-plugin', 'intellij-plugin', 'siyuan', 'siyuan-plugin', 'plugin', 'extension'].find((t) => topics.includes(t));
+  if (host) {
+    add('ecosystems', 'ecosystems.md', ev('The host app’s plugin directory', '宿主应用的插件市场'),
+      ev(`It’s a plugin or extension (“${host}”) — its users look in the host app’s directory first.`,
+         `这是插件或扩展（「${host}」）——用户最先去宿主应用的插件市场里找。`), 92);
+  }
 
   if (has('self-hosted', 'selfhosted', 'homelab', 'self-hosting') || f.mentionsCompose) {
     add('selfhosted', 'reddit.md', ev('r/selfhosted', 'r/selfhosted'),
@@ -447,7 +511,7 @@ export function recommendChannels(repo, f, results = {}) {
       ev('Add README.zh-CN.md to reach V2EX, HelloGitHub and 阮一峰周刊.', '加一份 README.zh-CN.md 就能投 V2EX、HelloGitHub 和阮一峰周刊。'), 40);
   }
 
-  if (repo.homepage && runnable) {
+  if (externalHomepage(repo) && runnable) {
     add('ph', 'product-hunt.md', ev('Product Hunt', 'Product Hunt'),
       ev('It has a website people can try.', '有可以直接访问试用的网站。'), 58);
   }

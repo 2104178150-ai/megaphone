@@ -174,11 +174,54 @@ test('channels: docker run alone is not self-hosted, compose or topic is', () =>
   ok(recommendChannels({ topics: ['self-hosted'] }, run).some((c) => c.id === 'selfhosted'), 'topic');
 });
 
+test('channels: plugins and extensions get the host app directory', () => {
+  const f = readmeFacts('# X\n\nA small extension.');
+  ok(recommendChannels({ topics: ['obsidian-plugin'] }, f).some((c) => c.id === 'ecosystems' && c.file === 'ecosystems.md'));
+  ok(!recommendChannels({ topics: ['cli'] }, f).some((c) => c.id === 'ecosystems'));
+});
+
 test('channels: Show HN needs a way to try it and English text', () => {
   const english = readmeFacts('# X\n\n' + 'This tool helps you do a useful thing quickly. '.repeat(20) + '\n```\nnpx x\n```');
   ok(recommendChannels({ topics: [] }, english).some((c) => c.id === 'hn'));
   const noTry = readmeFacts('# X\n\n' + 'This tool helps you do a useful thing quickly. '.repeat(20));
   ok(!recommendChannels({ topics: [], homepage: '' }, noTry).some((c) => c.id === 'hn'));
+});
+
+test('a logo is not a visual; a small or "icon" image is not either', () => {
+  const logo = readmeFacts('<p align="center"><img src="assets/brand.png" alt="Project logo" width="120"></p>\n\n# X\n');
+  eq(logo.visual, null);
+  ok(logo.logoOnly, 'logoOnly');
+  eq(readmeFacts('# X\n\n![](docs/logo.svg)\n').visual, null, 'logo in path');
+  eq(readmeFacts('# X\n\n<img src="shot.png" width="96">\n').visual, null, 'tiny image');
+  ok(readmeFacts('# X\n\n![logo](logo.png)\n\n![Screenshot of the app](docs/screen.png)\n').visual === 'docs/screen.png', 'screenshot after logo');
+  ok(readmeFacts('# X\n\n<video src="demo.mp4" width="100"></video>\n').visual, 'videos always count');
+});
+
+test('Chinese-only README with English URLs is not bilingual', () => {
+  const md = '# 项目\n\n' + '这是一个把歌单导出成表格的工具，支持多个音乐平台，完全免费开源。'.repeat(4) + '\n\n'
+    + Array.from({ length: 40 }, (_, i) => `- [链接 ${i}](https://example.com/some/long/path/with/many/words/${i}) \`npm run build --watch\``).join('\n')
+    + '\n<a href="https://github.com/a/b/blob/main/docs/guide-for-advanced-users.md">文档</a>\n';
+  const f = readmeFacts(md);
+  ok(f.words.latin < 80, `latin prose words should be few, got ${f.words.latin}`);
+  eq(f.bilingual, false);
+});
+
+test('a hosted site counts as one-step try; the repo URL as homepage does not', () => {
+  const data = structuredClone(EMPTY_DATA);
+  data.repo.full_name = 'acme/site';
+  data.repo.homepage = 'https://acme.example.com';
+  const a = analyze(data, NOW);
+  const pts = Object.fromEntries(a.checks.map((c) => [c.id, c.points]));
+  eq([pts.A6, pts.B3], [4, 8]);
+  data.repo.homepage = 'https://github.com/acme/site/';
+  const b = analyze(data, NOW);
+  const pts2 = Object.fromEntries(b.checks.map((c) => [c.id, c.points]));
+  eq([pts2.A6, pts2.B3], [0, 0]);
+});
+
+test('showcase headings only count near the top', () => {
+  const far = '# X\n\nA tool that does a useful thing.\n' + '\nfiller line'.repeat(130) + '\n\n## Features\n';
+  eq(readmeFacts(far).showcase, null);
 });
 
 test('levels cover the whole range', () => {
@@ -260,6 +303,17 @@ atest('rate limit and rejected token become typed errors', async () => {
     await fetchRepoData('acme/rocket', { fetchImpl: fakeFetch({ apiStatus: 401 }), token: 'bad' });
     throw new Error('expected a badtoken error');
   } catch (e) { ok(e instanceof FetchError && e.kind === 'badtoken', e.message); }
+});
+
+// Shared with tests/test_audit.py: the Python port must give the same points.
+atest('shared rubric cases (parity with audit.py)', async () => {
+  const fx = await (await fetch(new URL('fixtures/rubric-cases.json', import.meta.url))).json();
+  const now = Date.parse(fx.now);
+  for (const c of fx.cases) {
+    const a = analyze(c.data, now);
+    eq(Object.fromEntries(a.checks.map((x) => [x.id, x.points])), c.expected.points, c.name);
+    eq(a.score, c.expected.score, c.name);
+  }
 });
 
 await Promise.all(asyncTests);

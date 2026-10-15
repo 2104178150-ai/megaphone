@@ -3,14 +3,18 @@
 Run from the repo root:  python3 -m unittest discover -s tests
 """
 
+import argparse
 import contextlib
+import email.message
 import importlib.util
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 import unittest
+import urllib.error
 from datetime import datetime, timedelta, timezone
 from unittest import mock
 
@@ -22,6 +26,16 @@ stars = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(stars)
 
 NOW = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+
+
+def zone_db_available():
+    if stars.ZoneInfo is None:
+        return False
+    try:
+        stars.ZoneInfo("America/New_York")
+        return True
+    except Exception:
+        return False
 
 
 def iso(dt):
@@ -43,11 +57,11 @@ def fake_github(star_times, traffic_status=200):
         if "/traffic/" in path:
             if traffic_status != 200:
                 raise stars.ApiError(traffic_status, "Must have push access")
+            day = (NOW - timedelta(days=1)).strftime("%Y-%m-%dT00:00:00Z")
             if path.endswith("/views"):
-                day = (NOW - timedelta(days=1)).strftime("%Y-%m-%dT00:00:00Z")
                 return {"count": 120, "uniques": 80, "views": [{"timestamp": day, "count": 120, "uniques": 80}]}
             if path.endswith("/clones"):
-                return {"count": 3, "uniques": 2, "clones": []}
+                return {"count": 3, "uniques": 2, "clones": [{"timestamp": day, "count": 3, "uniques": 2}]}
             if path.endswith("/referrers"):
                 return [{"referrer": "news.ycombinator.com", "count": 90, "uniques": 70}]
             if path.endswith("/paths"):
@@ -68,10 +82,27 @@ def run_main(argv, api_get, env=None):
     return out.getvalue()
 
 
+def run_main_expecting_exit(argv, api_get):
+    """Run main() and return (exit code, stderr) for a run that should stop early."""
+    err = io.StringIO()
+    with contextlib.redirect_stderr(err):
+        try:
+            run_main(argv, api_get)
+        except SystemExit as e:
+            return e.code, err.getvalue()
+    raise AssertionError("main() didn't exit")
+
+
+def section(report, heading):
+    """The text of one '## heading' section."""
+    return report.split("## " + heading, 1)[1].split("\n## ", 1)[0]
+
+
 class StarsTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
+        self.snaps = os.path.join(self.tmp.name, "snaps")
         self.post_time = NOW - timedelta(days=3)
         # 250 old stars, a burst of 40 right after the post, and 5 a week earlier
         self.times = (
@@ -80,14 +111,18 @@ class StarsTest(unittest.TestCase):
             + [NOW - timedelta(days=10, minutes=i) for i in range(5)]
         )
         self.log = os.path.join(self.tmp.name, "log.csv")
+        self.write_log("%s,%s,Show HN,https://news.ycombinator.com/item?id=1,"
+                       % (self.post_time.strftime("%Y-%m-%d"), self.post_time.strftime("%H:%M")))
+
+    def write_log(self, *rows):
         with open(self.log, "w", encoding="utf-8") as f:
             f.write("date,time,channel,url,notes\n")
-            f.write("%s,%s,Show HN,https://news.ycombinator.com/item?id=1,\n"
-                    % (self.post_time.strftime("%Y-%m-%d"), self.post_time.strftime("%H:%M")))
+            for row in rows:
+                f.write(row + "\n")
 
     def test_counts_and_attribution(self):
         report = run_main(["acme/rocket", "--days", "14", "--log", self.log, "--tz", "+00:00",
-                           "--snapshot-dir", os.path.join(self.tmp.name, "snaps")],
+                           "--snapshot-dir", self.snaps],
                           fake_github(self.times))
         self.assertIn("Stars gained in window: **45**", report)
         self.assertIn("| Show HN | 40 |", report)
@@ -96,29 +131,25 @@ class StarsTest(unittest.TestCase):
 
     def test_log_timezone_shifts_attribution_window(self):
         # Logged as 08:00 at +08:00 = 00:00 UTC, i.e. before the burst: still inside 48h.
-        with open(self.log, "w", encoding="utf-8") as f:
-            f.write("date,time,channel,url,notes\n")
-            f.write("%s,08:00,V2EX,,\n" % self.post_time.strftime("%Y-%m-%d"))
+        self.write_log("%s,08:00,V2EX,," % self.post_time.strftime("%Y-%m-%d"))
         report = run_main(["acme/rocket", "--days", "14", "--log", self.log, "--tz", "+08:00",
-                           "--snapshot-dir", os.path.join(self.tmp.name, "snaps")],
+                           "--snapshot-dir", self.snaps],
                           fake_github(self.times))
         self.assertIn("| V2EX | 40 |", report)
 
     def test_snapshot_is_saved_and_merged(self):
-        snaps = os.path.join(self.tmp.name, "snaps")
-        run_main(["acme/rocket", "--log", self.log, "--snapshot", "--snapshot-dir", snaps],
+        run_main(["acme/rocket", "--log", self.log, "--snapshot", "--snapshot-dir", self.snaps],
                  fake_github(self.times))
-        files = os.listdir(snaps)
+        files = os.listdir(self.snaps)
         self.assertEqual(len(files), 1)
-        with open(os.path.join(snaps, files[0]), encoding="utf-8") as f:
+        with open(os.path.join(self.snaps, files[0]), encoding="utf-8") as f:
             self.assertEqual(json.load(f)["referrers"][0]["referrer"], "news.ycombinator.com")
-        report = run_main(["acme/rocket", "--log", self.log, "--snapshot-dir", snaps],
+        report = run_main(["acme/rocket", "--log", self.log, "--snapshot-dir", self.snaps],
                           fake_github(self.times))
         self.assertIn("| 120 | 80 |", report)
 
     def test_traffic_without_push_access_is_a_note_not_a_crash(self):
-        report = run_main(["acme/rocket", "--log", self.log,
-                           "--snapshot-dir", os.path.join(self.tmp.name, "snaps")],
+        report = run_main(["acme/rocket", "--log", self.log, "--snapshot-dir", self.snaps],
                           fake_github(self.times, traffic_status=403))
         self.assertIn("Traffic data unavailable (403)", report)
         self.assertIn("Stars gained in window", report)
@@ -141,10 +172,195 @@ class StarsTest(unittest.TestCase):
             return inner(path, token, accept)
 
         report = run_main(["acme/rocket", "--days", "14", "--log", self.log,
-                           "--snapshot-dir", os.path.join(self.tmp.name, "snaps")], counting)
+                           "--snapshot-dir", self.snaps], counting)
         pages = [c.split("page=")[-1] for c in calls if "stargazers" in c]
         self.assertEqual(pages, ["5", "4", "3"])
         self.assertIn("Stars gained in window: **160**", report)
+
+    # --- timezones ---------------------------------------------------------------------
+
+    def test_offsets_are_parsed(self):
+        cases = {"+08:00": 8 * 60, "-05:30": -330, "+8": 8 * 60, "8": 8 * 60, "+0545": 345,
+                 "UTC+8": 8 * 60, "UTC": 0, "Z": 0}
+        for text, minutes in cases.items():
+            with self.subTest(tz=text):
+                tz = stars.parse_tz(text)
+                self.assertEqual(tz.utcoffset(None), timedelta(minutes=minutes))
+
+    @unittest.skipUnless(zone_db_available(), "needs Python 3.9+ zoneinfo with a zone database")
+    def test_iana_zone_uses_the_offset_in_force_on_each_post_date(self):
+        tz = stars.parse_tz("America/New_York")
+        # EDT (UTC-4) in July, EST (UTC-5) in December; the US falls back on 2026-11-01.
+        self.write_log("2026-07-01,12:00,Summer,,", "2026-12-01,12:00,Winter,,",
+                       "2026-10-31,20:00,Before,,", "2026-11-01,20:00,After,,")
+        entries, skipped = stars.read_log(self.log, tz)
+        self.assertEqual(skipped, [])
+        when = {e["channel"]: e["when"] for e in entries}
+        self.assertEqual(when["Summer"], datetime(2026, 7, 1, 16, 0, tzinfo=timezone.utc))
+        self.assertEqual(when["Winter"], datetime(2026, 12, 1, 17, 0, tzinfo=timezone.utc))
+        self.assertEqual(when["After"] - when["Before"], timedelta(hours=25))
+        self.assertEqual(stars.tz_label(tz), "America/New_York")
+
+    @unittest.skipUnless(zone_db_available(), "needs Python 3.9+ zoneinfo with a zone database")
+    def test_iana_zone_works_on_the_command_line(self):
+        self.write_log("%s,08:00,V2EX,," % self.post_time.strftime("%Y-%m-%d"))
+        report = run_main(["acme/rocket", "--days", "14", "--log", self.log,
+                           "--tz", "Asia/Shanghai", "--snapshot-dir", self.snaps],
+                          fake_github(self.times))
+        self.assertIn("| V2EX | 40 |", report)
+        self.assertIn("## Stars per day (Asia/Shanghai)", report)
+
+    def test_invalid_tz_exits_cleanly(self):
+        for bad in ("Mars/Olympus", "+25:00", "8pm"):
+            with self.subTest(tz=bad):
+                code, err = run_main_expecting_exit(
+                    ["acme/rocket", "--log", self.log, "--tz", bad], fake_github(self.times))
+                self.assertEqual(code, 2)
+                self.assertIn("argument --tz", err)
+                self.assertIn(bad, err)
+                self.assertNotIn("Traceback", err)
+
+    def test_zone_names_without_zoneinfo_ask_for_an_offset(self):
+        with mock.patch.object(stars, "ZoneInfo", None):
+            with self.assertRaises(argparse.ArgumentTypeError) as cm:
+                stars.parse_tz("Asia/Shanghai")
+            self.assertIn("Python 3.9", str(cm.exception))
+            self.assertIn("--tz +08:00", str(cm.exception))
+            self.assertEqual(stars.parse_tz("+08:00").utcoffset(None), timedelta(hours=8))
+
+    def test_negative_offset_can_follow_a_space(self):
+        report = run_main(["acme/rocket", "--days", "14", "--log", self.log, "--tz", "-05:30",
+                           "--snapshot-dir", self.snaps], fake_github(self.times))
+        self.assertIn("## Stars per day (UTC-05:30)", report)
+
+    def test_days_are_bucketed_in_the_log_timezone(self):
+        # One star at 20:00 UTC on day D is 04:00 on D+1 in UTC+08:00.
+        day = (NOW - timedelta(days=3)).date()
+        star = datetime(day.year, day.month, day.day, 20, 0, tzinfo=timezone.utc)
+        times = [NOW - timedelta(days=400, minutes=i) for i in range(250)] + [star]
+        no_log = os.path.join(self.tmp.name, "none.csv")
+        for tz, label, expected in (("+08:00", "UTC+08:00", day + timedelta(days=1)),
+                                    ("+00:00", "UTC", day)):
+            with self.subTest(tz=tz):
+                report = run_main(["acme/rocket", "--days", "14", "--log", no_log, "--tz", tz,
+                                   "--snapshot-dir", self.snaps], fake_github(times))
+                self.assertIn("- Best day (%s): **%s** with **1** stars" % (label, expected), report)
+                self.assertIn("## Stars per day (%s)" % label, report)
+                self.assertRegex(report, re.compile(r"^%s │█+\s+1$" % expected, re.M))
+
+    # --- the launch log ----------------------------------------------------------------
+
+    def test_skipped_rows_are_listed_in_notes(self):
+        good = "%s,%s,Show HN,," % (self.post_time.strftime("%Y-%m-%d"),
+                                     self.post_time.strftime("%H:%M"))
+        self.write_log("2026/10/21,20:00,V2EX,,", "2026-10-21,8pm,Jike,,", good, ",,,,",
+                       ",20:00,Lobsters,,")
+        report = run_main(["acme/rocket", "--days", "14", "--log", self.log, "--tz", "+00:00",
+                           "--snapshot-dir", self.snaps], fake_github(self.times))
+        notes = section(report, "Notes")
+        self.assertIn("line 2 (V2EX): date '2026/10/21' isn't YYYY-MM-DD", notes)
+        self.assertIn("line 3 (Jike): time '8pm' isn't 24-hour HH:MM", notes)
+        self.assertIn("line 6 (Lobsters): no date", notes)
+        self.assertNotIn("line 5", notes)  # an empty row is not worth a note
+        self.assertIn("Fix the skipped rows", notes)
+        self.assertIn("| Show HN | 40 |", report)
+
+    def test_overlaps_are_listed_in_both_directions(self):
+        fmt = "%Y-%m-%d,%H:%M"
+        self.write_log(
+            "%s,Show HN,," % self.post_time.strftime(fmt),
+            "%s,V2EX,," % (self.post_time + timedelta(hours=5)).strftime(fmt),
+            "%s,Reddit,," % (self.post_time - timedelta(hours=60)).strftime(fmt),
+        )
+        report = run_main(["acme/rocket", "--days", "14", "--log", self.log, "--tz", "+00:00",
+                           "--snapshot-dir", self.snaps], fake_github(self.times))
+        self.assertIn("| Show HN | 40 | V2EX (5h later) |", report)
+        self.assertIn("| V2EX | 0 | Show HN (5h earlier) |", report)
+        self.assertIn("| Reddit | 0 | — |", report)
+
+    def test_empty_time_counts_from_the_start_of_the_local_day(self):
+        day = self.post_time.date()
+        # 18:00 UTC the evening before is 02:00 on `day` in UTC+08:00: inside the window
+        # only if the window starts at local midnight, not UTC midnight.
+        early = datetime(day.year, day.month, day.day, tzinfo=timezone.utc) - timedelta(hours=6)
+        times = [NOW - timedelta(days=400, minutes=i) for i in range(250)] + [early]
+        self.write_log("%s,,Reddit,," % day.isoformat())
+        report = run_main(["acme/rocket", "--days", "14", "--log", self.log, "--tz", "+08:00",
+                           "--snapshot-dir", self.snaps], fake_github(times))
+        self.assertIn("| %s (time not logged) | Reddit | 1 |" % day.isoformat(), report)
+        self.assertRegex(report, re.compile(r"^%s │█+\s+1  ← Reddit$" % day.isoformat(), re.M))
+
+    def test_machine_zone_default_is_flagged(self):
+        report = run_main(["acme/rocket", "--days", "14", "--log", self.log,
+                           "--snapshot-dir", self.snaps], fake_github(self.times))
+        self.assertIn("because --tz wasn't given", section(report, "Notes"))
+
+    # --- traffic -----------------------------------------------------------------------
+
+    def test_clones_are_reported_with_views(self):
+        report = run_main(["acme/rocket", "--log", self.log, "--tz", "+00:00",
+                           "--snapshot-dir", self.snaps], fake_github(self.times))
+        self.assertIn("**120** views (80 unique), **3** clones (2 unique)", report)
+        self.assertIn("| 120 | 80 | 3 | 2 |", report)
+
+    def test_referrer_history_keeps_older_snapshots(self):
+        os.makedirs(self.snaps)
+        old = (NOW - timedelta(days=12)).strftime("%Y-%m-%d")
+        with open(os.path.join(self.snaps, old + ".json"), "w", encoding="utf-8") as f:
+            json.dump({"taken_at": old,
+                       "views": {"count": 900, "uniques": 700, "views": []},
+                       "clones": {"count": 9, "uniques": 8, "clones": []},
+                       "referrers": [{"referrer": "v2ex.com", "count": 50, "uniques": 40}],
+                       "paths": [{"path": "/acme/rocket", "count": 400, "uniques": 300}]}, f)
+        report = run_main(["acme/rocket", "--log", self.log, "--tz", "+00:00",
+                           "--snapshot-dir", self.snaps], fake_github(self.times))
+        latest = section(report, "Top referrers, latest")
+        self.assertIn("news.ycombinator.com", latest)
+        self.assertNotIn("v2ex.com", latest)
+        history = section(report, "Referrers by snapshot")
+        self.assertIn("| %s | v2ex.com 50/40 |" % old, history)
+        self.assertIn("| %s | news.ycombinator.com 90/70 |" % NOW.strftime("%Y-%m-%d"), history)
+        self.assertIn("/acme/rocket 400", section(report, "Popular pages by snapshot"))
+
+    def test_snapshot_outside_gitignore_is_flagged(self):
+        with mock.patch.object(stars, "ignored_by_git", return_value=False):
+            report = run_main(["acme/rocket", "--log", self.log, "--tz", "+00:00", "--snapshot",
+                               "--snapshot-dir", self.snaps], fake_github(self.times))
+        self.assertIn("is not ignored by git", section(report, "Notes"))
+
+    def test_empty_stargazer_list_is_explained(self):
+        inner = fake_github(self.times)
+
+        def hidden(path, token, accept=None):
+            return [] if "/stargazers" in path else inner(path, token, accept)
+
+        report = run_main(["acme/rocket", "--log", self.log, "--tz", "+00:00",
+                           "--snapshot-dir", self.snaps], hidden)
+        self.assertIn("empty stargazer list", section(report, "Notes"))
+        self.assertIn("admins and collaborators", section(report, "Notes"))
+
+    # --- rate limits -------------------------------------------------------------------
+
+    def test_rate_limit_hint_says_when_to_retry(self):
+        now = datetime(2026, 10, 14, 12, 0, tzinfo=timezone.utc)
+        reset = str(int((now + timedelta(minutes=10)).timestamp()))
+        self.assertEqual(stars.rate_limit_hint({"X-RateLimit-Reset": reset}, now=now),
+                         "The rate limit resets at 12:10 UTC (in about 10 min); wait and retry.")
+        self.assertIn("60 seconds", stars.rate_limit_hint({"Retry-After": "60"}))
+        self.assertEqual(stars.rate_limit_hint({}), "Wait a few minutes and retry.")
+
+    def test_rate_limited_request_does_not_suggest_setting_a_token(self):
+        headers = email.message.Message()
+        headers["X-RateLimit-Remaining"] = "0"
+        headers["X-RateLimit-Reset"] = str(int((NOW + timedelta(hours=1)).timestamp()))
+        body = io.BytesIO(json.dumps({"message": "API rate limit exceeded"}).encode())
+        error = urllib.error.HTTPError("https://api.github.com/x", 403, "Forbidden", headers, body)
+        with mock.patch.object(stars.urllib.request, "urlopen", side_effect=error):
+            with self.assertRaises(stars.ApiError) as cm:
+                stars.api_get("/repos/acme/rocket", "test-token")
+        self.assertTrue(cm.exception.rate_limited)
+        self.assertIn("resets at", str(cm.exception))
+        self.assertNotIn("GITHUB_TOKEN", str(cm.exception))
 
 
 if __name__ == "__main__":
