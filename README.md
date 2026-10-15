@@ -12,7 +12,7 @@ English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2
 ![Megaphone scoring a repo: 84/100, the three fixes that matter most, and where to launch it](docs/preview.svg)
 
 - **Know if you're ready** — blockers a visitor would hit, risks that grow with visibility, and a 0–100 score from 21 checks. [Score any repo in your browser](https://2104178150-ai.github.io/megaphone/), no install.
-- **A native post for every channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more, each written to that platform's rules, with sources and a "last checked" date.
+- **The right post for each channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more: a native draft written to each platform's rules, or, where a platform wants your own words (Show HN, Lobsters), a fact sheet you write from. Rules come with sources and a "last checked" date.
 - **See what actually worked** — star history and referrers lined up against what you posted, when.
 
 ## Quick start
@@ -65,7 +65,7 @@ learn it.
 | [`launch-audit`](skills/launch-audit/SKILL.md) | Finds blockers, answers risk & readiness questions, and scores the README with the [public rubric](skills/launch-audit/rubric.md) | `.megaphone/audit.md` |
 | [`launch-positioning`](skills/launch-positioning/SKILL.md) | Finds the one-liner: audience, alternative, proof, contrast — and the claims you won't make | `.megaphone/brief.md` |
 | [`launch-readme`](skills/launch-readme/SKILL.md) | Rewrites the README's first screen; optional twin in a second language | `README.md`, or a proposal in `.megaphone/` |
-| [`launch-posts`](skills/launch-posts/SKILL.md) | Picks channels, says why it skipped the others, and drafts one native post per channel | `.megaphone/posts/` |
+| [`launch-posts`](skills/launch-posts/SKILL.md) | Picks channels, says why it skipped the others, and drafts one native post per channel (a fact sheet where the platform wants the author's own words) | `.megaphone/posts/` |
 | [`launch-plan`](skills/launch-plan/SKILL.md) | Dated, timezone-aware launch calendar with a go/no-go, and a posting log | `.megaphone/plan.md`, `log.csv` |
 | [`launch-review`](skills/launch-review/SKILL.md) | Star history, traffic and per-post attribution | `.megaphone/report.md` |
 
@@ -111,7 +111,8 @@ heuristics are labelled as such. [Browse all →](skills/launch-posts/channels)
 
 [`docs/`](docs) is a static page (no build, no dependencies, no server) that scores any
 public repo with the same rubric, recommends channels, and gives you a badge for your
-README. It runs in the browser against GitHub's public API. It gives the score only;
+README. It runs in the browser and reads GitHub directly: the API, plus raw.githubusercontent.com
+for the README (falling back to the API where that's blocked). It gives the score only;
 blockers and risks need the human review in `launch-audit`.
 
 [`audit.py`](skills/launch-audit/scripts/audit.py) gives the same score in a terminal, and

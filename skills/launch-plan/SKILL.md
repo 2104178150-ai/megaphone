@@ -24,9 +24,18 @@ the folder that holds this skill and its siblings.
 
 ## The gate
 
-**No big channel until every blocker in `audit.md` is closed and its level is 🔊 Almost
-there or better.** Awesome-list PRs and small rooms wait for the blockers too.
+This is the one definition of the gate; other skills point here.
 
+- **Every channel** waits until every blocker in `audit.md` is closed — awesome-list PRs,
+  submissions and small rooms included.
+- **Big channels** (below) also need the level to be 🔊 Almost there or better, judged on
+  the human-adjusted score when the audit gives one, otherwise the rubric score.
+- **Plugins and extensions** also wait until the store or plugin-directory listing is live
+  ([ecosystems.md](../launch-posts/channels/ecosystems.md): review times aren't promised, and
+  announcements should link to a live listing).
+
+- **T-2 README.** If `.megaphone/readme-first-screen.md` exists, the user applies or
+  rejects it before the re-audit, and any draft written against it is checked again.
 - **T-2 re-audit.** With the fixes pushed, rerun `launch-audit` (or
   `python3 <megaphone-skills-dir>/launch-audit/scripts/audit.py OWNER/REPO`), re-check each
   blocker by hand — the script can't see them — and update `audit.md`.
@@ -51,7 +60,11 @@ Size this against the user's free hours; if it doesn't fit, move the launch week
    audience can load (for mainland-China channels, not only on `raw.githubusercontent.com`).
 5. **Awesome-list PRs** once the README and demo are up; merges can take days or weeks.
 6. **Warm up accounts genuinely** where you'll post: join threads you care about.
-7. **Final drafts**: no `[TODO]` left in launch-week posts; each risk check ticked.
+7. **Store or plugin listing** (plugins and extensions): submitted early in prep week,
+   since review times aren't promised; announcements wait until it's live.
+8. **Final drafts**: no `[TODO]` left in launch-week drafts; for author-written channels
+   (Show HN, a DEV launch article, Lobsters, some awesome lists) the author has written the
+   text from the fact sheet; each risk and AI-disclosure check ticked.
 
 ## Sequencing
 
@@ -71,9 +84,11 @@ Size this against the user's free hours; if it doesn't fit, move the launch week
 
 ## Timezones
 
-- Convert each window from the playbook's timezone to the user's, **per date**, and show
-  both: `23:00 (= 08:00 PT)`. If a playbook gives no window, pick a time the user can
-  cover and write "no data — chose X because Y".
+- Posts carry each window in the playbook's own timezone; **this file is the only place
+  it's converted**. Convert per date and show both: `23:00 (= 08:00 PT)`. If you move the
+  schedule, recompute the conversions here — nothing in `posts/` needs to change. If a
+  playbook gives no window, pick a time the user can cover and write "no data — chose X
+  because Y".
 - **Flag sleep conflicts honestly** with options: post at the edge of the window, stay up
   one night and recover on the buffer day, or give the slot to a channel that suits the
   user's hours. A reply eight hours late is a missed launch.
@@ -97,6 +112,8 @@ Gate: open blockers <N> · level <…> · go/no-go on <T-2 date>
 - [ ] Capacity: <limits> · overload message · fallback: <…>
 - [ ] Release <version> · description, topics, homepage · social preview · demo visual
 - [ ] Awesome-list PRs: <lists> · HelloGitHub / 阮一峰周刊: <dates> · warm-up: <where>
+- [ ] Store / plugin directory (if any): submitted <date> · live: <yes/no> — announcements wait
+- [ ] README proposal (readme-first-screen.md, if any): applied / rejected
 - [ ] T-2 re-audit: <score, open blockers> · go/no-go: <go / moved to …>
 
 ## Launch days
@@ -108,15 +125,16 @@ Gate: open blockers <N> · level <…> · go/no-go on <T-2 date>
 | T+2 Wed | — | Buffer: fixes, "thanks, fixed X" | — | you | — |
 
 ## After
-- [ ] T+2, T+5, T+9: traffic snapshot · T+7 or later: launch-review
+- [ ] T+2, T+5, T+9, T+14: traffic snapshot · T+7 or later: launch-review
 ```
 
 **Log.** If `.megaphone/log.csv` is missing, create it with the header
 `date,time,channel,url,notes`. The user adds a row **right after** each post goes live:
 `date` YYYY-MM-DD, `time` 24-hour HH:MM in the timezone recorded in `decisions.md`,
-`channel` the draft's file name, `url` the live post.
+`channel` the draft file's base name (`hacker-news`, `reddit-commandline`, `v2ex`), `url`
+the live post.
 
-**Snapshots.** GitHub keeps only 14 days of traffic, so snapshot at T+2, T+5 and T+9:
+**Snapshots.** GitHub keeps only 14 days of traffic, so snapshot at T+2, T+5, T+9 and T+14:
 
 ```bash
 python3 <megaphone-skills-dir>/launch-review/scripts/stars.py OWNER/REPO --log .megaphone/log.csv --tz <IANA or ±HH:MM> --snapshot

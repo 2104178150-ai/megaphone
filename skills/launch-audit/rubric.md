@@ -3,8 +3,8 @@
 Three layers, in this order of importance:
 
 1. **Blockers** — found by the human review. Any open blocker caps the level at
-   🔉 *Needs polish*, whatever the score, and `launch-plan` won't schedule a big channel
-   until they're closed.
+   🔉 *Needs polish*, whatever the score, and no channel is scheduled until they're closed
+   (the full gate is defined once, in `launch-plan`).
 2. **Risk & readiness** — always answered, never scored. What gets worse when the
    project becomes visible.
 3. **The 100-point score** — 21 mechanical checks. Run `scripts/audit.py OWNER/REPO` to
@@ -22,7 +22,7 @@ Mark each one open or closed in `audit.md`. Add others if they'd make a visitor 
 
 | Blocker | Open when |
 |---|---|
-| **Quick start doesn't show the point** | Running the first command or opening the first link doesn't demonstrate the headline feature from the brief (e.g. a diagram renderer whose example has no diagram) |
+| **Quick start doesn't show the point** | Running the first command or opening the first link doesn't demonstrate the headline feature — as the README presents it, or as `brief.md` states it once positioning has run (e.g. a diagram renderer whose example has no diagram) |
 | **Hidden hard requirement** | A runtime need (a browser, GPU, Docker, an OS, an account, a paid API key) isn't stated in the first screen |
 | **Can't legally use it** | No license |
 | **Broken try-path** | The install command, demo link or hosted site doesn't work |
@@ -50,8 +50,8 @@ burst of traffic to anything hosted. Answer before positioning:
   mainland-China audiences, `raw.githubusercontent.com` and some CDNs are often blocked.
 
 Never give legal advice. If exposure is significant, say plainly that a louder launch
-raises it, and let the author decide how loud to go. Copy every do-not-say item into
-`brief.md` → *Claims we won't make*.
+raises it, and let the author decide how loud to go. List every do-not-say item in
+`audit.md`; `launch-positioning` copies them into `brief.md` → *Claims we won't make*.
 
 ## 3. The 100-point score
 
@@ -80,7 +80,7 @@ image whose URL or alt text contains `logo`, `icon`, `avatar` or `favicon`, or w
 |---|---|---|---|
 | B1 | Getting-started section | 7 | A heading containing install, quick start, getting started, get started, setup, set up, usage, how to use, run, 安装, 快速开始, 快速上手, 上手, 开始使用 or 使用 |
 | B2 | Code block early | 5 | A fenced code block starts within the first 150 lines |
-| B3 | One step to try it | 8 | A recognised one-line install or run command anywhere in the README — `npm i`, `npx`, `pnpm add/dlx`, `yarn add/dlx`, `bun add`/`bunx`, `pip install <pkg>` (not `pip install -r`), `pipx`, `uv`/`uvx`, `brew install`, `port install`, `cargo install`, `go install`/`go get`, `docker run`/`pull`, `docker compose up`, `curl … \| sh`, `iwr … \| iex`, `gem install`, `composer require`, `dotnet tool install`, `winget`/`scoop`/`choco install`, `apt install`, `snap`/`flatpak install`, `nix run`, `helm install`, `npx skills add`, `claude plugin install` — **or** a homepage that passes A6 (a hosted version people can try) |
+| B3 | One step to try it | 8 | A recognised one-line install or run command anywhere in the README (the exact patterns are `INSTALL_RES` in `docs/checker.js`, mirrored in `scripts/audit.py`) — `npm i`, `npx`, `pnpm add/dlx`, `yarn add/dlx`, `bun add`/`bunx`, `pip install <pkg>` (not `pip install -r`), `pipx`, `uv`/`uvx`, `brew install`, `port install`, `cargo install`, `go install`/`go get`, `docker run`/`pull`, `docker compose up`, `curl … \| sh`, `iwr … \| iex`, `gem install`, `composer require`, `dotnet tool install`, `winget`/`scoop`/`choco install`, `apt install`, `snap`/`flatpak install`, `nix run`, `helm install`, `npx skills add`, `claude plugin install` — **or** a homepage that passes A6 (a hosted version people can try) |
 | B4 | Shows what it does | 5 | Within the first 120 lines, a heading containing feature, usage, example, demo, screenshot, how it works, what it does, tutorial, walkthrough, tour, showcase, gallery, 功能, 特性, 示例, 例子, 演示, 截图, 效果 or 教程; or ≥ 3 `-`/`*`/`+` bullet points in the first 80 lines |
 
 B3 is the check most likely to pass on a technicality: an install command proves the
@@ -101,7 +101,7 @@ doesn't show the point* blocker is for.
 
 | ID | Check | Points | Passes when |
 |---|---|---|---|
-| D1 | Two languages | 5 | Links to a translated README (`README.zh-CN.md`, `README_EN.md`, `README.ja.md`… or a `[简体中文](…)`/`[English](…)` link in the first 40 lines), **or** real prose in both English and CJK: ≥ 80 English words and ≥ 30 CJK characters, with English between 25% and 75% of the words. Code, URLs, HTML and link targets aren't prose |
+| D1 | Two languages | 5 | Mentions a translated README file anywhere (`README.zh-CN.md`, `README_EN.md`, `README.ja.md`…), or has a `[简体中文](…)`/`[English](…)` link in the first 40 lines, **or** real prose in both English and CJK: ≥ 80 English words and ≥ 30 CJK characters, with English between 25% and 75% of the words. Code, URLs, HTML and link targets aren't prose |
 | D2 | Why / comparison | 4 | A heading containing why, motivation, comparison, compare, vs, alternative, difference, 为什么, 对比, 比较, 动机 or 初衷 |
 | D3 | Community channel | 5 | Discussions enabled, or a Discord / Telegram / Slack / Matrix / Gitter / 微信群 / QQ群 link in the README |
 | D4 | Badges | 3 | At least one badge within the first 30 lines |

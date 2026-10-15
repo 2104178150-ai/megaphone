@@ -64,21 +64,22 @@
     <h2 data-i18n="howTitle">From score to launch</h2>
     <div class="steps">
       <div class="step"><span class="n">01</span><h3 data-i18n="s1t">Score it</h3><p data-i18n="s1d">Twenty-one checks across first impression, time to wow, trust and shareability — the things that decide whether a visitor tries your project or leaves.</p></div>
-      <div class="step"><span class="n">02</span><h3 data-i18n="s2t">Let your AI agent fix it</h3><p data-i18n="s2d">Megaphone's skills sharpen your pitch, rewrite the README's first screen and draft a native post for each channel — Show HN, Reddit, V2EX, HelloGitHub, 小红书 and more.</p></div>
+      <div class="step"><span class="n">02</span><h3 data-i18n="s2t">Let your AI agent fix it</h3><p data-i18n="s2d">Megaphone's skills sharpen your pitch, rewrite the README's first screen and prepare the right post for each channel — a native draft, or a fact sheet where the platform wants your own words — for Show HN, Reddit, V2EX, HelloGitHub, 小红书 and more.</p></div>
       <div class="step"><span class="n">03</span><h3 data-i18n="s3t">Launch and measure</h3><p data-i18n="s3d">Get a dated launch plan, then line up star history and referrers against what you posted to see which channel actually worked.</p></div>
     </div>
     <div class="card install">
       <h3 data-i18n="installT">Install the skills (Claude Code, Codex, OpenClaw, Cursor and 70+ agents)</h3>
       <div class="codebox"><code id="install-npx">npx skills add 2104178150-ai/megaphone</code><button class="copy" type="button" data-copy="install-npx" data-i18n="copy">Copy</button></div>
-      <p class="hint" data-i18n="installCC">Or as a Claude Code plugin:</p>
+      <p class="hint" data-i18n="installCC">Or as a Claude Code plugin (two commands):</p>
       <div class="codebox"><code id="install-cc">/plugin marketplace add 2104178150-ai/megaphone</code><button class="copy" type="button" data-copy="install-cc" data-i18n="copy">Copy</button></div>
+      <div class="codebox"><code id="install-cc2">/plugin install megaphone@megaphone</code><button class="copy" type="button" data-copy="install-cc2" data-i18n="copy">Copy</button></div>
       <p class="hint" data-i18n="installThen">Then ask your agent: “launch this repo” — or “帮我推广这个项目”.</p>
     </div>
   </section>
 </main>
 
 <footer class="wrap">
-  <span data-i18n="privacy">Runs entirely in your browser using GitHub's public API. Nothing is stored on a server.</span>
+  <span data-i18n="privacy">Runs entirely in your browser: repo data comes straight from GitHub (the API and raw.githubusercontent.com), the badge preview from shields.io. Nothing is stored on a server.</span>
   <span><span id="rate"></span> <span id="token-state" hidden></span></span>
 </footer>
 </body>

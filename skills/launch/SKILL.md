@@ -36,13 +36,15 @@ access are supposed to see. Commit it only if the user asks.
 | File | Written by | Purpose |
 |---|---|---|
 | `decisions.md` | every stage | Questions asked, the user's answers, and any assumptions made |
-| `audit.md` | launch-audit | Blockers, risk & readiness, score, fix list |
+| `audit.md` | launch-audit (re-run by launch-plan at T-2) | Blockers, risk & readiness, score, fix list |
 | `brief.md` | launch-positioning | One-liner, audience, proof, contrast, claims we won't make |
 | `readme-first-screen.md` | launch-readme | The proposed first screen, when it can't be applied yet |
 | `posts/README.md` | launch-posts | Which channels were picked or skipped, and why |
-| `posts/<channel>.md` | launch-posts | Ready-to-paste drafts |
+| `posts/<channel>.md` | launch-posts | Drafts — or, for channels that want the author's own words (Show HN, DEV, Lobsters, some awesome lists), fact sheets the author writes from |
 | `plan.md` | launch-plan | Dated launch calendar with a go/no-go |
 | `log.csv` | launch-plan creates it; the user fills it | What was actually posted, when, where |
+| `snapshots/` | launch-plan / launch-review (`stars.py --snapshot`) | Traffic snapshots — private data, never commit |
+| `report-data.md` | launch-review (`stars.py --out`) | The script's raw report |
 | `report.md` | launch-review | Which channel moved the needle |
 
 ## Before you start
@@ -68,6 +70,9 @@ access are supposed to see. Commit it only if the user asks.
    - Which accounts can you post from, and how established are they? (New accounts get
      filtered on HN, Reddit and V2EX.)
    - Which languages can you read and reply in?
+   - Where do you plan to launch first, if you know? (The audit reads the README as a
+     visitor from that channel would.)
+   - Has the project been posted anywhere before? (Links, if so.)
    - Your timezone, and which days/hours you can spend 2–4 hours answering comments.
    - Any launch date constraints? Any channels in your region we don't cover (e.g. Zenn,
      Qiita and Hatena for Japan)?

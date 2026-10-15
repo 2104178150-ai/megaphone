@@ -11,6 +11,9 @@ rubric lives in [rubric.md](rubric.md); read it first.
 
 ## Steps
 
+Read `.megaphone/decisions.md` first if it exists, and record any new answers there — or,
+with no human available, the assumptions you made.
+
 1. **Get the score.** Run the bundled script (Python 3.8+, no dependencies):
 
    ```bash
@@ -23,8 +26,9 @@ rubric lives in [rubric.md](rubric.md); read it first.
    unavailable, score the README-based checks by hand from [rubric.md](rubric.md) and mark
    the repo-based ones `unknown`.
 2. **Do the human review.** Read the README top to bottom as a stranger arriving from the
-   **channel you'll launch on first** (a Hacker News reader on a laptop, a 小红书 user on a
-   phone, a V2EX regular…). Answer:
+   **channel you'll launch on first** — from `.megaphone/decisions.md`, or the most likely
+   one if it isn't decided yet (a Hacker News reader on a laptop, a 小红书 user on a phone, a
+   V2EX regular…). Answer:
    - Within the first screen, can I tell **what it is, who it's for, and why it's better**
      than what I use now?
    - Is there something to **see** before I have to read?

@@ -6,9 +6,8 @@
 > one-line title (don't repeat the project name), and a 10–300 character description.
 > The cut-off for a given issue isn't published, so submit early in the month.
 >
-> 最近核对：2026-10。月刊日期和「推荐或自荐」入口依据 [HelloGitHub README](https://github.com/521xueweihan/HelloGitHub)
-> （2026-10-15 复核）；表单字段依据 2026-10 在 [hellogithub.com](https://hellogithub.com) 登录后看到的
-> 提交表单，以表单当前内容为准。
+> 最近核对：2026-10-15。月刊日期和「推荐或自荐」入口依据 [HelloGitHub README](https://github.com/521xueweihan/HelloGitHub)；
+> 表单字段依据 2026-10-13 在 [hellogithub.com](https://hellogithub.com) 登录后看到的提交表单，以表单当前内容为准。
 
 ## 适合什么项目
 

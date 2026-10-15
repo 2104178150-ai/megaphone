@@ -11,12 +11,17 @@ such as `Asia/Shanghai` need Python 3.9+).
 
 ## Steps
 
+Read `.megaphone/decisions.md` first (timezone, where the user posted) and record new
+answers or, with no human available, assumptions there.
+
 1. **Make sure data exists.**
    - `.megaphone/log.csv` with the header `date,time,channel,url,notes`: `date` as
      YYYY-MM-DD, `time` as 24-hour HH:MM in the user's timezone (the one in
      `decisions.md`). If `time` is unknown, leave it empty: the script then counts from
-     the start of that day and marks the row "(time not logged)". If the log is missing,
-     ask the user what they posted and when, and create it.
+     the start of that day and marks the row "(time not logged)". `channel` is the draft
+     file's base name (`hacker-news`, `reddit-commandline`, `v2ex`). If the log is
+     missing, ask the user what they posted and when, and create it; with no human
+     available, run without a log and say in the report that posts couldn't be attributed.
    - A GitHub token is **required**: GitHub only lists stargazers to authenticated
      requests, and it announced in June 2026 that it is limiting the stargazer list to the
      repo's admins and collaborators (others may get a 403 or an empty list), so use the
@@ -46,7 +51,7 @@ such as `Asia/Shanghai` need Python 3.9+).
    - **`--snapshot`** saves today's traffic (views, clones, referrers, popular pages) to
      `.megaphone/snapshots/YYYY-MM-DD-OWNER__REPO.json` (UTC date; the report only reads
      snapshots of the repo you asked about). GitHub only keeps the last 14 days,
-     so run it every few days during a launch and for two weeks after.
+     so snapshot at T+2, T+5, T+9 and T+14 (the same cadence as `plan.md`).
    - **`--days`** must reach back past the first post; if it doesn't, that post's row says
      which value to rerun with.
    - **What the report merges.** Daily views and clones are merged across all snapshots

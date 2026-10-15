@@ -9,7 +9,7 @@
   </g>
   <text x="80" y="200" font-size="96" font-weight="700" fill="#1f1b16" letter-spacing="-2">Megaphone</text>
   <text x="80" y="280" font-size="40" font-weight="600" fill="#1f1b16">Launch your open-source project.</text>
-  <text x="80" y="335" font-size="30" fill="#5b5349">Score it · fix it · post it everywhere · see what worked</text>
+  <text x="80" y="335" font-size="30" fill="#5b5349">Score it · fix it · post where it fits · see what worked</text>
   <text x="80" y="395" font-size="30" fill="#5b5349">让你的开源项目被看见</text>
   <g font-size="22" font-weight="600" fill="#1f1b16">
     <rect x="80" y="470" width="150" height="48" rx="24" fill="#ffffff" stroke="#e8dfd2" stroke-width="2"/><text x="155" y="501" text-anchor="middle">Show HN</text>

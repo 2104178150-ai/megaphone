@@ -70,12 +70,12 @@
   <rect x="40" y="490" width="1120" height="110" rx="20" fill="#ffffff" stroke="#e8dfd2"/>
   <text x="70" y="532" font-size="20" font-weight="800" fill="#1f1b16">Where to launch</text>
   <g font-size="15" font-weight="600" fill="#1f1b16">
-    <rect x="70" y="548" width="132" height="34" rx="17" fill="#fde6dc"/><text x="136" y="570" text-anchor="middle">Show HN</text>
-    <rect x="214" y="548" width="132" height="34" rx="17" fill="#fde6dc"/><text x="280" y="570" text-anchor="middle">r/golang</text>
-    <rect x="358" y="548" width="170" height="34" rx="17" fill="#fde6dc"/><text x="443" y="570" text-anchor="middle">Golang Weekly</text>
-    <rect x="540" y="548" width="150" height="34" rx="17" fill="#fde6dc"/><text x="615" y="570" text-anchor="middle">Awesome lists</text>
-    <rect x="702" y="548" width="170" height="34" rx="17" fill="#fde6dc"/><text x="787" y="570" text-anchor="middle">V2EX 分享创造</text>
-    <rect x="884" y="548" width="170" height="34" rx="17" fill="#fde6dc"/><text x="969" y="570" text-anchor="middle">HelloGitHub</text>
+    <rect x="70" y="548" width="150" height="34" rx="17" fill="#fde6dc"/><text x="145" y="570" text-anchor="middle">GitHub topics</text>
+    <rect x="232" y="548" width="120" height="34" rx="17" fill="#fde6dc"/><text x="292" y="570" text-anchor="middle">Show HN</text>
+    <rect x="364" y="548" width="150" height="34" rx="17" fill="#fde6dc"/><text x="439" y="570" text-anchor="middle">Awesome lists</text>
+    <rect x="526" y="548" width="160" height="34" rx="17" fill="#fde6dc"/><text x="606" y="570" text-anchor="middle">r/commandline</text>
+    <rect x="698" y="548" width="120" height="34" rx="17" fill="#fde6dc"/><text x="758" y="570" text-anchor="middle">r/golang</text>
+    <rect x="830" y="548" width="130" height="34" rx="17" fill="#fde6dc"/><text x="895" y="570" text-anchor="middle">Go Weekly</text>
   </g>
   <text x="1130" y="532" font-size="15" fill="#e8501c" font-weight="700" text-anchor="end">17 channel playbooks →</text>
 </svg>

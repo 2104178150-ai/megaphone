@@ -37,13 +37,13 @@ const STRINGS = {
     s1t: 'Score it',
     s1d: 'Twenty-one checks across first impression, time to wow, trust and shareability — the things that decide whether a visitor tries your project or leaves.',
     s2t: 'Let your AI agent fix it',
-    s2d: 'Megaphone’s skills sharpen your pitch, rewrite the README’s first screen and draft a native post for each channel — Show HN, Reddit, V2EX, HelloGitHub, 小红书 and more.',
+    s2d: 'Megaphone’s skills sharpen your pitch, rewrite the README’s first screen and prepare the right post for each channel — a native draft, or a fact sheet where the platform wants your own words — for Show HN, Reddit, V2EX, HelloGitHub, 小红书 and more.',
     s3t: 'Launch and measure',
     s3d: 'Get a dated launch plan, then line up star history and referrers against what you posted to see which channel actually worked.',
     installT: 'Install the skills (Claude Code, Codex, OpenClaw, Cursor and 70+ agents)',
-    installCC: 'Or as a Claude Code plugin:',
+    installCC: 'Or as a Claude Code plugin (two commands):',
     installThen: 'Then ask your agent: “launch this repo” — or “帮我推广这个项目”.',
-    privacy: 'Runs entirely in your browser using GitHub’s public API. Nothing is stored on a server.',
+    privacy: 'Runs entirely in your browser: repo data comes straight from GitHub (the API and raw.githubusercontent.com), the badge preview from shields.io. Nothing is stored on a server.',
     rate: (n) => `GitHub API: ${n} requests left this hour`,
     tokenPrompt: 'Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).',
     tokenPlaceholder: 'github_pat_… or ghp_…',
@@ -86,13 +86,13 @@ const STRINGS = {
     s1t: '打分',
     s1d: '21 项检查，覆盖第一印象、上手速度、可信度和传播力——正是这些决定了访客是试一试，还是直接离开。',
     s2t: '让 AI 帮你改',
-    s2d: 'Megaphone 的技能会帮你提炼定位、重写 README 首屏，并为每个渠道写原生文案——Show HN、Reddit、V2EX、HelloGitHub、小红书等等。',
+    s2d: 'Megaphone 的技能会帮你提炼定位、重写 README 首屏，并为每个渠道准备对症的文案：原生草稿，或者在要求作者亲笔的平台给你一份事实清单——Show HN、Reddit、V2EX、HelloGitHub、小红书等等。',
     s3t: '发布并复盘',
     s3d: '生成带日期的发布计划，再把 star 增长和流量来源对上你发过的帖子，看清到底哪个渠道有用。',
     installT: '安装技能（支持 Claude Code、Codex、OpenClaw、Cursor 等 70 多种 agent）',
-    installCC: '或者作为 Claude Code 插件安装：',
+    installCC: '或者作为 Claude Code 插件安装（两条命令）：',
     installThen: '然后对你的 AI 说：「帮我推广这个项目」——或者 “launch this repo”。',
-    privacy: '完全在你的浏览器里运行，只调用 GitHub 公开 API，不在任何服务器上保存数据。',
+    privacy: '完全在你的浏览器里运行：仓库数据直接来自 GitHub（API 和 raw.githubusercontent.com），徽章预览来自 shields.io，不在任何服务器上保存数据。',
     rate: (n) => `GitHub API 本小时剩余 ${n} 次请求`,
     tokenPrompt: '匿名额度用完了？粘贴一个 GitHub token 就能继续检测（每小时 5000 次）。',
     tokenPlaceholder: 'github_pat_… 或 ghp_…',
@@ -166,6 +166,7 @@ function applyLanguage() {
   $('#gh-link').href = `https://github.com/${p}`;
   $('#install-npx').textContent = `npx skills add ${p}`;
   $('#install-cc').textContent = `/plugin marketplace add ${p}`;
+  $('#install-cc2').textContent = `/plugin install ${p.split('/')[1]}@${p.split('/')[1]}`;
   renderTokenState();
   if (last) render(last.analysis);
 }

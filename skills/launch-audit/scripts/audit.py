@@ -73,7 +73,7 @@ RUBRIC = [
      "Add issue templates for bugs and ideas."),
     ("D1", "D", 5, "Two languages", "launch-readme",
      "Add a translated README (e.g. README.zh-CN.md) to unlock channels in that language."),
-    ("D2", "D", 4, "\"Why\" or comparison section", "launch-positioning",
+    ("D2", "D", 4, "\"Why\" or comparison section", "launch-readme",
      "Add a short Why section: what people use today and why this is better for them."),
     ("D3", "D", 5, "Community channel", None,
      "Turn on Discussions or link a chat (Discord, Telegram, 微信群…)."),

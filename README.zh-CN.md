@@ -12,7 +12,7 @@
 ![Megaphone 给一个仓库打分：84/100，最该先改的三件事，以及适合去哪里发](docs/preview.svg)
 
 - **先知道准备好了没有**——会让访客掉头就走的阻断项、曝光后会放大的风险，再加 21 项检查给出的 0–100 分。[打开网页就能给任意仓库打分](https://2104178150-ai.github.io/megaphone/)，不用安装。
-- **每个渠道一篇「原生」文案**——Show HN、Reddit、Product Hunt、X、V2EX、HelloGitHub、阮一峰周刊、小红书……每篇都按该平台的规则来写，规则注明出处和核对日期。
+- **每个渠道对症的文案**——Show HN、Reddit、Product Hunt、X、V2EX、HelloGitHub、阮一峰周刊、小红书……按各平台规则写好原生草稿；要求作者亲笔的平台（Show HN、Lobsters 等）给你一份事实清单，由你自己来写。规则都注明出处和核对日期。
 - **看清到底哪个渠道有用**——把 star 增长和流量来源，对上你在什么时候发了什么。
 
 ## 快速开始
@@ -63,7 +63,7 @@ claude plugin install megaphone@megaphone
 | [`launch-audit`](skills/launch-audit/SKILL.md) | 找出阻断项，回答「风险与就绪」的问题，再按[公开的评分标准](skills/launch-audit/rubric.md)给 README 打分 | `.megaphone/audit.md` |
 | [`launch-positioning`](skills/launch-positioning/SKILL.md) | 找到一句话定位：给谁用、替代什么、凭什么信、和别人比好在哪，以及哪些话不能说 | `.megaphone/brief.md` |
 | [`launch-readme`](skills/launch-readme/SKILL.md) | 重写 README 首屏，可选生成另一种语言的版本 | `README.md`，或先把方案放进 `.megaphone/` |
-| [`launch-posts`](skills/launch-posts/SKILL.md) | 选渠道并说明为什么跳过其他渠道，每个渠道写一篇原生文案 | `.megaphone/posts/` |
+| [`launch-posts`](skills/launch-posts/SKILL.md) | 选渠道并说明为什么跳过其他渠道，每个渠道写一篇原生文案（要求作者亲笔的平台给事实清单） | `.megaphone/posts/` |
 | [`launch-plan`](skills/launch-plan/SKILL.md) | 按时区排好日期的发布日历（含 go/no-go 检查点）和发布记录表 | `.megaphone/plan.md`、`log.csv` |
 | [`launch-review`](skills/launch-review/SKILL.md) | star 曲线、流量来源、每篇帖子带来的增长 | `.megaphone/report.md` |
 
@@ -100,7 +100,7 @@ claude plugin install megaphone@megaphone
 
 ### 网页检测器和体检脚本
 
-[`docs/`](docs) 是一个纯静态页面（不用构建、没有依赖、没有服务器），用同一套标准给任意公开仓库打分、推荐渠道，并生成一枚可以放进 README 的徽章。它在浏览器里直接调用 GitHub 公开 API，国内网络也能打开。它只给分数；阻断项和风险要靠 `launch-audit` 里的人工审视。
+[`docs/`](docs) 是一个纯静态页面（不用构建、没有依赖、没有服务器），用同一套标准给任意公开仓库打分、推荐渠道，并生成一枚可以放进 README 的徽章。它在浏览器里直接读取 GitHub 的数据：API，以及用来读 README 的 raw.githubusercontent.com（打不开时自动改用 API）。它只给分数；阻断项和风险要靠 `launch-audit` 里的人工审视。
 
 [`audit.py`](skills/launch-audit/scripts/audit.py) 在终端里给出同样的分数，还能在推送之前给本地草稿打分。[`tests/fixtures/rubric-cases.json`](tests/fixtures/rubric-cases.json) 里的共享用例保证两边结果一致。
 

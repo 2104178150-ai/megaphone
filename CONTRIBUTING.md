@@ -11,8 +11,8 @@ Platforms change their rules quietly. If a playbook in
 send a PR that:
 
 1. Updates the playbook text.
-2. Updates the date line at the top: `Last checked: YYYY-MM` in English playbooks,
-   `最近核对：YYYY-MM` in Chinese ones.
+2. Updates the date line at the top: `Last checked: YYYY-MM-DD` in English playbooks,
+   `最近核对：YYYY-MM-DD` in Chinese ones.
 3. Links the source. Prefer the platform's own pages. Label a fact you couldn't confirm
    there *(commonly reported)* or *(unverified)*, and label heuristics (posting windows,
    "what usually works") as heuristics.
@@ -31,7 +31,9 @@ scripts); check it in a browser.
 1. Use the same sections as the other playbooks, in this order, with the date line and
    sources at the top:
    - English playbooks: **Fit, Rules, Format, Timing, Template, Pitfalls**
-   - Chinese playbooks: **适合, 规则, 格式, 时机, 模板, 常见坑**
+   - Chinese playbooks: **适合什么项目, 规则与习惯, 格式, 时机, 模板, 常见坑**
+
+   Channel-specific sections (怎么投稿, 先解决账号问题…) can sit between them.
 
    Keep every section even when there's little to say. "No official rules; these are
    community habits" or "No reliable timing data" is useful, because `launch-posts` and
@@ -40,7 +42,9 @@ scripts); check it in a browser.
    the top; the rest are in English. Write the template in the channel's own language.
 3. Add a row to [`channels/README.md`](skills/launch-posts/channels/README.md), add the
    playbook to the lists in [`README.md`](README.md) and [`README.zh-CN.md`](README.zh-CN.md),
-   and update the "channel playbooks" badge count in both.
+   and update the "channel playbooks" badge count in both — and the count in
+   `docs/preview.svg` ("NN channel playbooks →") and `docs/social-preview.svg` ("+N more",
+   then re-export `docs/social-preview.png`).
 4. Add the facts the playbook relies on to `scripts/check_sources.py`.
 5. If the web checker should recommend it, add a rule in `recommendChannels()` in
    [`docs/checker.js`](docs/checker.js) and a test in [`tests/checker.test.js`](tests/checker.test.js).

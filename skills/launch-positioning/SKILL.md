@@ -11,10 +11,14 @@ project is for and why it's better than what those people use today. This skill 
 
 ## Steps
 
+Read `.megaphone/decisions.md` first if it exists, and record new answers there — or, with
+no human available, your assumptions (and mark inferred fields `[inferred]` in the brief).
+
 1. **Read before asking.** README (look for *why*, *motivation*, 初衷 sections), docs,
    examples, the oldest issues and the first commits often reveal the original itch. Note
    what the code actually does — features the README doesn't mention are common. Read
-   `.megaphone/audit.md` if it exists: its risk section feeds *Claims we won't make*.
+   `.megaphone/audit.md` if it exists and copy every do-not-say item from its risk section
+   into *Claims we won't make*.
 2. **Check the alternatives' current state.** For each alternative you'll contrast with,
    look at its latest release and its open issues/PRs for the feature you're comparing on.
    A competitor may be about to ship it. Date-stamp every contrast claim ("as of 2026-10").

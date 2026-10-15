@@ -11,6 +11,8 @@ rest of the README alone unless asked.
 
 ## Before you edit
 
+- Read `.megaphone/decisions.md` if it exists (languages the user can reply in, target
+  channels) and record new answers or, with no human available, assumptions there.
 - Read `.megaphone/brief.md`. If it doesn't exist, do a quick pass of
   `../launch-positioning/SKILL.md` first — a README can't be sharper than its pitch.
 - Read the whole current README and keep everything that's accurate. You're reorganising
@@ -64,7 +66,8 @@ fully true.
 Create a twin only if you'll post in channels whose language differs from the README's:
 `README.zh-CN.md` for an English README going to V2EX/HelloGitHub/即刻, `README.en.md` for a
 Chinese README going to Hacker News/Reddit. Skip it if the README already matches every
-target channel. If git history shows the author removed a twin, ask before adding it back.
+target channel. If git history shows the author removed a twin, ask before adding it back
+(with no human available, don't add it back — record the question in `decisions.md`).
 Link both ways at the top: `English | [简体中文](README.zh-CN.md)`.
 
 - Write the twin natively: short sentences, concrete pain points, 「适合谁 / 不适合谁」.
