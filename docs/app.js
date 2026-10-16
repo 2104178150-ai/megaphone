@@ -1,4 +1,4 @@
-import { analyze, fetchRepoData, parseRepoInput, FetchError, CATEGORIES } from './checker.js';
+import { analyze, fetchRepoData, parseRepoInput, FetchError, CATEGORIES, LEVELS } from './checker.js';
 
 // The repo this site lives in. On GitHub Pages it's derived from the URL
 // (2104178150-ai.github.io/REPO); elsewhere it falls back to this default.
@@ -6,6 +6,7 @@ const DEFAULT_PROJECT = '2104178150-ai/megaphone';
 
 const STRINGS = {
   en: {
+    eyebrow: 'Launch-readiness check for GitHub repos',
     heroTitle: 'Is your repo <em>ready to launch?</em>',
     heroSub: 'Paste a GitHub repo. Get a 0–100 launch score, the fixes that matter most, and where to post it.',
     inputLabel: 'GitHub repository',
@@ -59,8 +60,13 @@ const STRINGS = {
     tokenClear: 'Forget it',
     errBadToken: 'GitHub rejected that token. Check it and try again.',
     pts: 'pts',
+    sampleTag: 'Example result',
+    sampleFixK: 'Fix first',
+    sampleFix: 'Put a screenshot in the first screen',
+    sampleWhereK: 'Post on',
   },
   zh: {
+    eyebrow: 'GitHub 仓库发布体检',
     heroTitle: '你的开源项目，<em>准备好被看见了吗？</em>',
     heroSub: '粘贴一个 GitHub 仓库，得到 0–100 的发布就绪分、最该先改的几件事，以及适合去哪里发。',
     inputLabel: 'GitHub 仓库',
@@ -114,6 +120,10 @@ const STRINGS = {
     tokenClear: '清除',
     errBadToken: 'GitHub 不认这个 token，检查一下再试。',
     pts: '分',
+    sampleTag: '示例结果',
+    sampleFixK: '先改',
+    sampleFix: '首屏放一张截图或动图',
+    sampleWhereK: '去哪发',
   },
 };
 
@@ -180,7 +190,32 @@ function applyLanguage() {
   $('#install-cc').textContent = `/plugin marketplace add ${p}`;
   $('#install-cc2').textContent = `/plugin install ${p.split('/')[1]}@${p.split('/')[1]}`;
   renderTokenState();
+  renderSample();
   if (last) render(last.analysis);
+}
+
+// A static example in the hero, so visitors see what they'll get before they type.
+const SAMPLE = { score: 84, cats: { A: 27, B: 25, C: 16, D: 16 } };
+
+function renderSample() {
+  const lvl = LEVELS.find((l) => SAMPLE.score >= l.min);
+  const c = 2 * Math.PI * 50;
+  $('#sample').innerHTML = `
+    <div class="sample-card">
+      <span class="sample-tag">${esc(t('sampleTag'))}</span>
+      <div class="sample-head">
+        <div class="mini-dial"><svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="50"/>
+          <circle class="value c-${lvl.color}" cx="60" cy="60" r="50" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - SAMPLE.score / 100)).toFixed(1)}"/></svg>
+          <b class="c-${lvl.color}">${SAMPLE.score}</b></div>
+        <div><div class="sample-repo">your-name/your-repo</div>
+          <div class="sample-level c-${lvl.color}">${lvl.emoji} ${esc(L(lvl.name))}</div></div>
+      </div>
+      <div class="sample-bars">${CATEGORIES.map((cat) => `
+        <div class="sb"><span>${esc(L(cat.name))}</span><i><b style="width:${(SAMPLE.cats[cat.id] / cat.max) * 100}%"></b></i><em>${SAMPLE.cats[cat.id]}/${cat.max}</em></div>`).join('')}
+      </div>
+      <div class="sample-row"><span class="k">${esc(t('sampleFixK'))}</span><span class="v">${esc(t('sampleFix'))}</span><span class="gain">+8</span></div>
+      <div class="sample-row"><span class="k">${esc(t('sampleWhereK'))}</span><span class="v tags"><span>Show HN</span><span>r/golang</span><span>V2EX</span><span>HelloGitHub</span></span></div>
+    </div>`;
 }
 
 // ---------------------------------------------------------------------------
@@ -352,6 +387,7 @@ function render(a, animate = false) {
       </div>
     </div>
 
+    <div class="split">
     <div class="card">
       <h2>${esc(t('fixFirst'))}</h2>
       ${fixes.length ? `<ol class="fixes">${fixes.map((f) => `
@@ -360,17 +396,21 @@ function render(a, animate = false) {
           ${f.skill ? `<div class="fix-skill">${esc(t('fixWith'))} <code>${esc(f.skill)}</code></div>` : ''}</div>
           <span class="gain">+${f.max - f.points} ${esc(t('pts'))}</span></li>`).join('')}</ol>`
         : `<p>${esc(t('allGood'))}</p>`}
-      <h3 class="handoff-t">${esc(t('handT'))}</h3>
-      <div class="codebox"><code id="handoff" style="white-space:normal">${esc(handoff)}</code><button class="copy" type="button" data-copy="handoff">${esc(t('copy'))}</button></div>
+      <div class="prompt">
+        <div class="prompt-head"><h3>${esc(t('handT'))}</h3><button class="copy" type="button" data-copy="handoff">${esc(t('copy'))}</button></div>
+        <p id="handoff">${esc(handoff)}</p>
+      </div>
       <p class="hint">${esc(t('handHint'))} <a href="#install">${esc(t('handInstall'))}</a></p>
     </div>
 
     <div class="card">
       <h2>${esc(t('where'))}</h2>
       <div class="channels">${a.channels.map((c) => `
-        <div class="channel"><b>${esc(L(c.name))}</b><p>${esc(L(c.why))}</p>
-          ${c.file !== 'README.md' ? `<a href="${esc(playbookUrl(c.file))}" target="_blank" rel="noopener">${esc(t('playbook'))}</a>` : ''}</div>`).join('')}
+        <div class="channel"><div class="channel-head"><b>${esc(L(c.name))}</b>
+          ${c.file !== 'README.md' ? `<a href="${esc(playbookUrl(c.file))}" target="_blank" rel="noopener">${esc(t('playbook'))}</a>` : ''}</div>
+          <p>${esc(L(c.why))}</p></div>`).join('')}
       </div>
+    </div>
     </div>
 
     <div class="card">
@@ -398,13 +438,14 @@ function render(a, animate = false) {
       </div>
       <div class="card">
         <h2>${esc(t('shareT'))}</h2>
-        <div class="codebox"><code id="share-text" style="white-space:normal">${esc(share)}</code><button class="copy" type="button" data-copy="share-text">${esc(t('copy'))}</button></div>
+        <div class="codebox"><code id="share-text" class="prose">${esc(share)}</code><button class="copy" type="button" data-copy="share-text">${esc(t('copy'))}</button></div>
       </div>
     </div>`;
 
   const el = $('#result');
   el.innerHTML = html;
   el.hidden = false;
+  document.body.classList.add('has-result');
   $('#art').dataset.volume = String(volumeFor(a.score));
 
   if (animate) {

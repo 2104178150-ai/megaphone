@@ -7,7 +7,7 @@
 <meta name="description" content="Paste a GitHub repo and get a 0–100 launch-readiness score, the fixes that matter most, and the channels to launch on.">
 <meta property="og:title" content="Megaphone — is your repo ready to launch?">
 <meta property="og:description" content="A 0–100 launch score for any GitHub repo, the top fixes, and where to post it.">
-<meta name="theme-color" content="#e8501c">
+<meta name="theme-color" content="#dc4a12">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%93%A3%3C%2Ftext%3E%3C%2Fsvg%3E">
 <link rel="stylesheet" href="style.css">
 <script type="module" src="app.js"></script>
@@ -15,18 +15,7 @@
 <body>
 <header class="wrap top">
   <a class="brand" href="./">
-    <svg viewBox="0 0 132 96" aria-hidden="true"><path d="M14 38 70 16v64L14 58Z" fill="var(--accent)"/><rect x="5" y="35" width="12" height="26" rx="4" fill="var(--ink)"/><path d="M34 64l6 18" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/><path d="M84 34a18 18 0 0 1 0 28" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/><path d="M96 24a32 32 0 0 1 0 48" fill="none" stroke="var(--accent)" stroke-width="7" stroke-linecap="round"/></svg>
-    <span class="brand-name">Megaphone</span>
-  </a>
-  <nav class="nav">
-    <button class="pill-btn" id="lang" type="button" aria-label="Switch language">中文</button>
-    <a class="pill-btn" id="gh-link" href="https://github.com/2104178150-ai/megaphone" target="_blank" rel="noopener">GitHub ↗</a>
-  </nav>
-</header>
-
-<main class="wrap">
-  <section class="hero">
-    <svg class="hero-art" id="art" data-volume="2" viewBox="0 0 132 96" aria-hidden="true">
+    <svg id="art" data-volume="2" viewBox="0 0 132 96" aria-hidden="true">
       <path d="M14 38 70 16v64L14 58Z" fill="var(--accent)"/>
       <rect x="5" y="35" width="12" height="26" rx="4" fill="var(--ink)"/>
       <path d="M34 64l6 18" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/>
@@ -34,46 +23,65 @@
       <path class="wave w2" d="M93 28a28 28 0 0 1 0 40"/>
       <path class="wave w3" d="M104 19a41 41 0 0 1 0 58"/>
     </svg>
-    <h1 data-i18n="heroTitle">Is your repo <em>ready to launch?</em></h1>
-    <p class="sub" data-i18n="heroSub">Paste a GitHub repo. Get a 0–100 launch score, the fixes that matter most, and where to post it.</p>
-    <form class="search" id="form" autocomplete="off">
-      <label class="sr-only" for="repo" data-i18n="inputLabel">GitHub repository</label>
-      <input id="repo" name="repo" spellcheck="false" data-i18n-ph="placeholder" placeholder="owner/repo or https://github.com/owner/repo">
-      <button class="btn" id="go" type="submit" data-i18n="check">Check</button>
-    </form>
-    <div class="examples"><span data-i18n="try">Try:</span>
-      <button class="chip" type="button" data-repo="Anduin2017/HowToCook">Anduin2017/HowToCook</button>
-      <button class="chip" type="button" data-repo="charmbracelet/vhs">charmbracelet/vhs</button>
-      <button class="chip" type="button" data-repo="coreyhaines31/marketingskills">coreyhaines31/marketingskills</button>
-    </div>
-    <p class="status" id="status" role="status" aria-live="polite"></p>
-    <form class="token" id="token-form" autocomplete="off" hidden>
-      <p data-i18n="tokenPrompt">Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).</p>
-      <div class="token-row">
-        <label class="sr-only" for="token">GitHub token</label>
-        <input id="token" type="password" spellcheck="false" data-i18n-ph="tokenPlaceholder" placeholder="github_pat_… or ghp_…">
-        <button class="btn" type="submit" data-i18n="tokenRetry">Retry with token</button>
+    <span class="brand-name">Megaphone</span>
+  </a>
+  <nav class="nav">
+    <button class="nav-link" id="lang" type="button" aria-label="Switch language">中文</button>
+    <a class="nav-link" id="gh-link" href="https://github.com/2104178150-ai/megaphone" target="_blank" rel="noopener">GitHub ↗</a>
+  </nav>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div class="hero-copy">
+      <p class="eyebrow" data-i18n="eyebrow">Launch-readiness check for GitHub repos</p>
+      <h1 data-i18n="heroTitle">Is your repo <em>ready to launch?</em></h1>
+      <p class="sub" data-i18n="heroSub">Paste a GitHub repo. Get a 0–100 launch score, the fixes that matter most, and where to post it.</p>
+      <form class="search" id="form" autocomplete="off">
+        <label class="sr-only" for="repo" data-i18n="inputLabel">GitHub repository</label>
+        <input id="repo" name="repo" spellcheck="false" data-i18n-ph="placeholder" placeholder="owner/repo or https://github.com/owner/repo">
+        <button class="btn" id="go" type="submit" data-i18n="check">Check</button>
+      </form>
+      <div class="examples"><span data-i18n="try">Try:</span>
+        <button class="chip" type="button" data-repo="Anduin2017/HowToCook" title="Anduin2017/HowToCook">HowToCook</button>
+        <button class="chip" type="button" data-repo="charmbracelet/vhs" title="charmbracelet/vhs">vhs</button>
+        <button class="chip" type="button" data-repo="coreyhaines31/marketingskills" title="coreyhaines31/marketingskills">marketingskills</button>
       </div>
-      <p class="hint" data-i18n="tokenHint"></p>
-    </form>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <form class="token" id="token-form" autocomplete="off" hidden>
+        <p data-i18n="tokenPrompt">Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).</p>
+        <div class="token-row">
+          <label class="sr-only" for="token">GitHub token</label>
+          <input id="token" type="password" spellcheck="false" data-i18n-ph="tokenPlaceholder" placeholder="github_pat_… or ghp_…">
+          <button class="btn" type="submit" data-i18n="tokenRetry">Retry with token</button>
+        </div>
+        <p class="hint" data-i18n="tokenHint"></p>
+      </form>
+    </div>
+    <div class="sample" id="sample" aria-hidden="true"></div>
   </section>
 
+  <div class="wrap">
   <section class="result" id="result" hidden></section>
 
+  </div>
+
   <section class="how">
+    <div class="wrap">
     <h2 data-i18n="howTitle">From score to launch</h2>
     <div class="steps">
       <div class="step"><span class="n">01</span><h3 data-i18n="s1t">Score it</h3><p data-i18n="s1d">Twenty-one checks across first impression, time to wow, trust and shareability — the things that decide whether a visitor tries your project or leaves.</p></div>
       <div class="step"><span class="n">02</span><h3 data-i18n="s2t">Let your AI agent fix it</h3><p data-i18n="s2d">Megaphone's skills sharpen your pitch, rewrite the README's first screen and prepare the right post for each channel — a native draft, or a fact sheet where the platform wants your own words — for Show HN, Reddit, V2EX, HelloGitHub, 小红书 and more.</p></div>
       <div class="step"><span class="n">03</span><h3 data-i18n="s3t">Launch and measure</h3><p data-i18n="s3d">Get a dated launch plan, then line up star history and referrers against what you posted to see which channel actually worked.</p></div>
     </div>
-    <div class="card install" id="install">
+    <div class="install" id="install">
       <h3 data-i18n="installT">Install the skills (Claude Code, Codex, OpenClaw, Cursor and 70+ agents)</h3>
       <div class="codebox"><code id="install-npx">npx skills add 2104178150-ai/megaphone</code><button class="copy" type="button" data-copy="install-npx" data-i18n="copy">Copy</button></div>
       <p class="hint" data-i18n="installCC">Or as a Claude Code plugin (two commands):</p>
       <div class="codebox"><code id="install-cc">/plugin marketplace add 2104178150-ai/megaphone</code><button class="copy" type="button" data-copy="install-cc" data-i18n="copy">Copy</button></div>
       <div class="codebox"><code id="install-cc2">/plugin install megaphone@megaphone</code><button class="copy" type="button" data-copy="install-cc2" data-i18n="copy">Copy</button></div>
       <p class="hint" data-i18n="installThen">Then ask your agent: “launch this repo” — or “帮我推广这个项目”.</p>
+    </div>
     </div>
   </section>
 </main>
