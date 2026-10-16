@@ -33,8 +33,8 @@ disagree, the platform wins. Please open a PR when you notice drift.
 | HelloGitHub 月刊 | Interesting, beginner-friendly open source | Low | Not selected (and a repo can only be submitted once) | [hellogithub.md](hellogithub.md) |
 | 阮一峰《科技爱好者周刊》 | Useful tools, broad tech audience | Low | Not selected | [ruanyf-weekly.md](ruanyf-weekly.md) |
 | 即刻 | Indie developers, AI/product people, personal stories | Low | Low | [jike.md](jike.md) |
-| 小红书 | Consumer, AI and productivity tools with a visible result; students | Medium | Ignored without a good cover; throttled for 引流 | [xiaohongshu.md](xiaohongshu.md) |
-| 掘金 | Technical write-ups for Chinese engineers | Medium | Low | [juejin.md](juejin.md) |
+| 小红书 | Consumer, AI and productivity tools with a visible result; students | Medium | Ignored without a good cover; off-platform links or QR codes can get the account banned | [xiaohongshu.md](xiaohongshu.md) |
+| 掘金 | Technical write-ups for Chinese engineers (you write it: AI-generated articles are never recommended) | Medium | Not recommended if AI-written or promotional | [juejin.md](juejin.md) |
 | 知乎, B 站, 开源中国, 少数派, Gitee | Long-tail answers, video demos, software directory, app-style tools, a mirror | Varies | Low (Gitee: mirror may fail review) | [china-other.md](china-other.md) |
 
 ## Quick picks by project type

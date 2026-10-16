@@ -11,6 +11,7 @@ re-read the source. Standard library only.
 Exit code: 0 all found, 1 something missing or unreachable.
 """
 
+import gzip
 import html
 import http.client
 import json
@@ -18,6 +19,7 @@ import re
 import sys
 import urllib.error
 import urllib.request
+import zlib
 
 # (playbook, url, phrase that should still be on the page)
 SOURCES = [
@@ -106,6 +108,12 @@ SOURCES = [
     ("v2ex.md", "https://www.v2ex.com/help/solana", "不需要使用邀请码激活"),
     ("x-twitter.md", "https://bsky.social/about/support/community-guidelines", "Do not send spam or repeatedly post content"),
     ("xiaohongshu.md", "https://cn.chinadaily.com.cn/a/202601/20/WS696eef27a310942cc499bf9f.html", "请主动标明"),
+    ("xiaohongshu.md", "https://www.thepaper.cn/newsDetail_forward_32599956", "对未主动标识的AI生成合成内容限制分发"),
+    ("xiaohongshu.md", "https://www.stdaily.com/web/gdxw/2026-04/27/content_508976.html", "所有AI参与创作的内容均需主动标识"),
+    ("xiaohongshu.md", "https://m.gmw.cn/2025-03/12/content_1303989067.htm", "交易导流违规管理细则"),
+    ("china-other.md", "https://sspai.com/post/40262", "不要假扮第三方或用户推荐、评测自己的产品"),
+    ("china-other.md", "https://sspai.com/post/65521", "明显软文倾向"),
+    ("china-other.md", "https://www.oschina.net/help-center/oschina-guides/how-to-play-in-osc.html", "不要从产品的角度来描述项目"),
 ]
 
 UA = "Mozilla/5.0 (Macintosh; megaphone source check)"
@@ -114,8 +122,12 @@ UA = "Mozilla/5.0 (Macintosh; megaphone source check)"
 def fetch(url):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=30) as resp:
-        # Pages escape quotes and apostrophes (&#x27;), so compare against the unescaped text.
-        return html.unescape(resp.read().decode("utf-8", errors="replace"))
+        body = resp.read()
+    # Some servers gzip the page even when the request doesn't ask for it.
+    if body[:2] == b"\x1f\x8b":
+        body = gzip.decompress(body)
+    # Pages escape quotes and apostrophes (&#x27;), so compare against the unescaped text.
+    return html.unescape(body.decode("utf-8", errors="replace"))
 
 
 def normalize(text):
@@ -146,7 +158,7 @@ def main():
         if url not in pages:
             try:
                 pages[url] = fetch(url)
-            except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError) as e:
+            except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError, EOFError, zlib.error) as e:
                 pages[url] = e
         page = pages[url]
         if isinstance(page, Exception):

@@ -1,6 +1,6 @@
 ---
 name: launch-posts
-description: Pick the channels where a project's audience actually is — developer communities for developer tools, the platforms end users already browse for apps, plugin directories for extensions — and prepare a rule-checked draft for each, or, where the platform wants the author's own words (Show HN, a DEV launch article, Lobsters, V2EX, awesome lists that refuse LLM-written entries), a fact sheet the author writes from: Show HN, Reddit, Product Hunt, X/Twitter, DEV, Lobsters, awesome lists, newsletters, V2EX, HelloGitHub, 阮一峰科技爱好者周刊, 即刻, 小红书, 掘金, 知乎, B 站 and more. Use when the user wants to announce or promote a project or app, write a Show HN / Reddit / Product Hunt post, or says 写推广文案 / 发帖推广 / 发 V2EX / 投稿 HelloGitHub / 小红书怎么发.
+description: Pick the channels where a project's audience actually is — developer communities for developer tools, the platforms end users already browse for apps, plugin directories for extensions — and prepare a rule-checked draft for each, or, where the platform wants the author's own words (Show HN, a DEV launch article, Lobsters, V2EX, 掘金 articles and 沸点, awesome lists that refuse LLM-written entries), a fact sheet the author writes from: Show HN, Reddit, Product Hunt, X/Twitter, DEV, Lobsters, awesome lists, newsletters, V2EX, HelloGitHub, 阮一峰科技爱好者周刊, 即刻, 小红书, 掘金, 知乎, B 站 and more. Use when the user wants to announce or promote a project or app, write a Show HN / Reddit / Product Hunt post, or says 写推广文案 / 发帖推广 / 发 V2EX / 投稿 HelloGitHub / 小红书怎么发.
 ---
 
 # Launch posts
@@ -92,7 +92,8 @@ title rules, length, language, links, first comment, pitfalls.
 playbooks say so: Show HN ([hacker-news.md](channels/hacker-news.md)), a DEV launch
 article ([dev-blogs.md](channels/dev-blogs.md)), the Lobsters title and comment
 ([lobsters.md](channels/lobsters.md)), V2EX (a written rule bans AI-generated text in topics and
-replies — [v2ex.md](channels/v2ex.md)), and awesome lists whose rules refuse LLM-written
+replies — [v2ex.md](channels/v2ex.md)), 掘金 articles and 沸点 (AI-generated technical content counts
+as plagiarism and is never recommended — [juejin.md](channels/juejin.md)), and awesome lists whose rules refuse LLM-written
 entries or PRs ([awesome-lists.md](channels/awesome-lists.md)). For these, don't write
 prose: use the same file and header, but replace `## Title` / `## Body` with
 `## Facts for the author` (bullet facts for each part of the playbook's outline, `[TODO]`
@@ -119,7 +120,7 @@ Account: <which account posts>
 ## Checklist before posting
 - [ ] Rule check: <the 1–3 rules most likely to get this removed: playbook + this target's own rules (sidebar, CONTRIBUTING.md), or [TODO: read <where>]>
 - [ ] Risk check: nothing from brief → Claims we won't make; disclaimer included (if the project touches other platforms)
-- [ ] AI disclosure: <what this channel expects, e.g. 小红书 asks for AI-assisted content to be labelled; or "none required">
+- [ ] AI disclosure: <what this channel expects, e.g. 小红书: declare AI help with the publish page's AI-content declaration; or "none required">
 - [ ] Links work and are reachable for this audience
 - [ ] Assets ready: <images / GIF / video this post needs>
 - [ ] Reply window free (see plan.md)
@@ -141,13 +142,15 @@ their own words`.)
 - **Say you made it** (or your relation to it). Many subreddits require it; all expect it.
   In neutral-blurb formats (HelloGitHub, 阮一峰周刊, newsletters, awesome lists) disclose it
   only the way the form or list asks, e.g. 【开源自荐】 in a 阮一峰周刊 title.
-- **Label AI help where the channel asks for it.** These drafts are AI-assisted. 小红书's
-  community guidelines ask for AI-assisted content to be labelled, some subreddits and DEV
-  have rules on AI-written posts, and V2EX's rules ban AI-generated text in topics and replies
-  (fact sheet only, see [v2ex.md](channels/v2ex.md)) — follow each playbook, and when in doubt, let the author rewrite it in their own words.
+- **Label AI help where the channel asks for it.** These drafts are AI-assisted. 小红书
+  requires AI-assisted content (including AI-polished text) to be declared at publish time;
+  some subreddits and DEV have rules on AI-written posts; V2EX bans AI-generated text in
+  topics and replies, and 掘金 never recommends AI-generated articles (fact sheet only for
+  both — see [v2ex.md](channels/v2ex.md), [juejin.md](channels/juejin.md)). Follow each
+  playbook, and when in doubt, let the author rewrite it in their own words.
 - **One link: the one this channel's readers can use** — the hosted app for end users, the
-  repo for developers, none where outbound links are penalised (commonly reported for
-  小红书; say what to search for, as its playbook does). Add the repo as a second link only
+  repo for developers, none where outbound links are banned (小红书's 2025 交易导流 rules, up to account bans;
+  say what to search for, as its playbook does). Add the repo as a second link only
   where the playbook template has a separate repo or source line (`Source:`, `Repo:`,
   `开源地址`, `仓库链接`…).
 - **Be specific and modest.** Real numbers and limitations beat adjectives; contrast

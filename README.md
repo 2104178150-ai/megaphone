@@ -12,7 +12,7 @@ English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2
 ![Megaphone scoring a repo: 84/100, the three fixes that matter most, and where to launch it](docs/preview.svg)
 
 - **Know if you're ready** — blockers a visitor would hit, risks that grow with visibility, and a 0–100 score from 21 checks. [Score any repo in your browser](https://2104178150-ai.github.io/megaphone/), no install.
-- **The right post for each channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more: a native draft written to each platform's rules, or, where a platform wants your own words (Show HN, V2EX, Lobsters), a fact sheet you write from. Rules come with sources and a "last checked" date.
+- **The right post for each channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more: a native draft written to each platform's rules, or, where a platform wants your own words (Show HN, V2EX, 掘金, Lobsters), a fact sheet you write from. Rules come with sources and a "last checked" date.
 - **See what actually worked** — star history and referrers lined up against what you posted, when.
 
 ## Quick start
