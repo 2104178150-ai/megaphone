@@ -184,6 +184,7 @@ code, pre { font-family: var(--mono); font-size: .9em; }
 .fix-body { color: var(--ink-2); font-size: .94rem; }
 .fix-skill { margin-top: 6px; font-size: .85rem; color: var(--ink-3); }
 .fix-skill code { background: var(--surface-2); padding: 1px 6px; border-radius: 6px; color: var(--ink); }
+.handoff-t { margin: 22px 0 0; font-size: 1rem; }
 .gain { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 details.cat { border-top: 1px solid var(--line); }

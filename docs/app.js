@@ -24,6 +24,12 @@ const STRINGS = {
     fixFirst: 'Fix these first',
     fixWith: 'Your agent can do this with',
     allGood: 'Nothing left to fix. Go launch it.',
+    handT: 'Hand it to your AI agent',
+    handHint: 'Open Claude Code, Codex, Cursor or any agent with the Megaphone skills in your local copy of the repo, and paste this.',
+    handInstall: 'Install the skills ↓',
+    handPrompt: (repo, score, items, total) => items.length
+      ? `Use the Megaphone launch skills on this repo (github.com/${repo}). It scored ${score}/100 on the launch-readiness check. ${total > items.length ? `The ${items.length} biggest of ${total} failed checks` : 'Failed checks'}: ${items.join('; ')}. Fix what you can in the files and show me each change before you make it. For anything only I can decide or that changes the repo on GitHub (license, releases, About box, topics, website, Discussions), tell me exactly what to do instead. Then re-score the local README with launch-audit (audit.py ${repo} --readme README.md).`
+      : `Use the Megaphone launch skills to plan the launch of this repo (github.com/${repo}, launch readiness ${score}/100): sharpen the pitch, prepare the right post for each channel that fits (a fact sheet where the platform wants my own words), and give me a dated plan.`,
     allChecks: 'All checks',
     where: 'Where to launch',
     playbook: 'Playbook →',
@@ -73,6 +79,12 @@ const STRINGS = {
     fixFirst: '先改这几项',
     fixWith: '可以让 AI 用这个技能来改：',
     allGood: '没有要改的了，去发布吧！',
+    handT: '交给你的 AI 助手',
+    handHint: '在本地仓库目录里打开装了 Megaphone 技能的 Claude Code、Codex、Cursor 等 AI 助手，把这段话粘贴进去。',
+    handInstall: '安装技能 ↓',
+    handPrompt: (repo, score, items, total) => items.length
+      ? `用 Megaphone 的发布技能处理这个仓库（github.com/${repo}）。它的发布就绪分是 ${score}/100，${total > items.length ? `没通过的 ${total} 项里影响最大的 ${items.length} 项` : '没通过的检查项'}：${items.join('；')}。能在文件里改的，先给我看改动再改；协议、Release、About 简介、topics、网站、Discussions 这类要我决定或会直接改 GitHub 上仓库的，告诉我具体怎么做，不要自己动手。改完用 launch-audit 给本地 README 重新打分（audit.py ${repo} --readme README.md）。`
+      : `用 Megaphone 的发布技能帮这个仓库（github.com/${repo}，发布就绪分 ${score}/100）规划发布：提炼定位，为合适的渠道各准备一份文案（要求作者亲笔的平台给我一份事实清单），再给我一份带日期的发布计划。`,
     allChecks: '全部检查项',
     where: '去哪里发',
     playbook: '查看玩法 →',
@@ -308,6 +320,8 @@ function render(a, animate = false) {
   const repoUrl = `https://github.com/${a.repo}`;
   const badgeImg = `https://img.shields.io/badge/launch%20readiness-${a.score}%2F100-${SHIELD_COLORS[lvl.color]}`;
   const badgeMd = `[![Launch readiness: ${a.score}/100](${badgeImg})](${checkerUrl(a.repo)})`;
+  const handoff = t('handPrompt')(a.repo, a.score,
+    a.fixes.slice(0, 5).map((f) => `${f.id} ${L(f.title)}${f.skill ? (lang === 'zh' ? `（${f.skill}）` : ` (${f.skill})`) : ''}`), a.fixes.length);
   const share = t('shareText')(a.repo, a.score, `${lvl.emoji} ${L(lvl.name)}`, fixes[0] ? L(fixes[0].title) : '', checkerUrl(a.repo));
 
   const notices = [];
@@ -346,6 +360,9 @@ function render(a, animate = false) {
           ${f.skill ? `<div class="fix-skill">${esc(t('fixWith'))} <code>${esc(f.skill)}</code></div>` : ''}</div>
           <span class="gain">+${f.max - f.points} ${esc(t('pts'))}</span></li>`).join('')}</ol>`
         : `<p>${esc(t('allGood'))}</p>`}
+      <h3 class="handoff-t">${esc(t('handT'))}</h3>
+      <div class="codebox"><code id="handoff" style="white-space:normal">${esc(handoff)}</code><button class="copy" type="button" data-copy="handoff">${esc(t('copy'))}</button></div>
+      <p class="hint">${esc(t('handHint'))} <a href="#install">${esc(t('handInstall'))}</a></p>
     </div>
 
     <div class="card">

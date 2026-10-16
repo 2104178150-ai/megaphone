@@ -110,10 +110,11 @@ heuristics are labelled as such. [Browse all →](skills/launch-posts/channels)
 ### Web checker and audit script
 
 [`docs/`](docs) is a static page (no build, no dependencies, no server) that scores any
-public repo with the same rubric, recommends channels, and gives you a badge for your
-README. It runs in the browser and reads GitHub directly: the API, plus raw.githubusercontent.com
-for the README (falling back to the API where that's blocked). It gives the score only;
-blockers and risks need the human review in `launch-audit`.
+public repo with the same rubric, recommends channels, writes the prompt that hands the
+failed checks to your agent, and gives you a badge for your README. It runs in the browser and
+reads GitHub directly: the API, plus raw.githubusercontent.com for the README (falling back to
+the API where that's blocked). It gives the score only; blockers and risks need the human
+review in `launch-audit`.
 
 [`audit.py`](skills/launch-audit/scripts/audit.py) gives the same score in a terminal, and
 can score a local draft before you push it. Shared cases in

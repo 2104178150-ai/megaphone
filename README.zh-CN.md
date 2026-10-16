@@ -100,7 +100,7 @@ claude plugin install megaphone@megaphone
 
 ### 网页检测器和体检脚本
 
-[`docs/`](docs) 是一个纯静态页面（不用构建、没有依赖、没有服务器），用同一套标准给任意公开仓库打分、推荐渠道，并生成一枚可以放进 README 的徽章。它在浏览器里直接读取 GitHub 的数据：API，以及用来读 README 的 raw.githubusercontent.com（打不开时自动改用 API）。它只给分数；阻断项和风险要靠 `launch-audit` 里的人工审视。
+[`docs/`](docs) 是一个纯静态页面（不用构建、没有依赖、没有服务器），用同一套标准给任意公开仓库打分、推荐渠道，写好一段把没通过的检查项交给 AI 去改的指令，并生成一枚可以放进 README 的徽章。它在浏览器里直接读取 GitHub 的数据：API，以及用来读 README 的 raw.githubusercontent.com（打不开时自动改用 API）。它只给分数；阻断项和风险要靠 `launch-audit` 里的人工审视。
 
 [`audit.py`](skills/launch-audit/scripts/audit.py) 在终端里给出同样的分数，还能在推送之前给本地草稿打分。[`tests/fixtures/rubric-cases.json`](tests/fixtures/rubric-cases.json) 里的共享用例保证两边结果一致。
 
