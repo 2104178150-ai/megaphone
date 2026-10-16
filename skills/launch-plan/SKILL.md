@@ -63,7 +63,7 @@ Size this against the user's free hours; if it doesn't fit, move the launch week
 7. **Store or plugin listing** (plugins and extensions): submitted early in prep week,
    since review times aren't promised; announcements wait until it's live.
 8. **Final drafts**: no `[TODO]` left in launch-week drafts; for author-written channels
-   (Show HN, a DEV launch article, Lobsters, some awesome lists) the author has written the
+   (Show HN, a DEV launch article, Lobsters, V2EX, some awesome lists) the author has written the
    text from the fact sheet; each risk and AI-disclosure check ticked.
 
 ## Sequencing

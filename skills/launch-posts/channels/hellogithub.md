@@ -4,22 +4,26 @@
 > source, published on the 28th. Self-submissions are welcome via 「提交项目」 on
 > hellogithub.com (log in with GitHub or WeChat). The form has three fields: repo URL, a
 > one-line title (don't repeat the project name), and a 10–300 character description.
-> The cut-off for a given issue isn't published, so submit early in the month.
+> The cut-off for a given issue isn't published, so submit early in the month. Each repo can
+> be submitted only once (the form rejects URLs already in its database, including ones
+> submitted but not yet featured), so submit the finished version.
 >
-> 最近核对：2026-10-15。月刊日期和「推荐或自荐」入口依据 [HelloGitHub README](https://github.com/521xueweihan/HelloGitHub)；
+> 最近核对：2026-10-16。月刊日期和「推荐或自荐」入口依据 [HelloGitHub README](https://github.com/521xueweihan/HelloGitHub)；
 > 表单字段依据 2026-10-13 在 [hellogithub.com](https://hellogithub.com) 登录后看到的提交表单，以表单当前内容为准。
 
 ## 适合什么项目
 
 HelloGitHub 分享**有趣、入门级的开源项目**，也收录开源书籍、实战项目和企业级项目。**每月 28 号**
-以月刊形式发布，官网和微信公众号上都能看到。被收录后会带来持续的中文读者，还可以在 README 里挂上
+以月刊形式发布，官网和微信公众号上都能看到。被收录后能持续带来中文读者，还可以在 README 里挂上
 「Featured｜HelloGitHub」徽章。
 
 ## 规则与习惯
 
 - **只接受 GitHub 上的开源项目**（表单要求）。
 - 编辑审核，**不保证收录**，也没有公开的审核清单。
-- 一个项目投一次就够，有重大更新再投。
+- **同一个仓库只能投一次**：表单会检查仓库地址，已经在 HelloGitHub 库里的（包括投过还没收录的）会提示
+  「该项目已存在，换一个试试吧~」，不能再提交。所以别打算「先投一版、大更新后再投」，第一次就把
+  README、截图、在线体验准备好再投。
 - 从已收录项目看，编辑更容易选中这样的项目（经验，不是官方标准）：
   - 有**中文 README**，或者 README 里有中文说明，读者首先看中文。
   - README 开头就讲清楚「是什么 / 给谁用 / 怎么一步上手」。
@@ -41,9 +45,9 @@ HelloGitHub 分享**有趣、入门级的开源项目**，也收录开源书籍�
 
 ## 格式
 
-- 标题和描述都按月刊会印出来的样子写：中性、平实，不写宣传语。
+- 标题和描述都照月刊里项目介绍的写法来写：中性、平实，不写宣传语。
 - 描述一般以「这是一个……」或「该项目是……」开头，两三句话，具体到功能和使用场景。
-- 这是编辑采用的介绍，不是帖子：不需要写「还不支持什么」，也不需要自我介绍。
+- 这是交给编辑收录用的项目介绍，不是发帖：不用写「还不支持什么」，也不用自我介绍。
 - 有在线体验的话放进描述，地址要国内能打开。
 
 ## 时机
@@ -67,6 +71,6 @@ HelloGitHub 分享**有趣、入门级的开源项目**，也收录开源书籍�
 
 - 只有英文 README、没有任何中文说明 → 编辑和读者都更难判断。
 - 还没有能试用的东西就投稿 → 「有趣」要靠上手试才能判断。
-- 每个月重复投同一个项目 → 投一次就够，有重大更新再投。
+- 打算先投一版、等有重大更新再投 → 表单不接受已经在库里的地址，第一次就投准备好的版本。
 - 描述超过 300 字 → 表单不让提交，先压缩。
 - 截图或在线体验国内打不开 → 编辑看到的是裂图或打不开的页面。

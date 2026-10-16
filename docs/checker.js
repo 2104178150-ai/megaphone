@@ -420,7 +420,8 @@ export function analyze(data, now = Date.now()) {
 // Channel recommendations
 
 const LANG_CHANNELS = {
-  Rust: { sub: 'r/rust', news: 'This Week in Rust' },
+  // This Week in Rust stopped taking project PRs in 2026-08; it picks project updates from r/rust.
+  Rust: { sub: 'r/rust', news: null, feeds: 'This Week in Rust' },
   Go: { sub: 'r/golang', news: 'Go Weekly' },
   Python: { sub: 'r/Python', news: "PyCoder's Weekly" },
   JavaScript: { sub: 'r/javascript', news: 'JavaScript Weekly' },
@@ -479,7 +480,10 @@ export function recommendChannels(repo, f, results = {}) {
   }
   if (lang) {
     add('lang-sub', 'reddit.md', ev(lang.sub, lang.sub),
-      ev(`Written in ${repo.language}.`, `使用 ${repo.language} 编写。`), 70);
+      lang.feeds
+        ? ev(`Written in ${repo.language}; ${lang.feeds} picks project updates from ${lang.sub}.`,
+          `使用 ${repo.language} 编写；${lang.feeds} 的项目栏目从 ${lang.sub} 里挑。`)
+        : ev(`Written in ${repo.language}.`, `使用 ${repo.language} 编写。`), 70);
     if (lang.news) {
       add('lang-news', 'newsletters.md', ev(lang.news, lang.news),
         ev(`Newsletter for ${repo.language} developers.`, `面向 ${repo.language} 开发者的周刊。`), 65);

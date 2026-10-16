@@ -1,6 +1,6 @@
 ---
 name: launch-posts
-description: Pick the channels where a project's audience actually is — developer communities for developer tools, the platforms end users already browse for apps, plugin directories for extensions — and prepare a rule-checked draft for each, or, where the platform wants the author's own words (Show HN, a DEV launch article, Lobsters, awesome lists that refuse LLM-written entries), a fact sheet the author writes from: Show HN, Reddit, Product Hunt, X/Twitter, DEV, Lobsters, awesome lists, newsletters, V2EX, HelloGitHub, 阮一峰科技爱好者周刊, 即刻, 小红书, 掘金, 知乎, B 站 and more. Use when the user wants to announce or promote a project or app, write a Show HN / Reddit / Product Hunt post, or says 写推广文案 / 发帖推广 / 发 V2EX / 投稿 HelloGitHub / 小红书怎么发.
+description: Pick the channels where a project's audience actually is — developer communities for developer tools, the platforms end users already browse for apps, plugin directories for extensions — and prepare a rule-checked draft for each, or, where the platform wants the author's own words (Show HN, a DEV launch article, Lobsters, V2EX, awesome lists that refuse LLM-written entries), a fact sheet the author writes from: Show HN, Reddit, Product Hunt, X/Twitter, DEV, Lobsters, awesome lists, newsletters, V2EX, HelloGitHub, 阮一峰科技爱好者周刊, 即刻, 小红书, 掘金, 知乎, B 站 and more. Use when the user wants to announce or promote a project or app, write a Show HN / Reddit / Product Hunt post, or says 写推广文案 / 发帖推广 / 发 V2EX / 投稿 HelloGitHub / 小红书怎么发.
 ---
 
 # Launch posts
@@ -91,7 +91,8 @@ title rules, length, language, links, first comment, pitfalls.
 **Author-written channels.** Some platforms ask for the author's own words, and their
 playbooks say so: Show HN ([hacker-news.md](channels/hacker-news.md)), a DEV launch
 article ([dev-blogs.md](channels/dev-blogs.md)), the Lobsters title and comment
-([lobsters.md](channels/lobsters.md)), and awesome lists whose rules refuse LLM-written
+([lobsters.md](channels/lobsters.md)), V2EX (a written rule bans AI-generated text in topics and
+replies — [v2ex.md](channels/v2ex.md)), and awesome lists whose rules refuse LLM-written
 entries or PRs ([awesome-lists.md](channels/awesome-lists.md)). For these, don't write
 prose: use the same file and header, but replace `## Title` / `## Body` with
 `## Facts for the author` (bullet facts for each part of the playbook's outline, `[TODO]`
@@ -142,8 +143,8 @@ their own words`.)
   only the way the form or list asks, e.g. 【开源自荐】 in a 阮一峰周刊 title.
 - **Label AI help where the channel asks for it.** These drafts are AI-assisted. 小红书's
   community guidelines ask for AI-assisted content to be labelled, some subreddits and DEV
-  have rules on AI-written posts, and V2EX readers resent hidden AI text — follow each
-  playbook, and when in doubt, let the author rewrite it in their own words.
+  have rules on AI-written posts, and V2EX's rules ban AI-generated text in topics and replies
+  (fact sheet only, see [v2ex.md](channels/v2ex.md)) — follow each playbook, and when in doubt, let the author rewrite it in their own words.
 - **One link: the one this channel's readers can use** — the hosted app for end users, the
   repo for developers, none where outbound links are penalised (commonly reported for
   小红书; say what to search for, as its playbook does). Add the repo as a second link only

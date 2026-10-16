@@ -29,8 +29,8 @@ disagree, the platform wins. Please open a PR when you notice drift.
 
 | Channel | Best for | Effort | Risk if done wrong | Playbook |
 |---|---|---|---|---|
-| V2EX 分享创造 | Tools and side projects, honest feedback | Low | Downvoted, "推广" backlash | [v2ex.md](v2ex.md) |
-| HelloGitHub 月刊 | Interesting, beginner-friendly open source | Low | Not selected | [hellogithub.md](hellogithub.md) |
+| V2EX 分享创造 | Tools and side projects, honest feedback (you write it: AI text is banned) | Low | 3-day lock for AI-written text; moved to 推广 if it reads as marketing | [v2ex.md](v2ex.md) |
+| HelloGitHub 月刊 | Interesting, beginner-friendly open source | Low | Not selected (and a repo can only be submitted once) | [hellogithub.md](hellogithub.md) |
 | 阮一峰《科技爱好者周刊》 | Useful tools, broad tech audience | Low | Not selected | [ruanyf-weekly.md](ruanyf-weekly.md) |
 | 即刻 | Indie developers, AI/product people, personal stories | Low | Low | [jike.md](jike.md) |
 | 小红书 | Consumer, AI and productivity tools with a visible result; students | Medium | Ignored without a good cover; throttled for 引流 | [xiaohongshu.md](xiaohongshu.md) |
@@ -41,7 +41,7 @@ disagree, the platform wins. Please open a PR when you notice drift.
 
 | If your project is… | Start with |
 |---|---|
-| A CLI or developer library | GitHub topics → awesome list → r/commandline → Show HN → language subreddit (r/rust, r/golang, r/Python…) → language newsletter |
+| A CLI or developer library | GitHub topics → awesome list → r/commandline → Show HN → language subreddit (r/rust, r/golang, r/Python…) → language newsletter (for Rust, This Week in Rust picks from r/rust) |
 | Self-hostable software | r/selfhosted → Show HN → awesome-selfhosted |
 | An AI / LLM tool | X demo video → Show HN → r/LocalLLaMA (if it runs local models) → 即刻 → 小红书 |
 | A web app anyone can use | Show HN (no sign-up demo) → Product Hunt → r/SideProject → 小红书 |

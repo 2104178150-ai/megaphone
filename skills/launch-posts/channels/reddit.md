@@ -50,7 +50,7 @@ Rules of thumb (not Reddit policy):
 | r/webdev | Web projects | Self-promotion is commonly reported to be limited to the weekly **Showoff Saturday** thread *(unverified)* |
 | r/programming | Articles about programming | Commonly reported as very strict about self-promotion; a deep technical write-up has a better chance than a project link |
 | r/commandline, r/linux, r/unixporn | CLIs, terminal tools, ricing | Show a screenshot or asciicast |
-| Language subs: r/rust, r/golang, r/Python, r/javascript, r/typescript, r/reactjs, r/node… | Libraries and tools in that language | Many route project posts to a recurring thread; e.g. r/golang has run a weekly "Small Projects" thread since 2025 *(seen via a Reddit mirror, unverified)* |
+| Language subs: r/rust, r/golang, r/Python, r/javascript, r/typescript, r/reactjs, r/node… | Libraries and tools in that language | Many route project posts to a recurring thread; e.g. r/golang has run a weekly "Small Projects" thread since 2025 *(seen via a Reddit mirror, unverified)*. r/rust also feeds This Week in Rust: since 2026-08 its editors pick project updates only from r/rust posts ([announcement](https://github.com/rust-lang/this-week-in-rust/issues/8575)), which points to r/rust's ["No more code dumps"](https://www.reddit.com/r/rust/comments/1wkmzun/no_more_code_dumps/) rules — read them first |
 | r/LocalLLaMA | Tools that run or serve local models | Hostile to thin API wrappers; show real local-model use |
 | r/MachineLearning | Research code | Uses `[P]` (project) tags; expects substance |
 | r/devops, r/sysadmin, r/homelab | Infra and ops tools | Show the problem it solves in production terms |
