@@ -1,7 +1,7 @@
 {
   "name": "megaphone",
   "displayName": "Megaphone",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Launch your open-source project: readiness audit, positioning, README first screen, channel-specific launch posts (HN, Reddit, Product Hunt, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more), a launch plan, and star/referrer tracking.",
   "author": {
     "name": "Megaphone contributors"
