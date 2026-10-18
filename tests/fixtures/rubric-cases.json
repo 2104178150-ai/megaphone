@@ -790,6 +790,110 @@
      "D5": 0
     }
    }
+  },
+  {
+   "name": "edge-release-download",
+   "data": {
+    "repo": {
+     "full_name": "acme/empty",
+     "description": null,
+     "topics": [],
+     "homepage": "",
+     "license": null,
+     "pushed_at": "2024-08-01T00:00:00Z",
+     "has_discussions": false,
+     "language": null,
+     "archived": false
+    },
+    "readme": "# Menubar Meter\n\nA macOS menu bar app that shows your API usage at a glance.\n\n## Download\n\n[Download the latest build](https://github.com/acme/meter/releases/latest) and drag it into Applications.\n",
+    "community": null,
+    "releases": [
+     {
+      "tag_name": "v1.2.0",
+      "assets": [
+       {
+        "name": "MenubarMeter.dmg"
+       }
+      ]
+     }
+    ]
+   },
+   "expected": {
+    "score": 26,
+    "points": {
+     "A1": 0,
+     "A2": 0,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 7,
+     "B2": 0,
+     "B3": 8,
+     "B4": 0,
+     "C1": 0,
+     "C2": 0,
+     "C3": 4,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "edge-release-without-files",
+   "data": {
+    "repo": {
+     "full_name": "acme/empty",
+     "description": null,
+     "topics": [],
+     "homepage": "",
+     "license": null,
+     "pushed_at": "2024-08-01T00:00:00Z",
+     "has_discussions": false,
+     "language": null,
+     "archived": false
+    },
+    "readme": "# Menubar Meter\n\nA macOS menu bar app that shows your API usage at a glance.\n\n## Download\n\n[Download the latest build](https://github.com/acme/meter/releases/latest) and drag it into Applications.\n",
+    "community": null,
+    "releases": [
+     {
+      "tag_name": "v1.2.0",
+      "assets": []
+     }
+    ]
+   },
+   "expected": {
+    "score": 18,
+    "points": {
+     "A1": 0,
+     "A2": 0,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 7,
+     "B2": 0,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 0,
+     "C3": 4,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
   }
  ]
 }

@@ -148,6 +148,8 @@ FENCE_RE = re.compile(r"^\s{0,3}(```|~~~)")
 CJK_RE = re.compile("[㐀-鿿豈-﫿]")
 LATIN_WORD_RE = re.compile(r"[A-Za-z][A-Za-z'’-]*")
 
+# A link to the repo's Releases page: with a release that has files, downloading the app is the one step.
+RELEASE_LINK_RE = re.compile(r"/releases\b", re.I | A)
 INSTALL_RES = [jsre(p, A) for p in [
     r"\bnpm\s+(?:i|install)\s+(?:-g\s+|--global\s+)?[@\w]",
     r"\bnpx\s+[@\w]",
@@ -306,6 +308,7 @@ def readme_facts(md):
 
     fence_start = next((i for i, l in enumerate(lines) if FENCE_RE.match(l)), -1)
     install_line = next((l for l in lines if any(r.search(l) for r in INSTALL_RES)), None)
+    release_link = any(RELEASE_LINK_RE.search(l) for l in lines)
 
     def find_heading(rx, within=math.inf):
         return next((h for h in headings if h["i"] < within and rx.search(h["text"])), None)
@@ -336,6 +339,7 @@ def readme_facts(md):
         "badges": len(badges),
         "fence_start": fence_start,
         "install_line": install_line.strip() if install_line else None,
+        "release_link": release_link,
         "getting_started": getting_started,
         "showcase": showcase,
         "why": why,
@@ -403,10 +407,13 @@ def analyze(data, now_ms=None):
       'Section: "%s"' % f["getting_started"]["text"] if f["getting_started"] else "No install / quick start heading")
     early = 0 <= f["fence_start"] < 150
     s("B2", 5 if early else 0, "First code block at line %d" % (f["fence_start"] + 1) if early else "No code block in the first 150 lines")
-    s("B3", 8 if (f["install_line"] or site) else 0,
+    latest = releases[0] if releases else None
+    download = bool(latest and (latest.get("assets") or []) and f["release_link"])
+    s("B3", 8 if (f["install_line"] or site or download) else 0,
       "`%s`" % f["install_line"][:90] if f["install_line"]
       else "Try it online: %s" % site if site
-      else "No one-line install/run command and no website to try it")
+      else "Download from Releases: %s" % latest.get("tag_name") if download
+      else "No one-line install/run command, website or release download")
     shows = bool(f["showcase"]) or f["bullets"] >= 3
     s("B4", 5 if shows else 0,
       'Section: "%s"' % f["showcase"]["text"] if f["showcase"]

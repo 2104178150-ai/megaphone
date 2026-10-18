@@ -142,6 +142,8 @@ const FENCE_RE = /^\s{0,3}(```|~~~)/;
 const CJK_RE = /[㐀-鿿豈-﫿]/g;
 const LATIN_WORD_RE = /[A-Za-z][A-Za-z'’-]*/g;
 
+// A link to the repo's Releases page: with a release that has files, downloading the app is the one step.
+const RELEASE_LINK_RE = /\/releases\b/i;
 const INSTALL_RES = [
   /\bnpm\s+(?:i|install)\s+(?:-g\s+|--global\s+)?[@\w]/,
   /\bnpx\s+[@\w]/,
@@ -273,6 +275,7 @@ export function readmeFacts(md) {
 
   const fenceStart = lines.findIndex((l) => FENCE_RE.test(l));
   const installLine = lines.find((l) => INSTALL_RES.some((re) => re.test(l))) || null;
+  const releaseLink = lines.some((l) => RELEASE_LINK_RE.test(l));
 
   const findHeading = (re, within = Infinity) => headings.find((h) => h.i < within && re.test(h.text)) || null;
   const gettingStarted = findHeading(/install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|deploy|download|安装|怎么装|如何装|装上|快速开始|快速上手|上手|开始使用|使用|部署|运行|入门|用法|下载/);
@@ -305,6 +308,7 @@ export function readmeFacts(md) {
     badges: badges.length,
     fenceStart,
     installLine: installLine && installLine.trim(),
+    releaseLink,
     gettingStarted,
     showcase,
     why,
@@ -367,10 +371,13 @@ export function analyze(data, now = Date.now()) {
   set('B1', f.gettingStarted ? 7 : 0, f.gettingStarted ? ev(`Section: “${f.gettingStarted.text}”`, `章节：「${f.gettingStarted.text}」`) : ev('No install / quick start heading', '没有安装 / 快速开始章节'));
   const earlyFence = f.fenceStart >= 0 && f.fenceStart < 150;
   set('B2', earlyFence ? 5 : 0, earlyFence ? ev(`First code block at line ${f.fenceStart + 1}`, `第一个代码块在第 ${f.fenceStart + 1} 行`) : ev('No code block in the first 150 lines', '前 150 行没有代码块'));
-  set('B3', f.installLine || site ? 8 : 0,
+  const latest = Array.isArray(releases) && releases.length ? releases[0] : null;
+  const download = !!(latest && (latest.assets || []).length && f.releaseLink);
+  set('B3', f.installLine || site || download ? 8 : 0,
     f.installLine ? ev(`\`${f.installLine.slice(0, 90)}\``, `\`${f.installLine.slice(0, 90)}\``)
       : site ? ev(`Try it online: ${site}`, `可以在线直接试用：${site}`)
-        : ev('No one-line install/run command and no website to try it', '没有一行安装 / 运行命令，也没有可在线试用的网站'));
+        : download ? ev(`Download from Releases: ${latest.tag_name}`, `可以从 Release 下载：${latest.tag_name}`)
+          : ev('No one-line install/run command, website or release download', '没有一行安装 / 运行命令、在线网站或 Release 下载'));
   const shows = f.showcase || f.bullets >= 3;
   set('B4', shows ? 5 : 0, f.showcase ? ev(`Section: “${f.showcase.text}”`, `章节：「${f.showcase.text}」`) : shows ? ev(`${f.bullets} bullet points near the top`, `前部有 ${f.bullets} 条要点`) : ev('No features / examples section', '没有功能 / 示例章节'));
 
