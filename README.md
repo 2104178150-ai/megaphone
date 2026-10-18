@@ -40,6 +40,19 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 
 ## Why Megaphone?
 
+> I study communications, and I wanted to make something everyone could use. Then I noticed
+> how many good projects get built and then nobody looks at them.
+>
+> I think the biggest problem when developers promote their work is that they talk about the
+> tech, not the benefits — or they're so busy building features that they forget how to win
+> users.
+>
+> I can't code. The code was written by AI; I set the direction and kept the quality bar.
+>
+> What I'm proudest of is having looked over seven indie developers' projects for them.
+>
+> — the author, [@2104178150-ai](https://github.com/2104178150-ai) (translated from Chinese)
+
 Most good open-source projects don't fail because they're bad. They fail because the
 author posts one link to Hacker News, gets two upvotes, and concludes nobody cares.
 Launching well is a skill — positioning, a README that converts, knowing each
