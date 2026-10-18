@@ -1,6 +1,6 @@
 # Lobsters
 
-> Last checked: 2026-10-15 against the [about page](https://lobste.rs/about), the
+> Last checked: 2026-10-18 against the [about page](https://lobste.rs/about), the
 > [tag list](https://lobste.rs/tags) and the submit form in Lobsters' source
 > ([`_form.html.erb`](https://github.com/lobsters/lobsters/blob/main/app/views/stories/_form.html.erb),
 > [`story.rb`](https://github.com/lobsters/lobsters/blob/main/app/models/story.rb)).

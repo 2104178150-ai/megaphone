@@ -1,6 +1,6 @@
 # Product Hunt
 
-> Last checked: 2026-10-15 against Product Hunt's [launch guide](https://www.producthunt.com/launch),
+> Last checked: 2026-10-18 against Product Hunt's [launch guide](https://www.producthunt.com/launch),
 > [Preparing for launch](https://www.producthunt.com/launch/preparing-for-launch) (field
 > limits, timing), [Launching again](https://www.producthunt.com/launch/two-weeks-post-launch)
 > and the [community guidelines](https://help.producthunt.com/en/articles/3615694-community-guidelines).
@@ -30,7 +30,7 @@ newsletters.
 ## Format
 
 - **Tagline**: **max 60 characters**. "No gimmicks or over-the-top language"; plain
-  benefit, no "AI-powered".
+  benefit, no "AI-powered" (our advice, not a Product Hunt rule).
 - **Description**: max 500 characters — what it does and who it's for.
 - **Thumbnail** (required): square, 240×240 recommended, under 3 MB. A GIF animates only
   on hover, so its first frame is what most people see.
@@ -50,7 +50,9 @@ newsletters.
 - Product Hunt's homepage runs on a 24-hour cycle on Pacific time; its rule of thumb for
   makers without constraints is **12:01 am Pacific**. That's 07:01 UTC / 09:01 Berlin /
   15:01 Beijing / 16:01 Tokyo while the US is on daylight time, and 08:01 UTC / 09:01
-  Berlin / 16:01 Beijing / 17:01 Tokyo on standard time.
+  Berlin / 16:01 Beijing / 17:01 Tokyo on standard time. In the weeks when only the US is on
+  daylight time (mid to late March, and late October to early November, e.g. 2026-10-25 →
+  2026-11-01) it's 08:01 Berlin.
 - Day: "The best day to launch is the day on which you're most prepared." Product Hunt
   says larger companies tend to launch on weekdays, while weekends can suit side
   projects and personal apps — and weekend launches get 15% more "Visit" clicks.
@@ -81,7 +83,9 @@ Would love your feedback on <specific question> — I'll be here all day.
 
 ## Pitfalls
 
-- Launching an unfinished product → you only get one good launch day.
+- Launching an unfinished product → you spend your launch before the product is ready; a
+  relaunch needs significant updates (and, within 6 months of your last launch, may need the
+  team's approval).
 - Logo-only thumbnail or first gallery image → low click-through.
 - Asking people to "upvote" → against the rules; ask them to "check it out and leave feedback".
 - A bit.ly or UTM-tagged URL → not accepted.

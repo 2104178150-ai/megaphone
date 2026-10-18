@@ -1,6 +1,6 @@
 # Hacker News — Show HN
 
-> Last checked: 2026-10-15 against the [Show HN guidelines](https://news.ycombinator.com/showhn.html),
+> Last checked: 2026-10-18 against the [Show HN guidelines](https://news.ycombinator.com/showhn.html),
 > the [HN guidelines](https://news.ycombinator.com/newsguidelines.html), the
 > [FAQ](https://news.ycombinator.com/newsfaq.html) and the moderators'
 > [Show HN tips](https://news.ycombinator.com/item?id=22336638) (linked from the Show HN page).
@@ -33,8 +33,9 @@ substance, landing pages, text that reads as machine-written.
   posts" and "please don't automate posting". The tips go further: don't use an LLM to
   generate *or edit* any of it. The same applies to comments ("Don't post generated text
   or AI-edited text").
-- **Don't ask anyone to upvote or comment**, and make sure friends and users don't add
-  booster comments. HN penalises or bans submissions, accounts and sites that do (FAQ).
+- **Don't ask anyone to upvote or comment**: HN penalises or bans submissions, accounts and
+  sites that ask for votes or comments (FAQ). Make sure friends and users don't add booster comments
+  either — the tips say HN users consider it spamming.
 - HN isn't primarily for promotion: post your own work only part of the time.
 - Reposts: if a story hasn't had significant attention in the last year or so, a small
   number of reposts is OK; otherwise they're buried as duplicates. Never delete and repost.
@@ -124,7 +125,7 @@ First comment (only if needed): links to earlier relevant HN threads, docs.
 
 ## Pitfalls
 
-- Linking to a sign-up page → off topic for Show HN (guidelines); a demo behind a
+- Linking to a sign-up page → off topic for Show HN (Show HN guidelines); a demo behind a
   sign-up gets far less feedback.
 - Text that reads as LLM-written → the tips say it draws backlash; the guidelines ask
   you not to post it.
