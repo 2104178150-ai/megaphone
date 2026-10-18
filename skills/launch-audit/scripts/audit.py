@@ -225,8 +225,9 @@ def count_words(text):
     return {"latin": latin, "cjk": cjk, "total": latin + cjk // 2}
 
 
-def _int(s):
-    m = re.match(r"\s*([+-]?\d+)", s or "")
+def _px(s):
+    """A pixel size from a width/height attribute; percentages (width="100%") aren't pixels."""
+    m = re.match(r"\s*(\d+)\s*(px)?\s*$", s or "", re.I)
     return int(m.group(1)) if m else 0
 
 
@@ -255,7 +256,7 @@ def readme_facts(md):
                 found.append({"src": m.group(2), "alt": m.group(1), "video": False, "small": False})
             for m in HTML_MEDIA_RE.finditer(l):
                 tag = m.group(0)
-                w, h = _int(attr(tag, "width")), _int(attr(tag, "height"))
+                w, h = _px(attr(tag, "width")), _px(attr(tag, "height"))
                 found.append({
                     "src": attr(tag, "src"),
                     "alt": attr(tag, "alt"),

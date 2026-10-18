@@ -134,6 +134,8 @@ const HTML_MEDIA_RE = /<(img|source|video)\b[^>]*>/gi;
 // A logo or icon is branding, not a picture of the product.
 const LOGO_RE = /logo|icon|avatar|favicon/i;
 const SMALL_PX = 128;
+// A pixel size from a width/height attribute; percentages (width="100%") aren't pixels.
+const px = (v) => { const m = /^\s*(\d+)\s*(px)?\s*$/i.exec(v || ''); return m ? Number(m[1]) : 0; };
 const ATTACHMENT_RE = /^\s*https:\/\/(?:github\.com\/user-attachments\/assets\/|user-images\.githubusercontent\.com\/)\S+\s*$/;
 const HEADING_RE = /^\s{0,3}#{1,6}\s+\S|^\s*<h[1-6]\b/i;
 const FENCE_RE = /^\s{0,3}(```|~~~)/;
@@ -226,8 +228,8 @@ export function readmeFacts(md) {
       for (const m of l.matchAll(IMAGE_RE)) found.push({ src: m[2], alt: m[1], video: false, small: false });
       for (const m of l.matchAll(HTML_MEDIA_RE)) {
         const tag = m[0];
-        const w = parseInt(attr(tag, 'width'), 10);
-        const h = parseInt(attr(tag, 'height'), 10);
+        const w = px(attr(tag, 'width'));
+        const h = px(attr(tag, 'height'));
         found.push({
           src: attr(tag, 'src'),
           alt: attr(tag, 'alt'),
