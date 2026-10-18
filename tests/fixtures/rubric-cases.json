@@ -745,6 +745,51 @@
      "D5": 0
     }
    }
+  },
+  {
+   "name": "edge-chinese-setup-headings",
+   "data": {
+    "repo": {
+     "full_name": "acme/empty",
+     "description": null,
+     "topics": [],
+     "homepage": "",
+     "license": null,
+     "pushed_at": "2024-08-01T00:00:00Z",
+     "has_discussions": false,
+     "language": null,
+     "archived": false
+    },
+    "readme": "# 玉尺\n\n把一段文字贴进来，告诉你哪里读起来不像人写的。\n\n## 30 秒看懂\n\n改前和改后的对照。\n\n## 怎么装\n\n对你的 AI 助手说一句话就能装上。\n\n## 部署方式\n\n```bash\ndocker compose up -d\n```\n",
+    "community": null,
+    "releases": []
+   },
+   "expected": {
+    "score": 32,
+    "points": {
+     "A1": 0,
+     "A2": 0,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 7,
+     "B2": 5,
+     "B3": 8,
+     "B4": 5,
+     "C1": 0,
+     "C2": 0,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
   }
  ]
 }

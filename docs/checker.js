@@ -275,8 +275,8 @@ export function readmeFacts(md) {
   const installLine = lines.find((l) => INSTALL_RES.some((re) => re.test(l))) || null;
 
   const findHeading = (re, within = Infinity) => headings.find((h) => h.i < within && re.test(h.text)) || null;
-  const gettingStarted = findHeading(/install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|安装|快速开始|快速上手|上手|开始使用|使用/);
-  const showcase = findHeading(/feature|usage|example|demo|screenshot|how it works|what it does|tutorial|walkthrough|tour|showcase|gallery|功能|特性|示例|例子|演示|截图|效果|教程/, 120);
+  const gettingStarted = findHeading(/install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|deploy|download|安装|怎么装|如何装|装上|快速开始|快速上手|上手|开始使用|使用|部署|运行|入门|用法|下载/);
+  const showcase = findHeading(/feature|usage|example|demo|screenshot|how it works|what it does|tutorial|walkthrough|tour|showcase|gallery|功能|特性|示例|例子|演示|截图|效果|教程|展示|预览|看懂/, 120);
   const why = findHeading(/\bwhy\b|motivation|comparison|compare|\bvs\.?\b|alternative|difference|为什么|对比|比较|动机|初衷/);
 
   let bullets = 0;
