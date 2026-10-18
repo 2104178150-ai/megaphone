@@ -38,6 +38,8 @@ Inside a session the skills are then available as `/megaphone:launch`, `/megapho
 
 Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scripts (standard library only). The web checker needs only a browser.
 
+**See it on a real launch:** [Megaphone launching itself](examples/self-launch/) — the 小红书 images and note, the V2EX fact sheet (V2EX bans AI-written posts, so the author writes it), and what was actually published.
+
 ## Why Megaphone?
 
 > I study communications, and I wanted to make something everyone could use. Then I noticed

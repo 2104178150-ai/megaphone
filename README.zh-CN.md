@@ -38,6 +38,8 @@ claude plugin install megaphone@megaphone
 
 需要：一个支持 skills 的 AI 编程助手；自带的脚本需要 Python 3.8+（只用标准库）。网页检测器有浏览器就能用。
 
+**看一次真实的发布：**[Megaphone 给自己做的发布](examples/self-launch/)——小红书配图和文案、V2EX 的事实清单（V2EX 不许 AI 代写，正文由作者本人写），以及最后真的发出去的内容。
+
 ## 为什么做这个
 
 > 我是学传播的，本来想做个大家都能用的东西。后来发现很多好项目做出来了却没人看。
