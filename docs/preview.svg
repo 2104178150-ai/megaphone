@@ -1,81 +1,97 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" font-family="system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
-  <title>Megaphone checker result for an example repo: 84 out of 100, almost there</title>
-  <rect width="1200" height="640" rx="28" fill="#fbf7f1"/>
-  <rect x="1" y="1" width="1198" height="638" rx="27" fill="none" stroke="#e8dfd2" stroke-width="2"/>
+  <title>Megaphone checker result for an example repo: 84 out of 100, almost there, with the three fixes that matter most, a prompt for your AI agent, and where to launch</title>
+  <rect width="1200" height="640" rx="28" fill="#faf7f2"/>
+  <rect x="1" y="1" width="1198" height="638" rx="27" fill="none" stroke="#e7dfd3" stroke-width="2"/>
 
   <!-- header -->
-  <g transform="translate(40 30) scale(.42)">
-    <path d="M14 38 70 16v64L14 58Z" fill="#e8501c"/>
-    <rect x="5" y="35" width="12" height="26" rx="4" fill="#1f1b16"/>
-    <path d="M34 64l6 18" stroke="#1f1b16" stroke-width="9" stroke-linecap="round"/>
-    <path d="M82 37a15 15 0 0 1 0 22M93 28a28 28 0 0 1 0 40M104 19a41 41 0 0 1 0 58" fill="none" stroke="#e8501c" stroke-width="7" stroke-linecap="round"/>
+  <g transform="translate(40 30) scale(.36)">
+    <path d="M14 38 70 16v64L14 58Z" fill="#dc4a12"/>
+    <rect x="5" y="35" width="12" height="26" rx="4" fill="#17130f"/>
+    <path d="M34 64l6 18" stroke="#17130f" stroke-width="9" stroke-linecap="round"/>
+    <path d="M82 37a15 15 0 0 1 0 22M93 28a28 28 0 0 1 0 40M104 19a41 41 0 0 1 0 58" fill="none" stroke="#dc4a12" stroke-width="7" stroke-linecap="round"/>
   </g>
-  <text x="100" y="62" font-size="24" font-weight="800" fill="#1f1b16">Megaphone</text>
-  <text x="1160" y="62" font-size="18" fill="#7a7065" text-anchor="end">Is your repo ready to launch?</text>
+  <text x="92" y="58" font-size="22" font-weight="800" fill="#17130f">Megaphone</text>
+  <text x="1160" y="58" font-size="17" fill="#776d62" text-anchor="end">Is your repo ready to launch?</text>
 
   <!-- score card -->
-  <rect x="40" y="96" width="540" height="370" rx="20" fill="#ffffff" stroke="#e8dfd2"/>
-  <circle cx="165" cy="255" r="95" fill="none" stroke="#f4eee5" stroke-width="20"/>
-  <circle cx="165" cy="255" r="95" fill="none" stroke="#4d7c0f" stroke-width="20" stroke-linecap="round"
-          stroke-dasharray="596.9" stroke-dashoffset="95.5" transform="rotate(-90 165 255)"/>
-  <text x="165" y="275" font-size="68" font-weight="850" fill="#4d7c0f" text-anchor="middle">84</text>
-  <text x="165" y="302" font-size="15" fill="#7a7065" text-anchor="middle">out of 100</text>
-
-  <text x="290" y="160" font-size="15" fill="#7a7065" font-family="ui-monospace, Menlo, monospace">acme/rocket</text>
-  <text x="290" y="196" font-size="27" font-weight="800" fill="#4d7c0f">Almost there</text>
-  <text x="290" y="222" font-size="15" fill="#5b5349">Fix the top items first — they’re cheap.</text>
-
-  <g font-size="14" fill="#1f1b16">
-    <text x="290" y="262">First impression</text>
-    <rect x="420" y="252" width="90" height="9" rx="4.5" fill="#f4eee5"/><rect x="420" y="252" width="80" height="9" rx="4.5" fill="#e8501c"/>
-    <text x="560" y="262" text-anchor="end" fill="#5b5349">31/35</text>
-    <text x="290" y="292">Time to wow</text>
-    <rect x="420" y="282" width="90" height="9" rx="4.5" fill="#f4eee5"/><rect x="420" y="282" width="90" height="9" rx="4.5" fill="#e8501c"/>
-    <text x="560" y="292" text-anchor="end" fill="#5b5349">25/25</text>
-    <text x="290" y="322">Trust</text>
-    <rect x="420" y="312" width="90" height="9" rx="4.5" fill="#f4eee5"/><rect x="420" y="312" width="90" height="9" rx="4.5" fill="#e8501c"/>
-    <text x="560" y="322" text-anchor="end" fill="#5b5349">20/20</text>
-    <text x="290" y="352">Shareability</text>
-    <rect x="420" y="342" width="90" height="9" rx="4.5" fill="#f4eee5"/><rect x="420" y="342" width="36" height="9" rx="4.5" fill="#e8501c"/>
-    <text x="560" y="352" text-anchor="end" fill="#5b5349">8/20</text>
+  <rect x="40" y="96" width="520" height="276" rx="20" fill="#ffffff" stroke="#e7dfd3"/>
+  <circle cx="150" cy="232" r="80" fill="none" stroke="#f3eee6" stroke-width="16"/>
+  <circle cx="150" cy="232" r="80" fill="none" stroke="#4d7c0f" stroke-width="16" stroke-linecap="round"
+          stroke-dasharray="502.7" stroke-dashoffset="80.4" transform="rotate(-90 150 232)"/>
+  <text x="150" y="250" font-size="56" font-weight="850" fill="#4d7c0f" text-anchor="middle" letter-spacing="-2">84</text>
+  <text x="150" y="276" font-size="13" fill="#776d62" text-anchor="middle">out of 100</text>
+  <text x="262" y="146" font-size="14" fill="#776d62" font-family="ui-monospace, Menlo, monospace">acme/rocket</text>
+  <text x="262" y="180" font-size="25" font-weight="850" fill="#4d7c0f" letter-spacing="-.5">Almost there</text>
+  <text x="262" y="205" font-size="14" fill="#4f473e">Fix the top items first — they’re cheap.</text>
+  <g font-size="13" fill="#4f473e">
+    <text x="262" y="244">First impression</text>
+    <rect x="384" y="236" width="110" height="8" rx="4" fill="#f3eee6"/><rect x="384" y="236" width="97.4" height="8" rx="4" fill="#17130f"/>
+    <text x="536" y="244" text-anchor="end" fill="#776d62">31/35</text>
+    <text x="262" y="272">Time to wow</text>
+    <rect x="384" y="264" width="110" height="8" rx="4" fill="#17130f"/>
+    <text x="536" y="272" text-anchor="end" fill="#776d62">25/25</text>
+    <text x="262" y="300">Trust</text>
+    <rect x="384" y="292" width="110" height="8" rx="4" fill="#17130f"/>
+    <text x="536" y="300" text-anchor="end" fill="#776d62">20/20</text>
+    <text x="262" y="328">Shareability</text>
+    <rect x="384" y="320" width="110" height="8" rx="4" fill="#f3eee6"/><rect x="384" y="320" width="44" height="8" rx="4" fill="#17130f"/>
+    <text x="536" y="328" text-anchor="end" fill="#776d62">8/20</text>
   </g>
-  <text x="70" y="430" font-size="14" fill="#7a7065">21 checks · same rubric your AI agent uses</text>
 
-  <!-- fixes card -->
-  <rect x="610" y="96" width="550" height="370" rx="20" fill="#ffffff" stroke="#e8dfd2"/>
-  <text x="640" y="140" font-size="20" font-weight="800" fill="#1f1b16">Fix these first</text>
+  <!-- hand-off prompt -->
+  <rect x="40" y="392" width="520" height="160" rx="18" fill="#f3eee6"/>
+  <text x="64" y="428" font-size="16" font-weight="750" fill="#17130f">Hand it to your AI agent</text>
+  <rect x="468" y="408" width="68" height="30" rx="8" fill="#ffffff" stroke="#e7dfd3"/>
+  <text x="502" y="428" font-size="13" font-weight="600" fill="#17130f" text-anchor="middle">Copy</text>
+  <g font-size="13.5" fill="#17130f">
+    <text x="64" y="462">Use the Megaphone launch skills on github.com/acme/rocket.</text>
+    <text x="64" y="484">It scored 84/100. Failed checks: A6 Demo or website link;</text>
+    <text x="64" y="506">D1 Two languages (EN + 中文) (launch-readme); D2 “Why” or</text>
+    <text x="64" y="528">comparison section (launch-readme). Show me each change first…</text>
+  </g>
+  <text x="40" y="590" font-size="14" fill="#776d62">21 checks · try it in your browser: <tspan fill="#b03a0e" font-weight="700">2104178150-ai.github.io/megaphone</tspan></text>
+
+  <!-- fixes -->
+  <rect x="590" y="96" width="570" height="350" rx="20" fill="#ffffff" stroke="#e7dfd3"/>
+  <text x="618" y="138" font-size="19" font-weight="800" fill="#17130f">Fix these first</text>
   <g>
-    <rect x="636" y="160" width="498" height="86" rx="12" fill="#fbf7f1" stroke="#e8dfd2"/>
-    <circle cx="666" cy="190" r="14" fill="#e8501c"/><text x="666" y="195" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">1</text>
-    <text x="692" y="192" font-size="16" font-weight="700" fill="#1f1b16">Demo or website link</text>
-    <text x="692" y="216" font-size="13.5" fill="#5b5349">Set the Website field to a live demo or docs page.</text>
-    <text x="1118" y="192" font-size="15" font-weight="800" fill="#e8501c" text-anchor="end">+4</text>
+    <circle cx="632" cy="182" r="13" fill="none" stroke="#e7dfd3" stroke-width="1.5"/>
+    <text x="632" y="187" font-size="13" font-weight="750" fill="#4f473e" text-anchor="middle">1</text>
+    <text x="660" y="187" font-size="16" font-weight="700" fill="#17130f">Demo or website link</text>
+    <text x="660" y="210" font-size="13.5" fill="#4f473e">Set the Website field in About to a live demo or docs page.</text>
+    <rect x="1080" y="170" width="52" height="24" rx="12" fill="#fde4d6"/>
+    <text x="1106" y="187" font-size="13" font-weight="750" fill="#b03a0e" text-anchor="middle">+4</text>
+    <line x1="618" y1="236" x2="1132" y2="236" stroke="#e7dfd3"/>
 
-    <rect x="636" y="256" width="498" height="86" rx="12" fill="#fbf7f1" stroke="#e8dfd2"/>
-    <circle cx="666" cy="286" r="14" fill="#e8501c"/><text x="666" y="291" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">2</text>
-    <text x="692" y="288" font-size="16" font-weight="700" fill="#1f1b16">Two languages (EN + 中文)</text>
-    <text x="692" y="312" font-size="13.5" fill="#5b5349">Add README.zh-CN.md to unlock V2EX, HelloGitHub, 阮一峰周刊.</text>
-    <text x="692" y="332" font-size="12.5" fill="#7a7065">Your agent can do this with launch-readme</text>
-    <text x="1118" y="288" font-size="15" font-weight="800" fill="#e8501c" text-anchor="end">+5</text>
+    <circle cx="632" cy="268" r="13" fill="none" stroke="#e7dfd3" stroke-width="1.5"/>
+    <text x="632" y="273" font-size="13" font-weight="750" fill="#4f473e" text-anchor="middle">2</text>
+    <text x="660" y="273" font-size="16" font-weight="700" fill="#17130f">Two languages (EN + 中文)</text>
+    <text x="660" y="296" font-size="13.5" fill="#4f473e">Add README.zh-CN.md to open V2EX, HelloGitHub and 阮一峰周刊.</text>
+    <text x="660" y="320" font-size="12.5" fill="#776d62">Your agent can do this with <tspan font-family="ui-monospace, Menlo, monospace" fill="#17130f">launch-readme</tspan></text>
+    <rect x="1080" y="256" width="52" height="24" rx="12" fill="#fde4d6"/>
+    <text x="1106" y="273" font-size="13" font-weight="750" fill="#b03a0e" text-anchor="middle">+5</text>
+    <line x1="618" y1="340" x2="1132" y2="340" stroke="#e7dfd3"/>
 
-    <rect x="636" y="352" width="498" height="86" rx="12" fill="#fbf7f1" stroke="#e8dfd2"/>
-    <circle cx="666" cy="382" r="14" fill="#e8501c"/><text x="666" y="387" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">3</text>
-    <text x="692" y="384" font-size="16" font-weight="700" fill="#1f1b16">“Why” or comparison section</text>
-    <text x="692" y="408" font-size="13.5" fill="#5b5349">What people use today, and why this is better for them.</text>
-    <text x="692" y="428" font-size="12.5" fill="#7a7065">Your agent can do this with launch-positioning</text>
-    <text x="1118" y="384" font-size="15" font-weight="800" fill="#e8501c" text-anchor="end">+4</text>
+    <circle cx="632" cy="372" r="13" fill="none" stroke="#e7dfd3" stroke-width="1.5"/>
+    <text x="632" y="377" font-size="13" font-weight="750" fill="#4f473e" text-anchor="middle">3</text>
+    <text x="660" y="377" font-size="16" font-weight="700" fill="#17130f">“Why” or comparison section</text>
+    <text x="660" y="400" font-size="13.5" fill="#4f473e">What people use now, and where yours is better.</text>
+    <text x="660" y="424" font-size="12.5" fill="#776d62">Your agent can do this with <tspan font-family="ui-monospace, Menlo, monospace" fill="#17130f">launch-readme</tspan></text>
+    <rect x="1080" y="360" width="52" height="24" rx="12" fill="#fde4d6"/>
+    <text x="1106" y="377" font-size="13" font-weight="750" fill="#b03a0e" text-anchor="middle">+4</text>
   </g>
 
   <!-- channels -->
-  <rect x="40" y="490" width="1120" height="110" rx="20" fill="#ffffff" stroke="#e8dfd2"/>
-  <text x="70" y="532" font-size="20" font-weight="800" fill="#1f1b16">Where to launch</text>
-  <g font-size="15" font-weight="600" fill="#1f1b16">
-    <rect x="70" y="548" width="150" height="34" rx="17" fill="#fde6dc"/><text x="145" y="570" text-anchor="middle">GitHub topics</text>
-    <rect x="232" y="548" width="120" height="34" rx="17" fill="#fde6dc"/><text x="292" y="570" text-anchor="middle">Show HN</text>
-    <rect x="364" y="548" width="150" height="34" rx="17" fill="#fde6dc"/><text x="439" y="570" text-anchor="middle">Awesome lists</text>
-    <rect x="526" y="548" width="160" height="34" rx="17" fill="#fde6dc"/><text x="606" y="570" text-anchor="middle">r/commandline</text>
-    <rect x="698" y="548" width="120" height="34" rx="17" fill="#fde6dc"/><text x="758" y="570" text-anchor="middle">r/golang</text>
-    <rect x="830" y="548" width="130" height="34" rx="17" fill="#fde6dc"/><text x="895" y="570" text-anchor="middle">Go Weekly</text>
+  <rect x="590" y="466" width="570" height="134" rx="20" fill="#ffffff" stroke="#e7dfd3"/>
+  <text x="618" y="502" font-size="17" font-weight="800" fill="#17130f">Where to launch</text>
+  <text x="1132" y="502" font-size="14" font-weight="700" fill="#b03a0e" text-anchor="end">17 channel playbooks →</text>
+  <g font-size="13.5" fill="#4f473e" text-anchor="middle">
+    <rect x="618" y="520" width="118" height="30" rx="8" fill="#f3eee6"/><text x="677" y="540">GitHub topics</text>
+    <rect x="744" y="520" width="86" height="30" rx="8" fill="#f3eee6"/><text x="787" y="540">Show HN</text>
+    <rect x="838" y="520" width="118" height="30" rx="8" fill="#f3eee6"/><text x="897" y="540">Awesome lists</text>
+    <rect x="964" y="520" width="122" height="30" rx="8" fill="#f3eee6"/><text x="1025" y="540">r/commandline</text>
+    <rect x="618" y="558" width="82" height="30" rx="8" fill="#f3eee6"/><text x="659" y="578">r/golang</text>
+    <rect x="708" y="558" width="96" height="30" rx="8" fill="#f3eee6"/><text x="756" y="578">Go Weekly</text>
+    <rect x="812" y="558" width="178" height="30" rx="8" fill="#f3eee6"/><text x="901" y="578">Unlock Chinese channels</text>
   </g>
-  <text x="1130" y="532" font-size="15" fill="#e8501c" font-weight="700" text-anchor="end">17 channel playbooks →</text>
 </svg>
