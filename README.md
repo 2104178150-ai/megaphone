@@ -2,14 +2,16 @@
 
 Launch your open-source project the way a marketer would — even if you've never launched anything.
 
+**中文用户：**发布前给开源项目做个体检，再按各平台的规矩准备推广文案 → [看中文说明](README.zh-CN.md)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Agent skills: 7](https://img.shields.io/badge/agent%20skills-7-e8501c)](skills)
 [![Channel playbooks: 17](https://img.shields.io/badge/channel%20playbooks-17-e8501c)](skills/launch-posts/channels)
 [![Works with Claude Code, Codex, OpenClaw](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20OpenClaw-1f1b16)](#quick-start)
 
-English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/)
+English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/) · [Case: DragonCard 54 → 71](examples/case-dragoncard/)
 
-![Megaphone scoring a repo: 84/100, the three fixes that matter most, and where to launch it](docs/preview.svg)
+[![Megaphone scoring a repo: 84/100, the three fixes that matter most, and where to launch it — click to try it](docs/preview.svg)](https://2104178150-ai.github.io/megaphone/)
 
 - **Know if you're ready** — blockers a visitor would hit, risks that grow with visibility, and a 0–100 score from 21 checks. [Score any repo in your browser](https://2104178150-ai.github.io/megaphone/), no install.
 - **The right post for each channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more: a native draft written to each platform's rules, or, where a platform wants your own words (Show HN, V2EX, 掘金, Lobsters), a fact sheet you write from. Rules come with sources and a "last checked" date.
@@ -214,7 +216,7 @@ python3 -m unittest discover -s tests       # launch-review script, and audit.py
 python3 -m http.server 8820                  # then open http://localhost:8820/tests/ for the checker (same cases)
 ```
 
-Questions and launch stories are welcome in [Discussions](../../discussions).
+Questions and launch stories are welcome in [Issues](../../issues). If Megaphone helped you, a ⭐ helps other developers find it.
 
 ## License
 

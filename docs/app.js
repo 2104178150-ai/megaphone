@@ -37,6 +37,7 @@ const STRINGS = {
     badgeT: 'Show off your score',
     badgeHint: 'Paste into your README. It links back here so others can check theirs.',
     shareT: 'Share the result',
+    starHint: 'Found this useful? A ⭐ on GitHub helps other developers find Megaphone.',
     shareText: (r, s, lvl, fix, url) => `📣 ${r} scored ${s}/100 on Megaphone’s launch-readiness check — ${lvl}.${fix ? ` Top fix: ${fix}.` : ''} Check yours: ${url}`,
     copy: 'Copy',
     copied: 'Copied ✓',
@@ -97,6 +98,7 @@ const STRINGS = {
     badgeT: '晒出你的分数',
     badgeHint: '贴进 README，徽章会链接回这里，别人也能来测自己的项目。',
     shareT: '分享结果',
+    starHint: '觉得有用？去 GitHub 给 Megaphone 点个 ⭐，能让更多开发者看到它。',
     shareText: (r, s, lvl, fix, url) => `📣 ${r} 在 Megaphone 发布就绪检测中得了 ${s}/100 分——${lvl}。${fix ? `最该改的：${fix}。` : ''}测测你的项目：${url}`,
     copy: '复制',
     copied: '已复制 ✓',
@@ -439,6 +441,7 @@ function render(a, animate = false) {
       <div class="card">
         <h2>${esc(t('shareT'))}</h2>
         <div class="codebox"><code id="share-text" class="prose">${esc(share)}</code><button class="copy" type="button" data-copy="share-text">${esc(t('copy'))}</button></div>
+        <p class="hint"><a href="https://github.com/${esc(project())}" target="_blank" rel="noopener">${esc(t('starHint'))}</a></p>
       </div>
     </div>`;
 

@@ -7,9 +7,9 @@
 [![渠道手册: 17](https://img.shields.io/badge/channel%20playbooks-17-e8501c)](skills/launch-posts/channels)
 [![支持 Claude Code、Codex、OpenClaw](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20OpenClaw-1f1b16)](#快速开始)
 
-[English](README.md) | 简体中文 · [**在线检测你的项目 →**](https://2104178150-ai.github.io/megaphone/)
+[English](README.md) | 简体中文 · [**在线检测你的项目 →**](https://2104178150-ai.github.io/megaphone/) · [案例：DragonCard 54 → 71](examples/case-dragoncard/)
 
-![Megaphone 给一个仓库打分：84/100，最该先改的三件事，以及适合去哪里发](docs/preview.svg)
+[![Megaphone 给一个仓库打分：84/100，最该先改的三件事，以及适合去哪里发——点图片直接试](docs/preview.svg)](https://2104178150-ai.github.io/megaphone/)
 
 - **先知道准备好了没有**——会让访客掉头就走的阻断项、曝光后会放大的风险，再加 21 项检查给出的 0–100 分。[打开网页就能给任意仓库打分](https://2104178150-ai.github.io/megaphone/)，不用安装。
 - **每个渠道对症的文案**——Show HN、Reddit、Product Hunt、X、V2EX、HelloGitHub、阮一峰周刊、小红书……按各平台规则写好原生草稿；要求作者亲笔的平台（Show HN、V2EX、掘金、Lobsters 等）给你一份事实清单，由你自己来写。规则都注明出处和核对日期。
@@ -165,7 +165,7 @@ python3 -m unittest discover -s tests       # launch-review 脚本，以及用�
 python3 -m http.server 8820                  # 然后打开 http://localhost:8820/tests/ 测检测器（同一套用例）
 ```
 
-有问题、想分享你的发布经历，欢迎来 [Discussions](../../discussions)。
+有问题、想分享你的发布经历，欢迎来 [Issues](../../issues)。如果 Megaphone 帮到了你，点个 ⭐ 能让更多开发者看到它。
 
 ## 开源协议
 
