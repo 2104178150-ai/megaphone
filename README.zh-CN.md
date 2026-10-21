@@ -40,6 +40,8 @@ claude plugin install megaphone@megaphone
 
 **看一次真实的发布：**[Megaphone 给自己做的发布](examples/self-launch/)——小红书配图和文案、V2EX 的事实清单（V2EX 不许 AI 代写，正文由作者本人写），以及最后真的发出去的内容。
 
+**看一个别人的项目：**[DragonCard 一天从 54 分到 71 分](examples/case-dragoncard/)——作者第二天就改好了我们建议里最快的两条。
+
 ## 为什么做这个
 
 > 我是学传播的，本来想做个大家都能用的东西。后来发现很多好项目做出来了却没人看。

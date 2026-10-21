@@ -40,6 +40,8 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 
 **See it on a real launch:** [Megaphone launching itself](examples/self-launch/) — the 小红书 images and note, the V2EX fact sheet (V2EX bans AI-written posts, so the author writes it), and what was actually published.
 
+**See it on someone else's repo:** [DragonCard, 54 → 71 in one day](examples/case-dragoncard/) — the author made the two quickest fixes from our issue the next day.
+
 ## Why Megaphone?
 
 > I study communications, and I wanted to make something everyone could use. Then I noticed
