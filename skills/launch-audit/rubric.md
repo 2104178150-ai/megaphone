@@ -116,6 +116,11 @@ doesn't show the point* blocker is for.
   click into a try. That's also why a logo doesn't count as a visual.
 - **Two languages is 5 points**, not more: it's a reach multiplier, not a quality bar.
   Skip it as an accepted trade-off if you won't launch in a second language.
+- **What the data says so far.** In [362 repos created in Aug–Sep 2026](../../research/2026-10-new-repos.md),
+  the biggest gap between projects with 100+ stars and the rest was a visual in the first screen
+  (68% vs 40%); licence, releases, getting-started, badges, a community link and a second
+  language also differed. Description, tagline, length and a features list didn't. That's one
+  correlational sample, not proof that any check brings stars.
 - Stars, forks and age are deliberately **not** scored. The rubric measures what the
   maintainer can fix this week.
 - The score measures the README's **shape**. Whether it actually works for a visitor is

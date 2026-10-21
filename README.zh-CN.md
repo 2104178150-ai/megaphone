@@ -42,6 +42,8 @@ claude plugin install megaphone@megaphone
 
 **看一个别人的项目：**[DragonCard 一天从 54 分到 71 分](examples/case-dragoncard/)——作者第二天就改好了我们建议里最快的两条。
 
+**新项目被看到，差在哪：**[362 个新仓库的体检数据](research/2026-10-new-repos.zh-CN.md)——100 星以上的项目 68% 首屏有截图，5–99 星的只有 40%。
+
 ## 为什么做这个
 
 > 我是学传播的，本来想做个大家都能用的东西。后来发现很多好项目做出来了却没人看。

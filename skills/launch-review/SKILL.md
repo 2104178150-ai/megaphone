@@ -105,3 +105,7 @@ These are rules of thumb, not measurements:
 - Views ↑ but stars flat → the README isn't converting; rerun `launch-audit`.
 - Stars ↑ but no issues/discussions → curiosity, not usage; ask for feedback explicitly.
 - Referrer `github.com` rising after a burst → probably Trending or topic pages.
+- Comparing with similar projects? Look at forks and issues too. In our 2026-10 sample, 67–88% of
+  recently updated new repos with 20–99 stars had no forks at all, which looks like star farming
+  (`../../research/2026-10-new-repos.md`). Never buy stars: GitHub's Acceptable Use
+  Policies ban "rank abuse, such as automated starring".

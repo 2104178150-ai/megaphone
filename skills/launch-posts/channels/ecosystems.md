@@ -57,6 +57,23 @@ channels where its users are.
 | **思源笔记集市** (SiYuan bazaar) | Fork [siyuan-note/bazaar](https://github.com/siyuan-note/bazaar), add `owner/repo` to `plugins.txt` (or `themes.txt`, `icons.txt`, `templates.txt`, `widgets.txt`), open a PR to `main` | One new package per PR. A PR Check workflow and the maintainers review it; the repo needs a Latest Release with `package.zip`. Later versions are picked up from your releases, with no new PR. |
 | **MusicFree plugins** | No central store: users install a plugin from a file or a URL (`.js` or `.json`) under 设置 → 插件设置 ([README](https://github.com/maotoumao/MusicFree)) | Your README and install URL are the listing. Respect the host's wording rules above. |
 
+### Agent skills and Claude Code plugins
+
+For a skill pack, a Claude Code plugin or anything with a `SKILL.md`. Checked 2026-10-21.
+
+| Where | How to get listed | Notes from the source |
+|---|---|---|
+| **Anthropic's plugin directory** (claude.ai, also browsable on [Claude Marketplace](https://claude.com/marketplace/plugins)) | Submit a plugin bundle from a GitHub repo at [claude.ai/directory/manage](https://claude.ai/directory/manage): **Submit new → Plugin bundle → Validate**, answer the data-handling questions, accept the terms, submit ([publish](https://claude.com/docs/directory/publish), [submit](https://claude.com/docs/plugins/submit)) | Needs a Pro, Max, Team or Enterprise plan; free accounts can't submit. Skills aren't a submission type on their own: put them in a bundle. Every version gets validation and a security scan, and a person reviews a new listing; review time isn't fixed. The [pre-submission checklist](https://claude.com/docs/plugins/pre-submission-checklist) blocks on a README under 40 words or no licence; holds for a reviewer non-image files over 256 KiB, more than 512 files, binaries such as `.zip` or `.pdf`, names that look like a known brand, and reading a credential like `$GITHUB_TOKEN` from the user's environment and sending it to a server. On Team and Enterprise, an Owner submits. Remove `.DS_Store` files. The listing shows your README, and its Usage tab shows installs. |
+| **Your own Claude Code marketplace** | A `.claude-plugin/marketplace.json` in your repo; users run `/plugin marketplace add <owner>/<repo>`, then `/plugin install <plugin>@<marketplace>` ([docs](https://code.claude.com/docs/en/plugins/anthropic-marketplaces)) | Anthropic doesn't review third-party marketplaces. It's an install path, not discovery: people find it through your README and posts *(heuristic)*. |
+| **skills.sh** | No submission step that we found: its leaderboard "ranks skills based on anonymous telemetry data collected from the `skills` CLI" ([docs](https://www.skills.sh/docs)), i.e. installs through `npx skills add <owner>/<repo>` | Put that one-line install in your README's quick start so every install counts. skills.sh offers a README badge. |
+| **SkillsMP** | No submission step described: "Skills are sourced from public GitHub repositories" ([about](https://skillsmp.com/about)) | Questions about inclusion go to the support address on that page. |
+| **awesome-claude-code** (hesreallyhim) | Web issue form only, filled in by a human; PRs and CLI submissions aren't accepted ([CONTRIBUTING](https://github.com/hesreallyhim/awesome-claude-code/blob/main/CONTRIBUTING.md)) | At least 14 days since the first commit plus later commits, or 100+ stars. One resource at a time. The resource may be agent-written; the recommendation must be written by a person. Reviewed "in a best-effort way" with no promise of a reply; the maintainer advises getting users first and not making the list part of your promotion plan. |
+| **awesome-agent-skills** (heilcheng) | One line at the end of a Community Skills category, by pull request ([README](https://github.com/heilcheng/awesome-agent-skills), [AGENTS.md](https://github.com/heilcheng/awesome-agent-skills/blob/main/AGENTS.md)) | Merged once the repo has at least 20 stars and is older than 14 days; public repos with a `SKILL.md` only. An agent opening the PR must say so, and say whether the submitter is the skill's author. |
+
+Order that works for a new skill pack *(heuristic)*: your own marketplace and the `npx skills add`
+line on day one, Anthropic's directory once the README and licence pass the checklist, the
+awesome lists once their age and star rules allow and people are using it.
+
 For any other host, search its docs for "submit", "publish", "marketplace" or "community
 plugins", look for an `awesome-<host>` list, and check which GitHub topic its plugins use
 (e.g. `<host>-plugin`).

@@ -44,6 +44,9 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 
 **See it on someone else's repo:** [DragonCard, 54 → 71 in one day](examples/case-dragoncard/) — the author made the two quickest fixes from our issue the next day.
 
+**See what separates new projects that get noticed:** [362 new repos, scored](research/2026-10-new-repos.md) —
+a screenshot in the first screen: 68% of those with 100+ stars, 40% of those with 5–99.
+
 ## Why Megaphone?
 
 > I study communications, and I wanted to make something everyone could use. Then I noticed
