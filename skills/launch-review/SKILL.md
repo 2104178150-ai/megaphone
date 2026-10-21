@@ -93,6 +93,13 @@ answers or, with no human available, assumptions there.
 
 These are rules of thumb, not measurements:
 
+- Compare against the **baseline before any promotion** (for example, one star every 2–3 days).
+  A channel worked if the days after it beat that, not if it produced "some" stars.
+- **Small samples say nothing yet.** Five views and no likes, or nine visitors and no stars, is
+  within normal noise; wait for tens to hundreds before judging a channel or a page.
+- Visits but no stars → check the funnel: does the landing page speak the visitor's language,
+  is the fastest try one click, and is there proof someone else got value?
+
 - A Show HN on the front page often shows up as a sharp one-day spike; Reddit and V2EX
   are smaller but more engaged (look at issues and comments, not only stars).
 - Views ↑ but stars flat → the README isn't converting; rerun `launch-audit`.

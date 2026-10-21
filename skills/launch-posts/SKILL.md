@@ -158,7 +158,8 @@ their own words`.)
 - **Say what it doesn't do yet**, except in neutral-blurb formats, which you write the way
   the editor or list would print them.
 - **Never ask for upvotes, stars or likes**, or coordinate friends to vote: it breaks HN,
-  Product Hunt and Reddit rules and gets posts killed.
+  Product Hunt and Reddit rules and gets posts killed. (A quiet one-line note in the project's
+  own README or tool is fine; asking in posts, DMs or in return for help is not.)
 - **Native language and tone.** Write each post from scratch in its channel's language and
   register (HN: plain and technical; 即刻: personal; 小红书: visual, benefit-first).
 - **No two posts identical.** Reuse facts, not sentences.

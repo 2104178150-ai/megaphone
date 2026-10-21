@@ -40,6 +40,8 @@ rest of the README alone unless asked.
    - Host it where the audience can load it. For mainland-China audiences
      `raw.githubusercontent.com` is often blocked — prefer the project's own site.
    - Check `.gitignore` doesn't exclude the asset path.
+   - If there's a hosted demo, make the visual a link to it, so the most clickable thing on the
+     page is also the fastest way to try it.
 6. **Three bullets** — benefits first, each with a bold lead-in and the how after a dash.
    Keep each to about one line on a phone.
 7. **Quick start** — the shortest real path to **the aha moment in the brief**, not just
@@ -69,6 +71,11 @@ Chinese README going to Hacker News/Reddit. Skip it if the README already matche
 target channel. If git history shows the author removed a twin, ask before adding it back
 (with no human available, don't add it back — record the question in `decisions.md`).
 Link both ways at the top: `English | [简体中文](README.zh-CN.md)`.
+
+GitHub always opens `README.md`, and many visitors decide before they notice a small language link
+(a heuristic from our own launch). If the first channels speak the twin's language, also put **one line in that language right under the
+tagline** — what it is, then a link to the twin — e.g. `**中文用户**：一句话说明 → [看中文说明](README.zh-CN.md)`. Keep the full-width colon
+outside the `**`: GitHub won't close bold right after it when Chinese text follows.
 
 - Write the twin natively: short sentences, concrete pain points, 「适合谁 / 不适合谁」.
 - Keep the code blocks identical.

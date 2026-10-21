@@ -62,7 +62,12 @@ Size this against the user's free hours; if it doesn't fit, move the launch week
 6. **Warm up accounts genuinely** where you'll post: join threads you care about.
 7. **Store or plugin listing** (plugins and extensions): submitted early in prep week,
    since review times aren't promised; announcements wait until it's live.
-8. **Final drafts**: no `[TODO]` left in launch-week drafts; for author-written channels
+8. **Help first (optional, small projects)**: offer two or three specific fixes to a few
+   similar, recently launched projects — one issue each, posted by the user after reading that
+   repo's CONTRIBUTING file (if it bans AI-written issues, the user writes it), with the findings
+   written out rather than a link to your own tool. If someone adopts them, ask whether you may
+   show the before/after as a case study. Never ask for stars in return.
+9. **Final drafts**: no `[TODO]` left in launch-week drafts; for author-written channels
    (Show HN, a DEV launch article, Lobsters, V2EX, 掘金, some awesome lists) the author has written the
    text from the fact sheet; each risk and AI-disclosure check ticked.
 
@@ -73,6 +78,21 @@ Size this against the user's free hours; if it doesn't fit, move the launch week
   share a day if you can still answer them.
 - **Cluster the big days within about a week.** GitHub Trending is widely observed (not
   documented) to reward star velocity, so a burst does more than one post a week.
+- **Before launch week, try small channels one at a time** if you don't yet know which ones work
+  for this project: 2–3 days apart, so each one's effect shows up against the baseline in
+  `launch-review`. Opening five on one day left us unable to tell which one brought anyone (our
+  own launch). Launch week itself follows the two rules above.
+- **Landing page before traffic.** Before each new channel, re-read the README as that channel's
+  visitor (language, device, what they can click) — see the human review in
+  `../launch-audit/SKILL.md`. Traffic sent to a page that doesn't speak the visitor's language
+  is spent.
+- **HelloGitHub after the fixes, not on day one.** It takes each repo once
+  (`../launch-posts/channels/hellogithub.md`), so submit once the landing page works for its
+  readers. Other channels allow another try, but a user's words or a before/after gives any post
+  something to point at (a heuristic, not part of the gate).
+- **Post inside the window, not when the draft is ready.** If it's ready at 3 a.m. for the
+  audience, use the platform's scheduler or wait; on feed-ranked platforms a post's first hours matter most
+  (a heuristic).
 - **Smaller rooms before bigger ones**: a niche subreddit or language community before
   Hacker News or Product Hunt, so wording and bugs get fixed before the big day.
 - **Buffer day after the biggest launch**: fix what broke, post "thanks, fixed X".
@@ -112,6 +132,9 @@ Gate: open blockers <N> · level <…> · go/no-go on <T-2 date>
 - [ ] Capacity: <limits> · overload message · fallback: <…>
 - [ ] Release <version> · description, topics, homepage · social preview · demo visual
 - [ ] Awesome-list PRs: <lists> · HelloGitHub / 阮一峰周刊: <dates> · warm-up: <where>
+- [ ] Landing check per channel: <channel → first screen speaks its language, fastest try is clickable>
+- [ ] HelloGitHub after the landing fixes: <date> · proof to point at: <user words / before-after / none yet>
+- [ ] Help first (optional): <projects> · case-study permission: <yes / no / n/a>
 - [ ] Store / plugin directory (if any): submitted <date> · live: <yes/no> — announcements wait
 - [ ] README proposal (readme-first-screen.md, if any): applied / rejected
 - [ ] T-2 re-audit: <score, open blockers> · go/no-go: <go / moved to …>

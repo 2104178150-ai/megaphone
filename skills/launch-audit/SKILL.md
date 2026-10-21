@@ -39,6 +39,14 @@ with no human available, the assumptions you made.
    - Does anything look **abandoned, broken or risky** (stale badges, dead links, "WIP"
      with no date, no license)?
    - Would I **know what to say** if I told a friend about it?
+   - Does the page I land on **speak my language**? GitHub opens `README.md`; a visitor from
+     V2EX, 掘金 or 小红书 who meets an English first screen may leave before finding the small
+     「简体中文」 link (and the reverse for an English channel; a heuristic from our own launch).
+     One line in the visitor's language under the tagline, linking to the twin, helps.
+   - Is the fastest way to try it **the easiest thing to click** (for example, the hero image
+     links to the hosted demo)?
+   - Is there **proof that someone else got value** (a user's words, a before/after)? Optional
+     at launch, but it's what turns a visit into a star later.
 
    Don't run the project's code unless the user asked you to; reason from the code and
    docs, and say so.

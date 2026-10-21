@@ -14,7 +14,7 @@ the user can review, so nothing goes out without their say-so.
 - **Never post, submit, email or DM anything yourself.** You draft; the user publishes.
   Platforms punish automated or vote-seeking behaviour, and the user's name is on it.
 - **Never ask anyone for upvotes or stars, and never suggest it.** Hacker News, Product
-  Hunt and Reddit treat vote-rings as abuse.
+  Hunt and Reddit treat vote-rings as abuse. (A quiet one-line note in the project's own README or tool is fine; asking in posts, DMs or in return for help is not.)
 - **Never invent facts or the author's voice.** No made-up user counts, benchmarks,
   testimonials — and no made-up origin story. Sentences like "I built this because…"
   must be the user's own words or a `[TODO]`. Unknowns stay `[TODO]`.
