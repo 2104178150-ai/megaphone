@@ -1,5 +1,25 @@
 import { analyze, fetchRepoData, parseRepoInput, FetchError, CATEGORIES, LEVELS } from './checker.js';
 
+// Visit counts (GoatCounter: no cookies, no IP addresses stored). Empty = off.
+// We send a fixed path and a few named events, never the repo someone checked:
+// the URL's ?repo= part could name a private repository.
+const STATS_CODE = '';
+
+function track(path, event = true) {
+  try { window.goatcounter?.count?.({ path, title: path, event }); } catch (_) { /* never break the page */ }
+}
+
+function startStats() {
+  if (!STATS_CODE || !location.hostname.endsWith('.github.io')) return;
+  const s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://gc.zgo.at/count.js';
+  s.dataset.goatcounter = `https://${STATS_CODE}.goatcounter.com/count`;
+  s.dataset.goatcounterSettings = JSON.stringify({ no_onload: true });
+  s.onload = () => track(new URLSearchParams(location.search).has('repo') ? '/report-link' : '/', false);
+  document.head.appendChild(s);
+}
+
 // The repo this site lives in. On GitHub Pages it's derived from the URL
 // (2104178150-ai.github.io/REPO); elsewhere it falls back to this default.
 const DEFAULT_PROJECT = '2104178150-ai/megaphone';
@@ -381,6 +401,7 @@ async function run(input) {
     last = { analysis, data };
     setStatus('');
     showTokenForm(false);
+    track('check');
     const swap = () => render(analysis, true);
     // A native cross-fade between the home page and the report where the browser has one.
     if (document.startViewTransition && !document.body.classList.contains('has-result')
@@ -544,6 +565,7 @@ function countUp(node, target) {
 
 async function copyText(btn) {
   const text = document.getElementById(btn.dataset.copy).textContent;
+  track({ handoff: 'copy-agent-prompt', 'badge-md': 'copy-badge', 'share-text': 'copy-share' }[btn.dataset.copy] || 'copy-install');
   try {
     await navigator.clipboard.writeText(text);
   } catch (_) {
@@ -577,7 +599,7 @@ $('#token-form').addEventListener('submit', (e) => {
 document.addEventListener('click', (e) => {
   if (e.target.id === 'token-clear') setToken(null);
 });
-document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => run(c.dataset.repo)));
+document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => { track('try-example'); run(c.dataset.repo); }));
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-copy]');
   if (btn) copyText(btn);
@@ -589,6 +611,7 @@ $('#lang').addEventListener('click', () => {
 });
 
 applyLanguage();
+startStats();
 const initial = new URLSearchParams(location.search).get('repo');
 if (initial) run(initial);
 

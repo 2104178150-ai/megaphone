@@ -11,7 +11,7 @@ Launch your open-source project the way a marketer would — even if you've neve
 
 English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/) · Cases: [DragonCard 54 → 71](examples/case-dragoncard/), [outline-skill 58 → 78](examples/case-outline-skill/)
 
-[![Megaphone scoring a repo: 84/100, the three fixes that matter most, and where to launch it — click to try it](docs/preview.svg)](https://2104178150-ai.github.io/megaphone/)
+[![Megaphone checking a repo: type it in, get a 0–100 launch score, the three fixes that matter most and where to launch it — click to try it](docs/demo.svg)](https://2104178150-ai.github.io/megaphone/)
 
 - **Know if you're ready** — blockers a visitor would hit, risks that grow with visibility, and a 0–100 score from 21 checks. [Score any repo in your browser](https://2104178150-ai.github.io/megaphone/), no install.
 - **The right post for each channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more: a native draft written to each platform's rules, or, where a platform wants your own words (Show HN, V2EX, 掘金, Lobsters), a fact sheet you write from. Rules come with sources and a "last checked" date.

@@ -9,7 +9,7 @@
 
 [English](README.md) | 简体中文 · [**在线检测你的项目 →**](https://2104178150-ai.github.io/megaphone/) · 案例：[DragonCard 54 → 71](examples/case-dragoncard/)、[outline-skill 58 → 78](examples/case-outline-skill/)
 
-[![Megaphone 给一个仓库打分：84/100，最该先改的三件事，以及适合去哪里发——点图片直接试](docs/preview.svg)](https://2104178150-ai.github.io/megaphone/)
+[![Megaphone 给一个仓库打分：输入仓库，得到 0–100 的发布就绪分、最该先改的三件事和适合去哪里发——点图片直接试](docs/demo.zh-CN.svg)](https://2104178150-ai.github.io/megaphone/)
 
 - **先知道准备好了没有**——会让访客掉头就走的阻断项、曝光后会放大的风险，再加 21 项检查给出的 0–100 分。[打开网页就能给任意仓库打分](https://2104178150-ai.github.io/megaphone/)，不用安装。
 - **每个渠道对症的文案**——Show HN、Reddit、Product Hunt、X、V2EX、HelloGitHub、阮一峰周刊、小红书……按各平台规则写好原生草稿；要求作者亲笔的平台（Show HN、V2EX、掘金、Lobsters 等）给你一份事实清单，由你自己来写。规则都注明出处和核对日期。

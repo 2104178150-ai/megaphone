@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" font-family="system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif">
+<title>Megaphone 给一个仓库打分：输入仓库，得到 0–100 的发布就绪分、最该先改的三件事和适合去哪里发</title>
+<rect width="1200" height="640" rx="28" fill="#fafaf9"/>
+<rect x="1" y="1" width="1198" height="638" rx="27" fill="none" stroke="#e9e7e2" stroke-width="2"/>
+<g transform="translate(40 30) scale(.32)"><path d="M14 38 70 16v64L14 58Z" fill="#e4531b"/><rect x="5" y="35" width="12" height="26" rx="4" fill="#141413"/><path d="M34 64l6 18" stroke="#141413" stroke-width="9" stroke-linecap="round"/><path d="M82 37a15 15 0 0 1 0 22M93 28a28 28 0 0 1 0 40M104 19a41 41 0 0 1 0 58" fill="none" stroke="#e4531b" stroke-width="7" stroke-linecap="round"/></g>
+<text x="88" y="54" font-size="20" font-weight="650" fill="#141413">Megaphone</text>
+<text x="1160" y="54" font-size="16" fill="#8b8780" text-anchor="end">你的开源项目，准备好被看见了吗？</text>
+<rect x="300" y="92" width="600" height="60" rx="16" fill="#ffffff" stroke="#dcd9d3"/>
+<text x="326" y="129" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="19" fill="#141413">your-name/your-repo</text>
+<rect class="typing" x="322" y="106" width="236" height="32" fill="#ffffff"/>
+<g class="press"><rect x="796" y="100" width="96" height="44" rx="11" fill="#141413"/><text x="844" y="128" font-size="16" font-weight="600" fill="#ffffff" text-anchor="middle">检测</text></g>
+<g class="card">
+<rect x="40" y="184" width="1120" height="420" rx="22" fill="#ffffff" stroke="#e9e7e2"/>
+<line x1="770" y1="214" x2="770" y2="574" stroke="#e9e7e2"/>
+<g transform="rotate(-90 186 360)">
+<circle cx="186" cy="360" r="98" fill="none" stroke="#f4f3f0" stroke-width="20"/>
+<circle class="meter" cx="186" cy="360" r="98" fill="none" stroke="#4d7c0f" stroke-width="20" stroke-dasharray="615.8" stroke-dashoffset="98.5"/>
+<circle cx="186" cy="360" r="98" fill="none" stroke="#ffffff" stroke-width="24" stroke-dasharray="3.4 8.92"/>
+</g>
+<g class="num"><text x="186" y="376" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="60" font-weight="600" fill="#4d7c0f" text-anchor="middle" letter-spacing="-3">84</text><text x="186" y="404" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#8b8780" text-anchor="middle">满分 100</text></g>
+<text x="330" y="246" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="14" fill="#8b8780">your-name/your-repo</text>
+<g class="lvl"><g transform="translate(330 262) scale(.3)" fill="#4d7c0f"><path d="M14 38 70 16v64L14 58Z"/><rect x="5" y="35" width="12" height="26" rx="4"/><path d="M82 37a15 15 0 0 1 0 22M93 28a28 28 0 0 1 0 40M104 19a41 41 0 0 1 0 58" fill="none" stroke="#4d7c0f" stroke-width="8" stroke-linecap="round"/></g><text x="380" y="290" font-size="30" font-weight="650" fill="#4d7c0f" letter-spacing="-.5">就差一点</text><text x="330" y="322" font-size="16" fill="#57544f">先改掉最前面几项，成本很低。</text></g>
+<text x="330" y="373" font-size="15" fill="#57544f">第一印象</text>
+<rect x="480" y="365" width="230" height="6" rx="3" fill="#f4f3f0"/>
+<rect class="bar0" x="480" y="365" width="177" height="6" rx="3" fill="#141413"/>
+<text x="762" y="373" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#8b8780" text-anchor="end">27/35</text>
+<text x="330" y="413" font-size="15" fill="#57544f">上手速度</text>
+<rect x="480" y="405" width="230" height="6" rx="3" fill="#f4f3f0"/>
+<rect class="bar1" x="480" y="405" width="230" height="6" rx="3" fill="#141413"/>
+<text x="762" y="413" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#8b8780" text-anchor="end">25/25</text>
+<text x="330" y="453" font-size="15" fill="#57544f">可信度</text>
+<rect x="480" y="445" width="230" height="6" rx="3" fill="#f4f3f0"/>
+<rect class="bar2" x="480" y="445" width="184" height="6" rx="3" fill="#141413"/>
+<text x="762" y="453" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#8b8780" text-anchor="end">16/20</text>
+<text x="330" y="493" font-size="15" fill="#57544f">传播力</text>
+<rect x="480" y="485" width="230" height="6" rx="3" fill="#f4f3f0"/>
+<rect class="bar3" x="480" y="485" width="184" height="6" rx="3" fill="#141413"/>
+<text x="762" y="493" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#8b8780" text-anchor="end">16/20</text>
+<text x="800" y="246" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" letter-spacing="2" fill="#8b8780">先改</text>
+<g class="fix0">
+<text x="800" y="284" font-size="16" font-weight="600" fill="#141413">首屏放一张截图或动图</text>
+<rect x="1080" y="267" width="48" height="24" rx="6" fill="#f4f3f0"/>
+<text x="1104" y="284" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#57544f" text-anchor="middle">+8</text></g>
+<g class="fix1">
+<line x1="800" y1="304" x2="1128" y2="304" stroke="#e9e7e2"/>
+<text x="800" y="332" font-size="16" font-weight="600" fill="#141413">侧栏 Website 填上演示链接</text>
+<rect x="1080" y="315" width="48" height="24" rx="6" fill="#f4f3f0"/>
+<text x="1104" y="332" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#57544f" text-anchor="middle">+4</text></g>
+<g class="fix2">
+<line x1="800" y1="352" x2="1128" y2="352" stroke="#e9e7e2"/>
+<text x="800" y="380" font-size="16" font-weight="600" fill="#141413">发一个 Release</text>
+<rect x="1080" y="363" width="48" height="24" rx="6" fill="#f4f3f0"/>
+<text x="1104" y="380" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="13" fill="#57544f" text-anchor="middle">+4</text></g>
+<text x="800" y="456" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace" font-size="12" letter-spacing="2" fill="#8b8780">去哪发</text>
+<g class="ch0"><rect x="800" y="474" width="78" height="32" rx="7" fill="#ffffff" stroke="#e9e7e2"/><text x="839" y="495" font-size="14" fill="#57544f" text-anchor="middle">Show HN</text></g>
+<g class="ch1"><rect x="886" y="474" width="87" height="32" rx="7" fill="#ffffff" stroke="#e9e7e2"/><text x="930" y="495" font-size="14" fill="#57544f" text-anchor="middle">r/golang</text></g>
+<g class="ch2"><rect x="981" y="474" width="52" height="32" rx="7" fill="#ffffff" stroke="#e9e7e2"/><text x="1007" y="495" font-size="14" fill="#57544f" text-anchor="middle">V2EX</text></g>
+<g class="ch3"><rect x="1041" y="474" width="113" height="32" rx="7" fill="#ffffff" stroke="#e9e7e2"/><text x="1098" y="495" font-size="14" fill="#57544f" text-anchor="middle">HelloGitHub</text></g>
+</g>
+<style>@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+* { animation-duration: 14.0s; animation-iteration-count: infinite; animation-timing-function: cubic-bezier(.2,.8,.2,1); }
+@keyframes type { 0%, 2.14% { transform: translateX(0); } 12.14%, 92% { transform: translateX(228px); } 96%, 100% { transform: translateX(0); } }
+.typing { animation-name: type; animation-timing-function: steps(19, end); }
+@keyframes press { 0%, 13.57% { transform: scale(1); } 14.64% { transform: scale(.94); } 16.07%, 100% { transform: scale(1); } }
+.press { animation-name: press; transform-box: fill-box; transform-origin: center; }
+@keyframes card { 0%, 15.71% { opacity: 0; transform: translateY(14px); } 19.29%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.card { animation-name: card; transform-box: fill-box; }
+@keyframes fill { 0%, 18.57% { stroke-dashoffset: 615.8; } 30.00%, 88% { stroke-dashoffset: 98.5; } 95%, 100% { stroke-dashoffset: 98.5; } }
+.meter { animation-name: fill; }
+@keyframes num { 0%, 26.43% { opacity: 0; transform: translateY(0px); } 29.29%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.num { animation-name: num; transform-box: fill-box; }
+@keyframes lvl { 0%, 28.57% { opacity: 0; transform: translateY(8px); } 31.79%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.lvl { animation-name: lvl; transform-box: fill-box; }
+@keyframes bar0 { 0%, 30.71% { transform: scaleX(0); } 37.14%, 88% { transform: scaleX(1); } 95%, 100% { transform: scaleX(1); } }
+.bar0 { animation-name: bar0; transform-box: fill-box; transform-origin: left center; }
+@keyframes bar1 { 0%, 31.57% { transform: scaleX(0); } 38.00%, 88% { transform: scaleX(1); } 95%, 100% { transform: scaleX(1); } }
+.bar1 { animation-name: bar1; transform-box: fill-box; transform-origin: left center; }
+@keyframes bar2 { 0%, 32.43% { transform: scaleX(0); } 38.86%, 88% { transform: scaleX(1); } 95%, 100% { transform: scaleX(1); } }
+.bar2 { animation-name: bar2; transform-box: fill-box; transform-origin: left center; }
+@keyframes bar3 { 0%, 33.29% { transform: scaleX(0); } 39.71%, 88% { transform: scaleX(1); } 95%, 100% { transform: scaleX(1); } }
+.bar3 { animation-name: bar3; transform-box: fill-box; transform-origin: left center; }
+@keyframes fix0 { 0%, 40.00% { opacity: 0; transform: translateY(8px); } 43.21%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.fix0 { animation-name: fix0; transform-box: fill-box; }
+@keyframes fix1 { 0%, 44.29% { opacity: 0; transform: translateY(8px); } 47.50%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.fix1 { animation-name: fix1; transform-box: fill-box; }
+@keyframes fix2 { 0%, 48.57% { opacity: 0; transform: translateY(8px); } 51.79%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.fix2 { animation-name: fix2; transform-box: fill-box; }
+@keyframes ch0 { 0%, 54.29% { opacity: 0; transform: translateY(6px); } 56.79%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.ch0 { animation-name: ch0; transform-box: fill-box; }
+@keyframes ch1 { 0%, 55.57% { opacity: 0; transform: translateY(6px); } 58.07%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.ch1 { animation-name: ch1; transform-box: fill-box; }
+@keyframes ch2 { 0%, 56.86% { opacity: 0; transform: translateY(6px); } 59.36%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.ch2 { animation-name: ch2; transform-box: fill-box; }
+@keyframes ch3 { 0%, 58.14% { opacity: 0; transform: translateY(6px); } 60.64%, 88% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+.ch3 { animation-name: ch3; transform-box: fill-box; }</style>
+</svg>
