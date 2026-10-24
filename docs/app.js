@@ -3,7 +3,7 @@ import { analyze, fetchRepoData, parseRepoInput, FetchError, CATEGORIES, LEVELS 
 // Visit counts (GoatCounter: no cookies, no IP addresses stored). Empty = off.
 // We send a fixed path and a few named events, never the repo someone checked:
 // the URL's ?repo= part could name a private repository.
-const STATS_CODE = '';
+const STATS_CODE = 'megaphone-checker';
 
 function track(path, event = true) {
   try { window.goatcounter?.count?.({ path, title: path, event }); } catch (_) { /* never break the page */ }
@@ -82,7 +82,7 @@ const STRINGS = {
     p3d: 'Share with a screenshot in the first screen: 100+ stars vs 5–99 stars.',
     proofMore: 'Read the case →',
     proofResearch: 'See the study →',
-    privacy: 'Runs entirely in your browser: repo data comes straight from GitHub (the API and raw.githubusercontent.com), the badge preview from shields.io. Nothing is stored on a server.',
+    privacy: 'Runs in your browser: repo data comes straight from GitHub (the API and raw.githubusercontent.com), the badge preview from shields.io. Visits and checks are counted with GoatCounter, without cookies and without the repo you checked.',
     rate: (n) => `GitHub API: ${n} requests left this hour`,
     tokenPrompt: 'Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).',
     tokenPlaceholder: 'github_pat_… or ghp_…',
@@ -160,7 +160,7 @@ const STRINGS = {
     p3d: '首屏有截图的比例：100 星以上 vs 5–99 星。',
     proofMore: '看案例 →',
     proofResearch: '看研究 →',
-    privacy: '完全在你的浏览器里运行：仓库数据直接来自 GitHub（API 和 raw.githubusercontent.com），徽章预览来自 shields.io，不在任何服务器上保存数据。',
+    privacy: '在你的浏览器里运行：仓库数据直接来自 GitHub（API 和 raw.githubusercontent.com），徽章预览来自 shields.io。访问和检测次数用 GoatCounter 统计：不用 cookie，也不记录你测了哪个仓库。',
     rate: (n) => `GitHub API 本小时剩余 ${n} 次请求`,
     tokenPrompt: '匿名额度用完了？粘贴一个 GitHub token 就能继续检测（每小时 5000 次）。',
     tokenPlaceholder: 'github_pat_… 或 ghp_…',

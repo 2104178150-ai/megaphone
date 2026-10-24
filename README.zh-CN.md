@@ -138,14 +138,14 @@ audit.md brief.md  README.md      posts/*.md    plan.md             report.md
 ## 它会运行什么、连接哪里
 
 Megaphone 由 Markdown 写的技能和两个小 Python 脚本组成（只用标准库）。没有 hooks、没有 MCP 服务器、
-不装任何依赖、不收集使用数据，也没有自己的服务器。
+不装任何依赖，也没有自己的服务器；技能和脚本不发送任何使用数据。网页检测器会统计访问次数（见下表）。
 
 | 部分 | 什么时候运行 | 连接哪里 | 读取什么 | 写入什么 |
 |---|---|---|---|---|
 | 技能（`skills/*/SKILL.md`） | 你的 AI 助手按技能做事时 | 技能里写明的公开页面：`api.github.com`（查仓库信息）、`hn.algolia.com` 和 Reddit 搜索（查以前有没有发过）、手册里链接的各平台规则页 | 你仓库里的文件 | 你仓库里的 `.megaphone/`，并在 `.gitignore` 里加一行 `.megaphone/`；`README.md` 只在你同意时才改 |
 | [`audit.py`](skills/launch-audit/scripts/audit.py) | 体检技能或你自己运行时 | `api.github.com`、`raw.githubusercontent.com` | 设置了的话读 `GITHUB_TOKEN` / `GH_TOKEN`，只发给 `api.github.com` | 打印报告 |
 | [`stars.py`](skills/launch-review/scripts/stars.py) | 复盘技能或你自己运行时 | `api.github.com` | `GITHUB_TOKEN` / `GH_TOKEN`（看 star 用户和流量必须有；技能可能建议用 `gh auth token` 来设置），只发给 `api.github.com`；`.megaphone/log.csv` | `.megaphone/` 里的快照和报告 |
-| 网页检测器（`docs/`） | 在你的浏览器里 | `api.github.com`、`raw.githubusercontent.com`、`img.shields.io` 的徽章图片 | 只有你粘贴了 token 才会用，只留在当前标签页 | 结果在你的浏览器里缓存一小时 |
+| 网页检测器（`docs/`） | 在你的浏览器里 | `api.github.com`、`raw.githubusercontent.com`、`img.shields.io` 的徽章图片；访问统计发往 `megaphone-checker.goatcounter.com`（只有固定的页面路径和「检测」「复制」这类动作名，从不包含仓库名） | 只有你粘贴了 token 才会用，只留在当前标签页 | 结果在你的浏览器里缓存一小时 |
 | 维护者工具（`scripts/`、`tests/`） | 只在贡献者手动运行时；没有任何技能会调用 | `check_sources.py`：它 `SOURCES` 列表里的平台页面；`study.py`：`api.github.com` | `study.py`：`GITHUB_TOKEN` | 只写到你指定的位置 |
 
 ## 原则
@@ -165,7 +165,7 @@ Megaphone 由 Markdown 写的技能和两个小 Python 脚本组成（只用标�
 
 **需要 GitHub token 吗？** 只有 `launch-review` 需要，而且要用维护者自己的：GitHub 只对登录请求开放 stargazers 列表，并且正在把它限制为仅仓库管理员和协作者可见（[文档](https://docs.github.com/en/rest/activity/starring)），流量数据还需要仓库的推送权限。其他功能都不需要；匿名额度用完时，网页检测器和 `audit.py` 也能用 token 提高额度。
 
-**网页检测安全吗？** 完全在你的浏览器里运行，没有 Megaphone 自己的服务器。仓库数据直接来自 GitHub（公开 API 和 raw.githubusercontent.com）；徽章预览是一张 shields.io 图片，链接里只带分数。匿名 API 请求每个 IP 每小时 60 次，每次检测用 3–5 次，结果会在你的浏览器里缓存一小时。
+**网页检测安全吗？** 在你的浏览器里运行，没有 Megaphone 自己的服务器。仓库数据直接来自 GitHub（公开 API 和 raw.githubusercontent.com）；徽章预览是一张 shields.io 图片，链接里只带分数。我们用 [GoatCounter](https://www.goatcounter.com/help/privacy) 统计访问次数和几个动作（检测、复制）：它不用 cookie，也不保存 IP 地址；我们从不发送你测了哪个仓库。匿名 API 请求每个 IP 每小时 60 次，每次检测用 3–5 次，结果会在你的浏览器里缓存一小时。
 
 **我的项目只有中文 / 只有英文，会扣很多分吗？** 不会。第二种语言只占 100 分里的 5 分，因为它能解锁更多渠道。如果你不打算用另一种语言发布，`launch-audit` 会把它记为「接受的取舍」，只按其余各项打分。
 
