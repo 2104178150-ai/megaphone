@@ -1,23 +1,33 @@
 import { analyze, fetchRepoData, parseRepoInput, FetchError, CATEGORIES, LEVELS } from './checker.js';
 
 // Visit counts (GoatCounter: no cookies, no IP addresses stored). Empty = off.
-// We send a fixed path and a few named events, never the repo someone checked:
-// the URL's ?repo= part could name a private repository.
+// We send the hit ourselves instead of loading GoatCounter's script, because that script
+// always sends the URL's query string, and our ?repo= part could name a private repository.
+// Each hit carries only: a fixed path or action name, the screen width, and for page views
+// an outside referrer without its query string. Never the repo someone checked.
 const STATS_CODE = 'megaphone-checker';
 
+function outsideReferrer() {
+  try {
+    const r = new URL(document.referrer);
+    return r.host === location.host ? '' : r.origin + r.pathname;
+  } catch (_) { return ''; }
+}
+
 function track(path, event = true) {
-  try { window.goatcounter?.count?.({ path, title: path, event }); } catch (_) { /* never break the page */ }
+  if (!STATS_CODE || !location.hostname.endsWith('.github.io')) return;
+  try {
+    const q = new URLSearchParams({ p: path, t: path, s: String(screen.width), rnd: Math.random().toString(36).slice(2, 7) });
+    if (event) q.set('e', 'true');
+    else if (outsideReferrer()) q.set('r', outsideReferrer());
+    if (navigator.webdriver) q.set('b', '153');
+    const url = `https://${STATS_CODE}.goatcounter.com/count?${q}`;
+    if (!navigator.sendBeacon || !navigator.sendBeacon(url)) new Image().src = url;
+  } catch (_) { /* never break the page */ }
 }
 
 function startStats() {
-  if (!STATS_CODE || !location.hostname.endsWith('.github.io')) return;
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://gc.zgo.at/count.js';
-  s.dataset.goatcounter = `https://${STATS_CODE}.goatcounter.com/count`;
-  s.dataset.goatcounterSettings = JSON.stringify({ no_onload: true });
-  s.onload = () => track(new URLSearchParams(location.search).has('repo') ? '/report-link' : '/', false);
-  document.head.appendChild(s);
+  track(new URLSearchParams(location.search).has('repo') ? '/report-link' : '/', false);
 }
 
 // The repo this site lives in. On GitHub Pages it's derived from the URL
