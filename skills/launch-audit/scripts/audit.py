@@ -84,6 +84,9 @@ RUBRIC = [
 ]
 
 CATEGORY_WEIGHT = {"A": 1.2, "B": 1.2, "C": 1.0, "D": 0.8}
+# Failed checks that are blockers in rubric.md section 1 go first, whatever their points:
+# without a licence, nobody can legally use the project.
+BLOCKERS = {"C1"}
 
 LEVELS = [
     (90, "📣", "great", "Ready to launch"),
@@ -450,8 +453,8 @@ def analyze(data, now_ms=None):
     for cid, mx, name in CATEGORIES:
         cats.append({"id": cid, "max": mx, "name": name, "score": sum(c["points"] for c in checks if c["cat"] == cid)})
     score = sum(c["score"] for c in cats)
-    fixes = sorted([c for c in checks if not c["pass"]],
-                   key=lambda c: (-(c["max"] - c["points"]) * CATEGORY_WEIGHT[c["cat"]], c["id"]))
+    fixes = sorted([dict(c, blocker=True) if c["id"] in BLOCKERS else c for c in checks if not c["pass"]],
+                   key=lambda c: (not c.get("blocker"), -(c["max"] - c["points"]) * CATEGORY_WEIGHT[c["cat"]], c["id"]))
     lvl = level_for(score)
     return {"repo": repo.get("full_name"), "score": score,
             "level": {"emoji": lvl[1], "color": lvl[2], "name": lvl[3]},
@@ -538,7 +541,8 @@ def to_markdown(a):
     lines += ["", "## Fix first (rubric)", ""]
     for n, c in enumerate(a["fixes"][:5], 1):
         hint = " — `%s` skill" % c["skill"] if c["skill"] else ""
-        lines.append("%d. **%s** (+%d) — %s%s" % (n, c["title"], c["max"] - c["points"], c["fix"], hint))
+        flag = "⚠️ Blocker: " if c.get("blocker") else ""
+        lines.append("%d. %s**%s** (+%d) — %s%s" % (n, flag, c["title"], c["max"] - c["points"], c["fix"], hint))
     lines += ["", "## Rubric detail", ""]
     for c in a["checks"]:
         mark = "x" if c["pass"] else " "

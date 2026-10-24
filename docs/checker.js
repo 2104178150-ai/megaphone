@@ -16,6 +16,9 @@ export const CATEGORIES = [
 
 // Fix ordering only — doesn't change the score.
 const CATEGORY_WEIGHT = { A: 1.2, B: 1.2, C: 1, D: 0.8 };
+// Failed checks that are blockers in rubric.md §1 go first, whatever their points:
+// without a licence, nobody can legally use the project.
+const BLOCKERS = new Set(['C1']);
 
 // skill: which Megaphone skill fixes it (shown next to failed checks)
 export const RUBRIC = [
@@ -410,7 +413,8 @@ export function analyze(data, now = Date.now()) {
   const impact = (c) => (c.max - c.points) * CATEGORY_WEIGHT[c.cat];
   const fixes = checks
     .filter((c) => !c.pass)
-    .sort((a, b) => impact(b) - impact(a) || a.id.localeCompare(b.id));
+    .map((c) => (BLOCKERS.has(c.id) ? { ...c, blocker: true } : c))
+    .sort((a, b) => (b.blocker ? 1 : 0) - (a.blocker ? 1 : 0) || impact(b) - impact(a) || a.id.localeCompare(b.id));
 
   return {
     repo: repo.full_name,
@@ -462,9 +466,12 @@ export function recommendChannels(repo, f, results = {}) {
   }
 
   const lang = LANG_CHANNELS[repo.language];
+  // Only name a language list for real programming languages: GitHub often reports HTML, CSS or
+  // Jupyter Notebook for projects whose list would be awesome-<category>, not awesome-html.
+  const listLang = lang ? repo.language.toLowerCase().replace('c++', 'cpp') : null;
   add('awesome', 'awesome-lists.md', ev('Awesome lists', 'Awesome 列表'),
-    ev(repo.language ? `Look for awesome-${repo.language.toLowerCase()} and category lists.` : 'Find the awesome list for your category.',
-       repo.language ? `找 awesome-${repo.language.toLowerCase()} 和对应类别的列表。` : '找到你所在类别的 awesome 列表。'), 80);
+    ev(listLang ? `Look for awesome-${listLang} and category lists.` : 'Find the awesome list for your category.',
+       listLang ? `找 awesome-${listLang} 和对应类别的列表。` : '找到你所在类别的 awesome 列表。'), 80);
 
   const host = ['vscode-extension', 'vscode', 'visual-studio-code', 'obsidian-plugin', 'obsidian', 'chrome-extension',
     'browser-extension', 'firefox-addon', 'firefox-extension', 'webextension', 'raycast', 'raycast-extension',

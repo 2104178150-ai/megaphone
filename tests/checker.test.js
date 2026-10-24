@@ -160,6 +160,26 @@ test('fixes favour first impression over shareability at similar gains', () => {
   eq(ids.slice(0, 2), ['A6', 'D1']);
 });
 
+test('a missing licence is a blocker and goes first, whatever its points', () => {
+  const data = structuredClone(GOOD_DATA);
+  data.repo.license = null;                                  // C1: -6 (category C)
+  data.repo.homepage = '';                                   // A6: -4 (category A)
+  data.repo.description = '';                                // A1: -8 (category A)
+  const fixes = analyze(data, NOW).fixes;
+  eq(fixes.map((f) => f.id).slice(0, 3), ['C1', 'A1', 'A6']);
+  eq(fixes[0].blocker, true);
+  ok(!fixes[1].blocker, 'only C1 is a blocker');
+});
+
+test('channels: awesome-<language> only for programming languages', () => {
+  const f = readmeFacts('# X');
+  const why = (language) => recommendChannels({ topics: [], language }, f).find((c) => c.id === 'awesome').why.en;
+  ok(why('Go').includes('awesome-go'), why('Go'));
+  ok(why('C++').includes('awesome-cpp'), why('C++'));
+  ok(!why('HTML').includes('awesome-html'), why('HTML'));
+  ok(!why(null).includes('awesome-'), why(null));
+});
+
 test('channels: Chinese README unlocks Chinese channels', () => {
   const f = readmeFacts('# 项目\n\n' + '这是一个帮助开发者推广开源项目的工具，可以自动检查仓库。'.repeat(5));
   const ids = recommendChannels({ topics: [], language: 'Go' }, f).map((c) => c.id);

@@ -35,6 +35,17 @@ class ParityTest(unittest.TestCase):
                 self.assertEqual(points, case["expected"]["points"])
                 self.assertEqual(a["score"], case["expected"]["score"])
 
+    def test_missing_licence_is_a_blocker_and_goes_first(self):
+        case = json.loads(json.dumps(next(c for c in FIXTURES["cases"] if c["name"] == "good")))
+        case["data"]["repo"]["license"] = None
+        case["data"]["repo"]["homepage"] = ""
+        case["data"]["repo"]["description"] = ""
+        a = audit.analyze(case["data"], NOW_MS)
+        self.assertEqual([f["id"] for f in a["fixes"]][:3], ["C1", "A1", "A6"])
+        self.assertTrue(a["fixes"][0]["blocker"])
+        self.assertFalse(a["fixes"][1].get("blocker"))
+        self.assertIn("⚠️ Blocker: **License**", audit.to_markdown(a))
+
     def test_markdown_report_renders(self):
         a = audit.analyze(FIXTURES["cases"][0]["data"], NOW_MS)
         md = audit.to_markdown(a)

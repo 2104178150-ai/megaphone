@@ -217,6 +217,8 @@ main { overflow-x: clip; }
   border: 1.5px solid var(--line); color: var(--ink-2); display: grid; place-content: center; font-weight: 750; font-size: .82rem;
 }
 .fix-title { font-weight: 700; margin-bottom: 2px; }
+.blocker-tag { display: inline-block; margin-right: 8px; font-size: .75rem; font-weight: 750; letter-spacing: .02em; color: var(--accent-ink); background: var(--accent); border-radius: 6px; padding: 1px 8px; vertical-align: 1px; }
+.fixes li.is-blocker .fix-body { color: var(--ink); }
 .fix-body { color: var(--ink-2); font-size: .93rem; }
 .fix-skill { margin-top: 6px; font-size: .84rem; color: var(--ink-3); }
 .fix-skill code { background: var(--surface-2); padding: 1px 6px; border-radius: 6px; color: var(--ink); }

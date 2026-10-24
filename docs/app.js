@@ -23,6 +23,7 @@ const STRINGS = {
     archived: 'This repo is archived — visitors will see it as finished or abandoned.',
     noReadme: 'No README found — that’s the first thing to write.',
     fixFirst: 'Fix these first',
+    blocker: 'Blocker',
     fixWith: 'Your agent can do this with',
     allGood: 'Nothing left to fix. Go launch it.',
     handT: 'Hand it to your AI agent',
@@ -84,6 +85,7 @@ const STRINGS = {
     archived: '这个仓库已归档——访客会以为它已经停更或废弃。',
     noReadme: '没有找到 README——这是第一件要写的东西。',
     fixFirst: '先改这几项',
+    blocker: '先解决',
     fixWith: '可以让 AI 用这个技能来改：',
     allGood: '没有要改的了，去发布吧！',
     handT: '交给你的 AI 助手',
@@ -393,7 +395,7 @@ function render(a, animate = false) {
     <div class="card">
       <h2>${esc(t('fixFirst'))}</h2>
       ${fixes.length ? `<ol class="fixes">${fixes.map((f) => `
-        <li><div><div class="fix-title">${esc(L(f.title))}</div>
+        <li${f.blocker ? ' class="is-blocker"' : ''}><div><div class="fix-title">${f.blocker ? `<span class="blocker-tag">⚠️ ${esc(t('blocker'))}</span>` : ''}${esc(L(f.title))}</div>
           <div class="fix-body">${esc(L(f.fix))}</div>
           ${f.skill ? `<div class="fix-skill">${esc(t('fixWith'))} <code>${esc(f.skill)}</code></div>` : ''}</div>
           <span class="gain">+${f.max - f.points} ${esc(t('pts'))}</span></li>`).join('')}</ol>`
