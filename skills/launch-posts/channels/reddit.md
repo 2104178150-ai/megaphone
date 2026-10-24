@@ -1,7 +1,8 @@
 # Reddit
 
 > Last checked: 2026-10-15 against Reddit's site-wide [Reddit Rules](https://redditinc.com/policies/reddit-rules)
-> and its help article on [spam](https://support.reddithelp.com/hc/en-us/articles/360043504051).
+> and its help article on [spam](https://support.reddithelp.com/hc/en-us/articles/360043504051)
+> (spam article re-checked 2026-10-24).
 > Subreddit rules could **not** be read this time (reddit.com blocks automated reads), so
 > every subreddit note below is unverified. Rules change often and are enforced by
 > volunteer moderators — **read the sidebar, rules page and pinned posts of every
@@ -36,8 +37,11 @@ Rules of thumb (not Reddit policy):
 - **Disclose that you made it.** Many subreddits require it, and undisclosed
   self-promotion is the quickest way to a ban.
 - Use the subreddit's **flair** and any required title format (e.g. `[Project]`, `[OC]`).
-- Some subreddits have rules about AI-written posts or AI-built projects; check the
-  sidebar.
+- Reddit's spam article (edited 2026-10-22) now lists "Using tools (e.g., bots,
+  generative AI tools) that may break Reddit or facilitate the proliferation of spam".
+  That targets spam, not AI help as such, but don't mass-generate posts. Some
+  subreddits also have their own rules about AI-written posts or AI-built projects;
+  check the sidebar.
 
 ## Where to post (unverified notes — check each sidebar)
 
@@ -100,4 +104,4 @@ What it doesn't do yet: <honest limits>. I'd really like feedback on <question>.
 - Link post with no context → reads as spam.
 - Arguing with a moderator in public → ban. Message the mods politely instead.
 - Same text in five subs in an hour → Reddit's spam rules ("mass-posting repetitive
-  content"), and often a site-wide filter.
+  content"), and commonly reported to trip Reddit's automatic spam filter (heuristic).

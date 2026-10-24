@@ -3,8 +3,9 @@
 > Last checked: 2026-10-15 against X's [Authenticity policy](https://help.x.com/en/rules-and-policies/authenticity)
 > (the old platform-manipulation-and-spam URL now redirects there; it covers spam,
 > hashtags and engagement) and Bluesky's [Community Guidelines](https://bsky.social/about/support/community-guidelines).
-> Neither platform documents how its feeds rank posts, so everything under Format and
-> Timing is heuristic.
+> X has open-sourced the code behind its For You feed ([xai-org/x-algorithm](https://github.com/xai-org/x-algorithm)),
+> but the trained model isn't public and the code changes often, so nothing under
+> Format and Timing should be read as a ranking rule: it's all heuristic (feed note re-checked 2026-10-24).
 
 ## Fit
 
