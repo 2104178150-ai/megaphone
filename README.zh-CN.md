@@ -7,7 +7,7 @@
 [![渠道手册: 17](https://img.shields.io/badge/channel%20playbooks-17-e8501c)](skills/launch-posts/channels)
 [![支持 Claude Code、Codex、OpenClaw](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20OpenClaw-1f1b16)](#快速开始)
 
-[English](README.md) | 简体中文 · [**在线检测你的项目 →**](https://2104178150-ai.github.io/megaphone/) · [案例：DragonCard 54 → 71](examples/case-dragoncard/)
+[English](README.md) | 简体中文 · [**在线检测你的项目 →**](https://2104178150-ai.github.io/megaphone/) · 案例：[DragonCard 54 → 71](examples/case-dragoncard/)、[outline-skill 58 → 78](examples/case-outline-skill/)
 
 [![Megaphone 给一个仓库打分：84/100，最该先改的三件事，以及适合去哪里发——点图片直接试](docs/preview.svg)](https://2104178150-ai.github.io/megaphone/)
 
@@ -40,7 +40,7 @@ claude plugin install megaphone@megaphone
 
 **看一次真实的发布：**[Megaphone 给自己做的发布](examples/self-launch/)——小红书配图和文案、V2EX 的事实清单（V2EX 不许 AI 代写，正文由作者本人写），以及最后真的发出去的内容。
 
-**看一个别人的项目：**[DragonCard 一天从 54 分到 71 分](examples/case-dragoncard/)——作者第二天就改好了我们建议里最快的两条。
+**看别人的项目：**[DragonCard 一天从 54 分到 71 分](examples/case-dragoncard/)——作者第二天就改好了我们建议里最快的两条。[outline-skill 从 58 分到 78 分](examples/case-outline-skill/)——加了演示图和中文 README，作者说 Megaphone「挺好用的」。
 
 **新项目被看到，差在哪：**[362 个新仓库的体检数据](research/2026-10-new-repos.zh-CN.md)——100 星以上的项目 68% 首屏有截图，5–99 星的只有 40%。
 
@@ -134,6 +134,19 @@ audit.md brief.md  README.md      posts/*.md    plan.md             report.md
 ```
 
 所有产出都放在仓库里的 `.megaphone/` 文件夹，你可以先看、再改、最后决定。`launch` 技能默认会把它加进 `.gitignore`：里面有还没发出去的草稿，之后还会存流量快照——这些数据 GitHub 本来只给有推送权限的人看。你的回答，以及你不在时 AI 做出的假设，都记在 `decisions.md` 里，后面的步骤不会再问一遍。Megaphone 永远不会替你发帖、投稿或发邮件。
+
+## 它会运行什么、连接哪里
+
+Megaphone 由 Markdown 写的技能和两个小 Python 脚本组成（只用标准库）。没有 hooks、没有 MCP 服务器、
+不装任何依赖、不收集使用数据，也没有自己的服务器。
+
+| 部分 | 什么时候运行 | 连接哪里 | 读取什么 | 写入什么 |
+|---|---|---|---|---|
+| 技能（`skills/*/SKILL.md`） | 你的 AI 助手按技能做事时 | 技能里写明的公开页面：`api.github.com`（查仓库信息）、`hn.algolia.com` 和 Reddit 搜索（查以前有没有发过）、手册里链接的各平台规则页 | 你仓库里的文件 | 你仓库里的 `.megaphone/`，并在 `.gitignore` 里加一行 `.megaphone/`；`README.md` 只在你同意时才改 |
+| [`audit.py`](skills/launch-audit/scripts/audit.py) | 体检技能或你自己运行时 | `api.github.com`、`raw.githubusercontent.com` | 设置了的话读 `GITHUB_TOKEN` / `GH_TOKEN`，只发给 `api.github.com` | 打印报告 |
+| [`stars.py`](skills/launch-review/scripts/stars.py) | 复盘技能或你自己运行时 | `api.github.com` | `GITHUB_TOKEN` / `GH_TOKEN`（看 star 用户和流量必须有；技能可能建议用 `gh auth token` 来设置），只发给 `api.github.com`；`.megaphone/log.csv` | `.megaphone/` 里的快照和报告 |
+| 网页检测器（`docs/`） | 在你的浏览器里 | `api.github.com`、`raw.githubusercontent.com`、`img.shields.io` 的徽章图片 | 只有你粘贴了 token 才会用，只留在当前标签页 | 结果在你的浏览器里缓存一小时 |
+| 维护者工具（`scripts/`、`tests/`） | 只在贡献者手动运行时；没有任何技能会调用 | `check_sources.py`：它 `SOURCES` 列表里的平台页面；`study.py`：`api.github.com` | `study.py`：`GITHUB_TOKEN` | 只写到你指定的位置 |
 
 ## 原则
 

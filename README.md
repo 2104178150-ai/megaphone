@@ -9,7 +9,7 @@ Launch your open-source project the way a marketer would — even if you've neve
 [![Channel playbooks: 17](https://img.shields.io/badge/channel%20playbooks-17-e8501c)](skills/launch-posts/channels)
 [![Works with Claude Code, Codex, OpenClaw](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20OpenClaw-1f1b16)](#quick-start)
 
-English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/) · [Case: DragonCard 54 → 71](examples/case-dragoncard/)
+English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/) · Cases: [DragonCard 54 → 71](examples/case-dragoncard/), [outline-skill 58 → 78](examples/case-outline-skill/)
 
 [![Megaphone scoring a repo: 84/100, the three fixes that matter most, and where to launch it — click to try it](docs/preview.svg)](https://2104178150-ai.github.io/megaphone/)
 
@@ -42,7 +42,8 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 
 **See it on a real launch:** [Megaphone launching itself](examples/self-launch/) — the 小红书 images and note, the V2EX fact sheet (V2EX bans AI-written posts, so the author writes it), and what was actually published.
 
-**See it on someone else's repo:** [DragonCard, 54 → 71 in one day](examples/case-dragoncard/) — the author made the two quickest fixes from our issue the next day.
+**See it on someone else's repo:** [DragonCard, 54 → 71 in one day](examples/case-dragoncard/) — the author made the two quickest fixes from our issue the next day. [outline-skill, 58 → 78](examples/case-outline-skill/)
+— a demo image and a Chinese README; its author called Megaphone 「挺好用的」 ("really handy").
 
 **See what separates new projects that get noticed:** [362 new repos, scored](research/2026-10-new-repos.md) —
 a screenshot in the first screen: 68% of those with 100+ stars, 40% of those with 5–99.
@@ -161,6 +162,19 @@ and, later, traffic snapshots that GitHub shows only to people with push access.
 answers, and any assumptions the agent made while you were away, go in `decisions.md` so
 later stages don't ask twice. Megaphone never publishes, submits or emails anything on
 your behalf.
+
+## What it runs and connects to
+
+Megaphone is Markdown skills plus two small Python scripts (standard library only). It has no
+hooks, no MCP servers, no package installs, no telemetry and no server of its own.
+
+| Part | When it runs | Connects to | Reads | Writes |
+|---|---|---|---|---|
+| Skills (`skills/*/SKILL.md`) | When your agent follows them | Public pages the skills name: `api.github.com` for repo facts, `hn.algolia.com` and Reddit search to check for earlier posts, and the platform rule pages linked from the playbooks | Your repo's files | `.megaphone/` in your repo, plus a `.megaphone/` line in `.gitignore`; `README.md` only if you say yes |
+| [`audit.py`](skills/launch-audit/scripts/audit.py) | When the audit skill or you run it | `api.github.com`, `raw.githubusercontent.com` | `GITHUB_TOKEN` / `GH_TOKEN` if set, sent only to `api.github.com` | Prints the report |
+| [`stars.py`](skills/launch-review/scripts/stars.py) | When the review skill or you run it | `api.github.com` | `GITHUB_TOKEN` / `GH_TOKEN` (stargazers and traffic need it; the skill may suggest `gh auth token` to set it), sent only to `api.github.com`; `.megaphone/log.csv` | Snapshots and the report under `.megaphone/` |
+| Web checker (`docs/`) | In your browser | `api.github.com`, `raw.githubusercontent.com`, badge images from `img.shields.io` | A token only if you paste one; it stays in that tab | Results cached in your browser for an hour |
+| Maintainer tools (`scripts/`, `tests/`) | Only when a contributor runs them; no skill does | `check_sources.py`: the platform pages in its `SOURCES` list; `study.py`: `api.github.com` | `study.py`: `GITHUB_TOKEN` | Only where you point them |
 
 ## Principles
 
