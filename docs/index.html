@@ -7,13 +7,14 @@
 <meta name="description" content="Paste a GitHub repo and get a 0–100 launch-readiness score, the fixes that matter most, and the channels to launch on.">
 <meta property="og:title" content="Megaphone — is your repo ready to launch?">
 <meta property="og:description" content="A 0–100 launch score for any GitHub repo, the top fixes, and where to post it.">
-<meta name="theme-color" content="#dc4a12">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%F0%9F%93%A3%3C%2Ftext%3E%3C%2Fsvg%3E">
+<meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e0e0d" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20132%2096'%3E%3Cpath%20d='M14%2038%2070%2016v64L14%2058Z'%20fill='%23e4531b'/%3E%3Crect%20x='5'%20y='35'%20width='12'%20height='26'%20rx='4'%20fill='%23141413'/%3E%3Cpath%20d='M34%2064l6%2018'%20stroke='%23141413'%20stroke-width='9'%20stroke-linecap='round'/%3E%3Cg%20fill='none'%20stroke='%23e4531b'%20stroke-width='7'%20stroke-linecap='round'%3E%3Cpath%20d='M82%2037a15%2015%200%200%201%200%2022'/%3E%3Cpath%20d='M93%2028a28%2028%200%200%201%200%2040'/%3E%3Cpath%20d='M104%2019a41%2041%200%200%201%200%2058'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="stylesheet" href="style.css">
 <script type="module" src="app.js"></script>
 </head>
 <body>
-<header class="wrap top">
+<div class="topbar"><header class="wrap top">
   <a class="brand" href="./">
     <svg id="art" data-volume="2" viewBox="0 0 132 96" aria-hidden="true">
       <path d="M14 38 70 16v64L14 58Z" fill="var(--accent)"/>
@@ -25,11 +26,16 @@
     </svg>
     <span class="brand-name">Megaphone</span>
   </a>
+  <form class="mini" id="mini-form" autocomplete="off">
+    <label class="sr-only" for="mini-repo" data-i18n="inputLabel">GitHub repository</label>
+    <input id="mini-repo" spellcheck="false" data-i18n-ph="placeholder" placeholder="owner/repo">
+    <button class="mini-go" type="submit" data-i18n="check">Check</button>
+  </form>
   <nav class="nav">
-    <button class="nav-link" id="lang" type="button" aria-label="Switch language">中文</button>
+    <button class="nav-link" id="lang" type="button">中文</button>
     <a class="nav-link" id="gh-link" href="https://github.com/2104178150-ai/megaphone" target="_blank" rel="noopener">GitHub ↗</a>
   </nav>
-</header>
+</header></div>
 
 <main>
   <section class="wrap hero">
@@ -47,24 +53,60 @@
         <button class="chip" type="button" data-repo="charmbracelet/vhs" title="charmbracelet/vhs">vhs</button>
         <button class="chip" type="button" data-repo="coreyhaines31/marketingskills" title="coreyhaines31/marketingskills">marketingskills</button>
       </div>
-      <p class="status" id="status" role="status" aria-live="polite"></p>
-      <form class="token" id="token-form" autocomplete="off" hidden>
-        <p data-i18n="tokenPrompt">Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).</p>
-        <div class="token-row">
-          <label class="sr-only" for="token">GitHub token</label>
-          <input id="token" type="password" spellcheck="false" data-i18n-ph="tokenPlaceholder" placeholder="github_pat_… or ghp_…">
-          <button class="btn" type="submit" data-i18n="tokenRetry">Retry with token</button>
-        </div>
-        <p class="hint" data-i18n="tokenHint"></p>
-      </form>
+      <a class="trust" href="#proof-title" data-i18n="trust">Two projects took the advice: DragonCard 54 → 71 · outline-skill 58 → 78</a>
     </div>
+  </section>
+
+  <div class="wrap notices">
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <form class="token" id="token-form" autocomplete="off" hidden>
+      <p data-i18n="tokenPrompt">Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).</p>
+      <div class="token-row">
+        <label class="sr-only" for="token">GitHub token</label>
+        <input id="token" type="password" spellcheck="false" data-i18n-ph="tokenPlaceholder" placeholder="github_pat_… or ghp_…">
+        <button class="btn" type="submit" data-i18n="tokenRetry">Retry with token</button>
+      </div>
+      <p class="hint" data-i18n="tokenHint"></p>
+    </form>
+  </div>
+
+  <section class="wrap showcase">
+    <p class="eyebrow" id="showcase-title" data-i18n="showcaseT">What you get</p>
     <div class="sample" id="sample" aria-hidden="true"></div>
   </section>
 
   <div class="wrap">
   <section class="result" id="result" hidden></section>
-
   </div>
+
+  <section class="wrap proof" aria-labelledby="proof-title">
+    <div class="proof-head">
+      <p class="eyebrow" data-i18n="proofEyebrow">Real results</p>
+      <h2 id="proof-title" data-i18n="proofT">Projects that took the advice</h2>
+      <p class="proof-sub" data-i18n="proofSub">One issue with three fixes. The authors made them, and the scores went up.</p>
+    </div>
+    <div class="proof-grid">
+      <a class="proof-card" data-gh="tree/main/examples/case-dragoncard" href="https://github.com/2104178150-ai/megaphone/tree/main/examples/case-dragoncard" target="_blank" rel="noopener">
+        <span class="proof-repo">crazy-dragon/dragon_card</span>
+        <span class="proof-score"><s>54</s><i aria-hidden="true">→</i><b>71</b><em class="delta">+17</em></span>
+        <span class="proof-text" data-i18n="p1d">Put the live demo in the sidebar and added topics, the next day.</span>
+        <span class="proof-link" data-i18n="proofMore">Read the case →</span>
+      </a>
+      <a class="proof-card" data-gh="tree/main/examples/case-outline-skill" href="https://github.com/2104178150-ai/megaphone/tree/main/examples/case-outline-skill" target="_blank" rel="noopener">
+        <span class="proof-repo">huangy7/outline-skill</span>
+        <span class="proof-score"><s>58</s><i aria-hidden="true">→</i><b>78</b><em class="delta">+20</em></span>
+        <span class="proof-text" data-i18n="p2d">Added a demo image and a Chinese README, then credited Megaphone in the README.</span>
+        <span class="proof-quote"><span data-i18n="p2q">“挺好用的” (“really handy”)</span> <cite data-i18n="p2cite">— the author</cite></span>
+        <span class="proof-link" data-i18n="proofMore">Read the case →</span>
+      </a>
+      <a class="proof-card is-stat" data-gh-en="blob/main/research/2026-10-new-repos.md" data-gh-zh="blob/main/research/2026-10-new-repos.zh-CN.md" href="https://github.com/2104178150-ai/megaphone/blob/main/research/2026-10-new-repos.md" target="_blank" rel="noopener">
+        <span class="proof-repo" data-i18n="p3k">362 new repos, scored</span>
+        <span class="proof-score"><b>68%</b><i class="vs" aria-hidden="true">vs</i><s>40%</s></span>
+        <span class="proof-text" data-i18n="p3d">Share with a screenshot in the first screen: 100+ stars vs 5–99 stars.</span>
+        <span class="proof-link" data-i18n="proofResearch">See the study →</span>
+      </a>
+    </div>
+  </section>
 
   <section class="how">
     <div class="wrap">

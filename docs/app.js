@@ -22,7 +22,6 @@ const STRINGS = {
     outOf: 'out of 100',
     archived: 'This repo is archived — visitors will see it as finished or abandoned.',
     noReadme: 'No README found — that’s the first thing to write.',
-    fixFirst: 'Fix these first',
     blocker: 'Blocker',
     fixWith: 'Your agent can do this with',
     allGood: 'Nothing left to fix. Go launch it.',
@@ -38,7 +37,7 @@ const STRINGS = {
     badgeT: 'Show off your score',
     badgeHint: 'Paste into your README. It links back here so others can check theirs.',
     shareT: 'Share the result',
-    starHint: 'Found this useful? A ⭐ on GitHub helps other developers find Megaphone.',
+    starHint: 'Found this useful? A star on GitHub helps other developers find Megaphone.',
     shareText: (r, s, lvl, fix, url) => `📣 ${r} scored ${s}/100 on Megaphone’s launch-readiness check — ${lvl}.${fix ? ` Top fix: ${fix}.` : ''} Check yours: ${url}`,
     copy: 'Copy',
     copied: 'Copied ✓',
@@ -52,6 +51,17 @@ const STRINGS = {
     installT: 'Install the skills (Claude Code, Codex, OpenClaw, Cursor and 70+ agents)',
     installCC: 'Or as a Claude Code plugin (two commands):',
     installThen: 'Then ask your agent: “launch this repo” — or “帮我推广这个项目”.',
+    proofEyebrow: 'Real results',
+    proofT: 'Projects that took the advice',
+    proofSub: 'One issue with three fixes. The authors made them, and the scores went up.',
+    p1d: 'Put the live demo in the sidebar and added topics, the next day.',
+    p2d: 'Added a demo image and a Chinese README, then credited Megaphone in the README.',
+    p2q: '“挺好用的” (“really handy”)',
+    p2cite: '— the author',
+    p3k: '362 new repos, scored',
+    p3d: 'Share with a screenshot in the first screen: 100+ stars vs 5–99 stars.',
+    proofMore: 'Read the case →',
+    proofResearch: 'See the study →',
     privacy: 'Runs entirely in your browser: repo data comes straight from GitHub (the API and raw.githubusercontent.com), the badge preview from shields.io. Nothing is stored on a server.',
     rate: (n) => `GitHub API: ${n} requests left this hour`,
     tokenPrompt: 'Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).',
@@ -62,10 +72,16 @@ const STRINGS = {
     tokenClear: 'Forget it',
     errBadToken: 'GitHub rejected that token. Check it and try again.',
     pts: 'pts',
-    sampleTag: 'Example result',
     sampleFixK: 'Fix first',
     sampleFix: 'Put a screenshot in the first screen',
     sampleWhereK: 'Post on',
+    sampleFix2: 'Put the demo in the Website field',
+    sampleFix3: 'Publish a first release',
+    showcaseT: 'What you get',
+    trust: 'Two projects took the advice: DragonCard 54 → 71 · outline-skill 58 → 78',
+    handCopy: 'Copy for your agent',
+    handShow: 'Show the full prompt',
+    reportFix: 'Fix these first',
   },
   zh: {
     eyebrow: 'GitHub 仓库发布体检',
@@ -84,7 +100,6 @@ const STRINGS = {
     outOf: '满分 100',
     archived: '这个仓库已归档——访客会以为它已经停更或废弃。',
     noReadme: '没有找到 README——这是第一件要写的东西。',
-    fixFirst: '先改这几项',
     blocker: '先解决',
     fixWith: '可以让 AI 用这个技能来改：',
     allGood: '没有要改的了，去发布吧！',
@@ -100,7 +115,7 @@ const STRINGS = {
     badgeT: '晒出你的分数',
     badgeHint: '贴进 README，徽章会链接回这里，别人也能来测自己的项目。',
     shareT: '分享结果',
-    starHint: '觉得有用？去 GitHub 给 Megaphone 点个 ⭐，能让更多开发者看到它。',
+    starHint: '觉得有用？去 GitHub 给 Megaphone 点个 Star，能让更多开发者看到它。',
     shareText: (r, s, lvl, fix, url) => `📣 ${r} 在 Megaphone 发布就绪检测中得了 ${s}/100 分——${lvl}。${fix ? `最该改的：${fix}。` : ''}测测你的项目：${url}`,
     copy: '复制',
     copied: '已复制 ✓',
@@ -114,6 +129,17 @@ const STRINGS = {
     installT: '安装技能（支持 Claude Code、Codex、OpenClaw、Cursor 等 70 多种 agent）',
     installCC: '或者作为 Claude Code 插件安装（两条命令）：',
     installThen: '然后对你的 AI 说：「帮我推广这个项目」——或者 “launch this repo”。',
+    proofEyebrow: '真实案例',
+    proofT: '照着建议改了的项目',
+    proofSub: '我们只开了一个 issue、提了 3 条建议。作者改了，分数就上去了。',
+    p1d: '第二天就把在线 Demo 填进侧栏，还加上了 topics。',
+    p2d: '加了演示图和中文 README，还在 README 里感谢了 Megaphone。',
+    p2q: '「挺好用的」',
+    p2cite: '—— 作者原话',
+    p3k: '362 个新项目的体检数据',
+    p3d: '首屏有截图的比例：100 星以上 vs 5–99 星。',
+    proofMore: '看案例 →',
+    proofResearch: '看研究 →',
     privacy: '完全在你的浏览器里运行：仓库数据直接来自 GitHub（API 和 raw.githubusercontent.com），徽章预览来自 shields.io，不在任何服务器上保存数据。',
     rate: (n) => `GitHub API 本小时剩余 ${n} 次请求`,
     tokenPrompt: '匿名额度用完了？粘贴一个 GitHub token 就能继续检测（每小时 5000 次）。',
@@ -124,10 +150,16 @@ const STRINGS = {
     tokenClear: '清除',
     errBadToken: 'GitHub 不认这个 token，检查一下再试。',
     pts: '分',
-    sampleTag: '示例结果',
     sampleFixK: '先改',
     sampleFix: '首屏放一张截图或动图',
     sampleWhereK: '去哪发',
+    sampleFix2: '侧栏 Website 填上演示链接',
+    sampleFix3: '发一个 Release',
+    showcaseT: '你会拿到这样一份报告',
+    trust: '已有 2 个项目照着建议改了：DragonCard 54 → 71 · outline-skill 58 → 78',
+    handCopy: '复制给 AI',
+    handShow: '查看完整提示词',
+    reportFix: '先改这几项',
   },
 };
 
@@ -193,9 +225,26 @@ function applyLanguage() {
   $('#install-npx').textContent = `npx skills add ${p}`;
   $('#install-cc').textContent = `/plugin marketplace add ${p}`;
   $('#install-cc2').textContent = `/plugin install ${p.split('/')[1]}@${p.split('/')[1]}`;
+  document.querySelectorAll('[data-gh], [data-gh-en]').forEach((el) => {
+    const path = el.dataset.gh || (lang === 'zh' ? el.dataset.ghZh : el.dataset.ghEn);
+    el.href = `https://github.com/${p}/${path}`;
+  });
   renderTokenState();
   renderSample();
   if (last) render(last.analysis);
+}
+
+// The level icon: the logo's megaphone with as many sound waves as the level is loud
+// (a cross for muted). Drawn, not emoji, so it matches the logo on every platform.
+function volIcon(lvl) {
+  const n = { great: 3, good: 3, ok: 2, low: 1, mute: 0 }[lvl.color] ?? 1;
+  const wave = (i, d) => `<path d="${d}" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity="${i <= n ? 1 : 0.2}"/>`;
+  const waves = n === 0
+    ? '<path d="M88 36l24 24M112 36 88 60" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>'
+    : wave(1, 'M82 37a15 15 0 0 1 0 22') + wave(2, 'M93 28a28 28 0 0 1 0 40') + wave(3, 'M104 19a41 41 0 0 1 0 58');
+  return `<svg class="vol${lvl.color === 'great' ? ' loud' : ''}" viewBox="0 0 132 96" aria-hidden="true">`
+    + '<path d="M14 38 70 16v64L14 58Z" fill="currentColor"/><rect x="5" y="35" width="12" height="26" rx="4" fill="currentColor"/>'
+    + `${waves}</svg>`;
 }
 
 // A static example in the hero, so visitors see what they'll get before they type.
@@ -204,21 +253,28 @@ const SAMPLE = { score: 84, cats: { A: 27, B: 25, C: 16, D: 16 } };
 function renderSample() {
   const lvl = LEVELS.find((l) => SAMPLE.score >= l.min);
   const c = 2 * Math.PI * 50;
+  const fixes = [[t('sampleFix'), 8], [t('sampleFix2'), 4], [t('sampleFix3'), 4]];
   $('#sample').innerHTML = `
     <div class="sample-card">
-      <span class="sample-tag">${esc(t('sampleTag'))}</span>
-      <div class="sample-head">
+      <div class="rp-main">
         <div class="mini-dial"><svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="50"/>
-          <circle class="value c-${lvl.color}" cx="60" cy="60" r="50" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - SAMPLE.score / 100)).toFixed(1)}"/></svg>
+          <circle class="value c-${lvl.color}" cx="60" cy="60" r="50" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - SAMPLE.score / 100)).toFixed(1)}"/>
+          <circle class="ticks" cx="60" cy="60" r="50" stroke-dasharray="2.2 ${(c / 40 - 2.2).toFixed(2)}"/></svg>
           <b class="c-${lvl.color}">${SAMPLE.score}</b></div>
-        <div><div class="sample-repo">your-name/your-repo</div>
-          <div class="sample-level c-${lvl.color}">${lvl.emoji} ${esc(L(lvl.name))}</div></div>
+        <div class="rp-meta">
+          <div class="sample-repo">your-name/your-repo</div>
+          <div class="sample-level c-${lvl.color}">${volIcon(lvl)}${esc(L(lvl.name))}</div>
+          <div class="sample-bars">${CATEGORIES.map((cat) => `
+            <div class="sb"><span>${esc(L(cat.name))}</span><i><b style="width:${(SAMPLE.cats[cat.id] / cat.max) * 100}%"></b></i><em>${SAMPLE.cats[cat.id]}/${cat.max}</em></div>`).join('')}
+          </div>
+        </div>
       </div>
-      <div class="sample-bars">${CATEGORIES.map((cat) => `
-        <div class="sb"><span>${esc(L(cat.name))}</span><i><b style="width:${(SAMPLE.cats[cat.id] / cat.max) * 100}%"></b></i><em>${SAMPLE.cats[cat.id]}/${cat.max}</em></div>`).join('')}
+      <div class="rp-side">
+        <div class="rp-label">${esc(t('sampleFixK'))}</div>
+        <ol class="rp-fixes">${fixes.map(([f, g]) => `<li><span>${esc(f)}</span><span class="gain">+${g}</span></li>`).join('')}</ol>
+        <div class="rp-label">${esc(t('sampleWhereK'))}</div>
+        <div class="tags"><span>Show HN</span><span>r/golang</span><span>V2EX</span><span>HelloGitHub</span></div>
       </div>
-      <div class="sample-row"><span class="k">${esc(t('sampleFixK'))}</span><span class="v">${esc(t('sampleFix'))}</span><span class="gain">+8</span></div>
-      <div class="sample-row"><span class="k">${esc(t('sampleWhereK'))}</span><span class="v tags"><span>Show HN</span><span>r/golang</span><span>V2EX</span><span>HelloGitHub</span></span></div>
     </div>`;
 }
 
@@ -229,10 +285,12 @@ function setStatus(text, isError = false) {
   const el = $('#status');
   el.textContent = text || '';
   el.classList.toggle('error', isError);
+  if (text && document.body.classList.contains('has-result')) $('.notices').scrollIntoView({ block: 'start' });
 }
 
 function setLoading(on) {
   $('#go').disabled = on;
+  $('.mini-go').disabled = on;
   $('#art').classList.toggle('loading', on);
 }
 
@@ -323,9 +381,15 @@ async function run(input) {
     last = { analysis, data };
     setStatus('');
     showTokenForm(false);
-    render(analysis, true);
+    const swap = () => render(analysis, true);
+    // A native cross-fade between the home page and the report where the browser has one.
+    if (document.startViewTransition && !document.body.classList.contains('has-result')
+        && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(swap);
+    else swap();
   } catch (err) {
     if (runId !== currentRun) return;
+    // Keep the address bar on the report that is still on screen.
+    if (last) history.replaceState(null, '', checkerUrl(last.analysis.repo));
     if (err instanceof FetchError) {
       if (err.kind === 'notfound') setStatus(t('errNotFound'), true);
       else if (err.kind === 'rate') {
@@ -368,18 +432,19 @@ function render(a, animate = false) {
   if (a.facts.empty) notices.push(t('noReadme'));
 
   const html = `
-    <div class="card score-card">
+    <header class="report-head">
       <div class="dial" role="img" aria-label="${a.score} / 100">
         <svg viewBox="0 0 200 200"><circle class="track" cx="100" cy="100" r="86"/>
           <circle class="value c-${lvl.color}" cx="100" cy="100" r="86"
             stroke-dasharray="${circumference.toFixed(1)}"
             stroke-dashoffset="${(animate ? circumference : circumference * (1 - a.score / 100)).toFixed(1)}"
-            data-target="${(circumference * (1 - a.score / 100)).toFixed(1)}"/></svg>
+            data-target="${(circumference * (1 - a.score / 100)).toFixed(1)}"/>
+          <circle class="ticks" cx="100" cy="100" r="86" stroke-dasharray="3 ${(circumference / 50 - 3).toFixed(2)}"/></svg>
         <div class="center"><div class="num c-${lvl.color}" id="num">${animate ? 0 : a.score}</div><div class="of">${esc(t('outOf'))}</div></div>
       </div>
-      <div>
-        <div class="repo-line"><a href="${esc(repoUrl)}" target="_blank" rel="noopener">${esc(a.repo)}</a></div>
-        <p class="level c-${lvl.color}"><span aria-hidden="true">${lvl.emoji}</span>${esc(L(lvl.name))}</p>
+      <div class="report-meta">
+        <div class="repo-line"><a href="${esc(repoUrl)}" target="_blank" rel="noopener">${esc(a.repo)} ↗</a></div>
+        <h1 class="level c-${lvl.color}">${volIcon(lvl)}${esc(L(lvl.name))}</h1>
         <p class="level-say">${esc(L(lvl.say))}</p>
         <div class="cats">
           ${a.categories.map((c) => `
@@ -389,40 +454,39 @@ function render(a, animate = false) {
         </div>
         ${notices.map((n) => `<p class="notice">${esc(n)}</p>`).join('')}
       </div>
-    </div>
+    </header>
 
-    <div class="split">
-    <div class="card">
-      <h2>${esc(t('fixFirst'))}</h2>
+    <section class="report-sec">
+      <h2>${esc(t('reportFix'))}</h2>
       ${fixes.length ? `<ol class="fixes">${fixes.map((f) => `
-        <li${f.blocker ? ' class="is-blocker"' : ''}><div><div class="fix-title">${f.blocker ? `<span class="blocker-tag">⚠️ ${esc(t('blocker'))}</span>` : ''}${esc(L(f.title))}</div>
+        <li${f.blocker ? ' class="is-blocker"' : ''}><div><div class="fix-title">${f.blocker ? `<span class="blocker-tag">${esc(t('blocker'))}</span>` : ''}${esc(L(f.title))}</div>
           <div class="fix-body">${esc(L(f.fix))}</div>
           ${f.skill ? `<div class="fix-skill">${esc(t('fixWith'))} <code>${esc(f.skill)}</code></div>` : ''}</div>
           <span class="gain">+${f.max - f.points} ${esc(t('pts'))}</span></li>`).join('')}</ol>`
         : `<p>${esc(t('allGood'))}</p>`}
-      <div class="prompt">
-        <div class="prompt-head"><h3>${esc(t('handT'))}</h3><button class="copy" type="button" data-copy="handoff">${esc(t('copy'))}</button></div>
-        <p id="handoff">${esc(handoff)}</p>
+      <div class="handoff">
+        <div class="handoff-copy"><h3>${esc(t('handT'))}</h3>
+          <p>${esc(t('handHint'))} <a href="#install">${esc(t('handInstall'))}</a></p></div>
+        <button class="btn" type="button" data-copy="handoff">${esc(t('handCopy'))}</button>
       </div>
-      <p class="hint">${esc(t('handHint'))} <a href="#install">${esc(t('handInstall'))}</a></p>
-    </div>
+      <details class="handoff-text"><summary>${esc(t('handShow'))}</summary><p id="handoff">${esc(handoff)}</p></details>
+    </section>
 
-    <div class="card">
+    <section class="report-sec">
       <h2>${esc(t('where'))}</h2>
       <div class="channels">${a.channels.map((c) => `
         <div class="channel"><div class="channel-head"><b>${esc(L(c.name))}</b>
           ${c.file !== 'README.md' ? `<a href="${esc(playbookUrl(c.file))}" target="_blank" rel="noopener">${esc(t('playbook'))}</a>` : ''}</div>
           <p>${esc(L(c.why))}</p></div>`).join('')}
       </div>
-    </div>
-    </div>
+    </section>
 
-    <div class="card">
+    <section class="report-sec">
       <h2>${esc(t('allChecks'))} <span class="count">${a.checks.filter((c) => c.pass).length}/${a.checks.length}</span></h2>
       ${CATEGORIES.map((cat) => {
         const items = a.checks.filter((c) => c.cat === cat.id);
         const score = items.reduce((s, c) => s + c.points, 0);
-        return `<details class="cat"${score < cat.max ? ' open' : ''}><summary>${esc(L(cat.name))}<span class="s">${score}/${cat.max}</span></summary>
+        return `<details class="cat"><summary>${esc(L(cat.name))}<span class="s">${score}/${cat.max}</span></summary>
           <ul class="checks">${items.map((c) => {
             const state = c.pass ? 'pass' : c.points > 0 ? 'partial' : 'fail';
             const ico = c.pass ? '✓' : c.points > 0 ? '◐' : '✗';
@@ -431,36 +495,38 @@ function render(a, animate = false) {
               <span class="pts">${c.points}/${c.max}</span></li>`;
           }).join('')}</ul></details>`;
       }).join('')}
-    </div>
+    </section>
 
-    <div class="two">
-      <div class="card">
+    <section class="report-sec two">
+      <div>
         <h2>${esc(t('badgeT'))}</h2>
         <img class="badge-preview" src="${esc(badgeImg)}" alt="Launch readiness ${a.score}/100">
         <div class="codebox"><code id="badge-md">${esc(badgeMd)}</code><button class="copy" type="button" data-copy="badge-md">${esc(t('copy'))}</button></div>
         <p class="hint">${esc(t('badgeHint'))}</p>
       </div>
-      <div class="card">
+      <div>
         <h2>${esc(t('shareT'))}</h2>
         <div class="codebox"><code id="share-text" class="prose">${esc(share)}</code><button class="copy" type="button" data-copy="share-text">${esc(t('copy'))}</button></div>
         <p class="hint"><a href="https://github.com/${esc(project())}" target="_blank" rel="noopener">${esc(t('starHint'))}</a></p>
       </div>
-    </div>`;
+    </section>`;
 
   const el = $('#result');
   el.innerHTML = html;
   el.hidden = false;
+  el.classList.toggle('no-anim', !animate);
   document.body.classList.add('has-result');
+  if (animate) $('#mini-repo').value = a.repo;
   $('#art').dataset.volume = String(volumeFor(a.score));
 
   if (animate) {
+    window.scrollTo(0, 0);
     requestAnimationFrame(() => requestAnimationFrame(() => {
       el.querySelectorAll('.bar > span').forEach((s) => { s.style.width = s.dataset.w + '%'; });
       const ring = el.querySelector('.dial .value');
       ring.style.strokeDashoffset = ring.dataset.target;
       countUp($('#num'), a.score);
     }));
-    el.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   }
 }
 
@@ -488,14 +554,16 @@ async function copyText(btn) {
     document.execCommand('copy');
     ta.remove();
   }
+  const label = btn.dataset.i18n ? t(btn.dataset.i18n) : (btn.dataset.label ||= btn.textContent);
   btn.textContent = t('copied');
-  setTimeout(() => { btn.textContent = t('copy'); }, 1500);
+  setTimeout(() => { btn.textContent = label; }, 1500);
 }
 
 // ---------------------------------------------------------------------------
 // Wiring
 
 $('#form').addEventListener('submit', (e) => { e.preventDefault(); run($('#repo').value); });
+$('#mini-form').addEventListener('submit', (e) => { e.preventDefault(); run($('#mini-repo').value); });
 $('#token-form').addEventListener('submit', (e) => {
   e.preventDefault();
   // Strip whitespace and zero-width characters that ride along when copying from rich text.
@@ -511,7 +579,7 @@ document.addEventListener('click', (e) => {
 });
 document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => run(c.dataset.repo)));
 document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.copy');
+  const btn = e.target.closest('[data-copy]');
   if (btn) copyText(btn);
 });
 $('#lang').addEventListener('click', () => {
@@ -523,3 +591,11 @@ $('#lang').addEventListener('click', () => {
 applyLanguage();
 const initial = new URLSearchParams(location.search).get('repo');
 if (initial) run(initial);
+
+// The header turns into a frosted bar once the page scrolls under it.
+const topbar = document.querySelector('.topbar');
+if (topbar) {
+  const onScroll = () => topbar.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
