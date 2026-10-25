@@ -26,6 +26,7 @@ SOURCES = [
     ("awesome-lists.md", "https://raw.githubusercontent.com/avelino/awesome-go/main/CONTRIBUTING.md", "at least 5 months of history"),
     ("awesome-lists.md", "https://raw.githubusercontent.com/awesome-selfhosted/awesome-selfhosted-data/master/.github/PULL_REQUEST_TEMPLATE.md", "The submission was done by a human, not a machine/LLM."),
     ("awesome-lists.md", "https://raw.githubusercontent.com/awesome-selfhosted/awesome-selfhosted-data/master/CONTRIBUTING.md", "first release more than four months old"),
+    ("awesome-lists.md", "https://raw.githubusercontent.com/awesome-selfhosted/awesome-selfhosted-data/master/CONTRIBUTING.md", "will result in a ban"),
     ("channels/README.md", "https://help.qiita.com/ja/articles/qiita-community-guideline", "宣伝や販売を主目的とした記事は投稿しない"),
     ("china-other.md", "https://www.oschina.net/help-center/oschina-guides/how-to-play-in-osc.html", "一个工作日内"),
     ("china-other.md", "https://www.oschina.net/help-center/oschina-guides/how-to-play-in-osc.html", "投递资讯 / 软件"),

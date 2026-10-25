@@ -1,6 +1,6 @@
 # Awesome lists
 
-> Last checked: 2026-10-15 against [sindresorhus/awesome](https://github.com/sindresorhus/awesome)
+> Last checked: 2026-10-25 against [sindresorhus/awesome](https://github.com/sindresorhus/awesome)
 > and, as examples, the contributing rules of [awesome-selfhosted](https://github.com/awesome-selfhosted/awesome-selfhosted-data/blob/master/CONTRIBUTING.md)
 > and [awesome-go](https://github.com/avelino/awesome-go/blob/main/CONTRIBUTING.md).
 > Every list has its own rules; **read its `CONTRIBUTING.md` and PR template before
@@ -35,7 +35,7 @@ in a category. A line in the right list can keep sending visitors long after lau
 - **Maturity rules are common.** Examples: awesome-selfhosted wants a first release
   "more than four months old", active maintenance and working install instructions;
   awesome-go wants "at least 5 months of history", an open-source license, a `go.mod`, a
-  SemVer release, test coverage of at least 80% (non-data packages), and links to
+  SemVer release, test coverage of at least 80% (90% for data-related packages) where the code is testable, and links to
   pkg.go.dev and a coverage report.
 - **Some lists don't accept AI-written submissions.** awesome-selfhosted's PR template
   asks you to confirm "The submission was done by a human, not a machine/LLM", and its
@@ -58,8 +58,9 @@ in a category. A line in the right list can keep sending visitors long after lau
 
 No timing effect on the list itself, and review can take anywhere from days to months
 (heuristic). Submit once the README and demo are ready and the project meets the list's
-age rule. Check the age rules early: a project with its first release last month can't
-go into awesome-selfhosted or awesome-go this launch.
+age rule. Check the age rules early: a project whose first release was last month can't go into
+awesome-selfhosted this launch (it counts 4 months from the first release), and awesome-go
+needs 5 months since the first commit plus a `vX.Y.Z` tag.
 
 ## Template
 
@@ -79,5 +80,5 @@ section's order.
 - Opening PRs to ten lists with the same copy-pasted text → maintainers notice.
 - Adding it to an unrelated section to get visibility → rejected.
 - Submitting before the project meets the list's age or release rule → closed; resubmit later.
-- Agent-written entry for a list that forbids it → rejected, and it burns goodwill.
+- Agent-written entry for a list that forbids it → rejected, and some lists ban the submitter (awesome-selfhosted: "will result in a ban").
 - Not disclosing you're the author when the list asks.

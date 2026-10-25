@@ -1,6 +1,6 @@
 # Newsletters
 
-> Last checked: 2026-10-16. Confirmed on each newsletter's own page: This Week in Rust
+> Last checked: 2026-10-25. Confirmed on each newsletter's own page: This Week in Rust
 > ([README](https://github.com/rust-lang/this-week-in-rust) and
 > [the 2026-08 change](https://github.com/rust-lang/this-week-in-rust/issues/8575)), PyCoder's Weekly
 > ([submissions](https://pycoders.com/submissions)), Changelog News
@@ -26,7 +26,7 @@ topic: a small newsletter for your exact niche often beats a big general one (he
 
 | Newsletter | Audience | How to submit |
 |---|---|---|
-| [This Week in Rust](https://github.com/rust-lang/this-week-in-rust) | Rust | **Project announcements: no PRs after issue 664 (2026-08).** Editors pick Projects/Tooling Updates from [r/rust](https://www.reddit.com/r/rust/), so post there under its rules (see [reddit.md](reddit.md)). Other sections (how-tos, walkthroughs, calls for participation) still take a PR to the next issue's draft in `drafts/`. Articles must be written by people (LLM-written ones aren't accepted; machine translation is fine). No paywalled links, including Medium's members-only posts. Link text = the page's title |
+| [This Week in Rust](https://github.com/rust-lang/this-week-in-rust) | Rust | **Project announcements: no PRs after issue 664 (2026-08).** Editors pick Projects/Tooling Updates from [r/rust](https://www.reddit.com/r/rust/), so post there under its rules (see [reddit.md](reddit.md)). Other sections (how-tos, walkthroughs, calls for participation) still take a PR to the next issue's draft in `draft/` (the README says `drafts/`, but the folder is `draft/`). Articles must be written by people (LLM-written ones aren't accepted; machine translation is fine). No paywalled links, including Medium's members-only posts. Link text = the page's title |
 | [PyCoder's Weekly](https://pycoders.com/submissions) | Python | "Submit Your Link" button; they want to hear about "projects you are working on" |
 | [Go Weekly](https://golangweekly.com) (golangweekly.com), [JavaScript Weekly](https://javascriptweekly.com) and other Cooperpress weeklies | Go, JS, Node, frontend… | No submission form on the sites. Cooperpress's contact page lists **editor@cooperpress.com** for editorial; send one short email naming the newsletter |
 | [Changelog News](https://changelog.com/news/submit) | Open source and software broadly | Sign in, then a form: URL, title, "What's interesting about it?". Your own work is welcome; they don't want how-tos/tutorials or commercial products |
