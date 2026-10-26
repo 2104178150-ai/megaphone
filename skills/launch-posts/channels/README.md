@@ -46,6 +46,7 @@ disagree, the platform wins. Please open a PR when you notice drift.
 | An AI / LLM tool | X demo video → Show HN → r/LocalLLaMA (if it runs local models) → 即刻 → 小红书 |
 | A web app anyone can use | Show HN (no sign-up demo) → Product Hunt → r/SideProject → 小红书 |
 | A consumer tool for Chinese users | 小红书 → V2EX 分享创造 → B 站 demo → HelloGitHub / 阮一峰周刊 → 即刻 |
+| An Agent Skill or Claude Code plugin | An install line in the README (`npx skills add <owner>/<repo>`, or a `.claude-plugin/marketplace.json` so users can run `/plugin marketplace add <owner>/<repo>`) → GitHub topics (e.g. `agent-skills`, `claude-code-plugin`) → Anthropic's plugin directory (paid plan) once the README and licence pass its checklist → awesome-claude-code / awesome-agent-skills once their age and star rules allow and people are using it ([ecosystems.md](ecosystems.md#agent-skills-and-claude-code-plugins)) |
 | A plugin or integration for another app | The host's store or plugin directory ([ecosystems.md](ecosystems.md)) → the host's showcase space (ask its maintainers first) → the channels where the host's users already are |
 | A learning resource or list | HelloGitHub → 阮一峰周刊 → V2EX → submit as a regular HN story (not Show HN) |
 | Bilingual (EN + 中文) | Run the global and Chinese tracks on different days so you can answer comments in both |
