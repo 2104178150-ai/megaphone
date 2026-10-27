@@ -75,7 +75,7 @@ same PR:
   lists them. The README copies in `tests/fixtures/` are test inputs; leave them alone.
 - Explain in the PR why the new weight or rule is better for launch visitors.
 
-Blockers and *Risk & readiness* are human review, not code. They live in `rubric.md` and
+Blockers, *Risk & readiness* and the skill/plugin checks (§ 4, SK1–SK5) are human review, not code. They live in `rubric.md` and
 the audit template in [`skills/launch-audit/SKILL.md`](skills/launch-audit/SKILL.md).
 
 ## Improve a skill

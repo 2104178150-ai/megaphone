@@ -11,6 +11,9 @@ Three layers, in this order of importance:
    get it; it's a line-by-line port of the web checker (`docs/checker.js`), and the shared
    cases in `tests/fixtures/rubric-cases.json` keep the two in agreement.
 
+Repos that ship an Agent Skill or a Claude Code plugin also get five human-review checks
+(§ 4), outside the score.
+
 Report the rubric score **and** a human-adjusted score when a check passed or failed on a
 technicality (say why). Accepted trade-offs (e.g. the author deliberately keeps one
 language) are reported as `NN/MM` with the check removed from the denominator, then
@@ -80,7 +83,7 @@ image whose URL or alt text contains `logo`, `icon`, `avatar` or `favicon`, or w
 |---|---|---|---|
 | B1 | Getting-started section | 7 | A heading containing install, quick start, getting started, get started, setup, set up, usage, how to use, run, 安装, 快速开始, 快速上手, 上手, 开始使用 or 使用 |
 | B2 | Code block early | 5 | A fenced code block starts within the first 150 lines |
-| B3 | One step to try it | 8 | A recognised one-line install or run command anywhere in the README (the exact patterns are `INSTALL_RES` in `docs/checker.js`, mirrored in `scripts/audit.py`) — `npm i`, `npx`, `pnpm add/dlx`, `yarn add/dlx`, `bun add`/`bunx`, `pip install <pkg>` (not `pip install -r`), `pipx`, `uv`/`uvx`, `brew install`, `port install`, `cargo install`, `go install`/`go get`, `docker run`/`pull`, `docker compose up`, `curl … \| sh`, `iwr … \| iex`, `gem install`, `composer require`, `dotnet tool install`, `winget`/`scoop`/`choco install`, `apt install`, `snap`/`flatpak install`, `nix run`, `helm install`, `npx skills add`, `claude plugin install` — **or** a homepage that passes A6 (a hosted version people can try) |
+| B3 | One step to try it | 8 | A recognised one-line install or run command anywhere in the README (the exact patterns are `INSTALL_RES` in `docs/checker.js`, mirrored in `scripts/audit.py`) — `npm i`, `npx`, `pnpm add/dlx`, `yarn add/dlx`, `bun add`/`bunx`, `pip install <pkg>` (not `pip install -r`), `pipx`, `uv`/`uvx`, `brew install`, `port install`, `cargo install`, `go install`/`go get`, `docker run`/`pull`, `docker compose up`, `curl … \| sh`, `iwr … \| iex`, `gem install`, `composer require`, `dotnet tool install`, `winget`/`scoop`/`choco install`, `apt install`, `snap`/`flatpak install`, `nix run`, `helm install`, `npx skills add`, `claude plugin install` / `claude plugin marketplace add` (or the same as `/plugin …` inside a session) — **or** a homepage that passes A6 (a hosted version people can try) |
 | B4 | Shows what it does | 5 | Within the first 120 lines, a heading containing feature, usage, example, demo, screenshot, how it works, what it does, tutorial, walkthrough, tour, showcase, gallery, 功能, 特性, 示例, 例子, 演示, 截图, 效果 or 教程; or ≥ 3 `-`/`*`/`+` bullet points in the first 80 lines |
 
 B3 is the check most likely to pass on a technicality: an install command proves the
@@ -106,6 +109,28 @@ doesn't show the point* blocker is for.
 | D3 | Community channel | 5 | Discussions enabled, or a Discord / Telegram / Slack / Matrix / Gitter / 微信群 / QQ群 link in the README |
 | D4 | Badges | 3 | At least one badge within the first 30 lines |
 | D5 | Code of conduct | 3 | The community profile finds a code of conduct |
+
+## 4. Skill and plugin repos (human review; not scored)
+
+When the repo has a `SKILL.md` anywhere or a `.claude-plugin/` folder, the README is only
+half of the listing: an agent decides whether to use a skill from its frontmatter alone, and
+people install it from one copied line. Check these too and report them in `audit.md` under
+*Skill & plugin*. They aren't part of the 100-point score, so scores stay comparable with
+other repos; rank a failed one in *Fix first* like any other fix. Mark a check that doesn't apply as
+n/a: SK1 and SK2 need a `SKILL.md`, and the plugin half of SK3 needs `.claude-plugin/`.
+
+| ID | Check | Passes when |
+|---|---|---|
+| SK1 | Valid frontmatter | Every `SKILL.md` starts with YAML frontmatter that has a `name` (1–64 characters: lowercase `a–z`, `0–9` and hyphens, no hyphen at the start or end, no `--`, same as its folder's name) and a `description` (1–1024 characters), as the [Agent Skills specification](https://agentskills.io/specification) requires |
+| SK2 | Description says when | Each `description` says what the skill does **and** when to use it, with the words a user would actually type (the spec asks for "specific keywords"), e.g. `Use when the user asks "is my repo ready to launch" or says 发布前检查`. Include trigger phrases in every language the skill is meant for. "Helps with PDFs" fails |
+| SK3 | Copy-paste install | The quick start has the install to copy: `npx skills add <owner>/<repo>` for skills; for a plugin, the pair `/plugin marketplace add <owner>/<repo>` and `/plugin install <plugin>@<marketplace>` (or the same two as `claude plugin …` in a terminal), where `<marketplace>` is the `name` in the repo's `.claude-plugin/marketplace.json` and `<plugin>` is one of its `plugins[].name`. A repo that ships both shows both |
+| SK4 | First thing to say | Right after the install, the README shows one prompt to give the agent and what comes back *(heuristic: an installed skill does nothing visible until someone knows what to ask)* |
+| SK5 | Findable | GitHub topics include the ecosystem's own (e.g. `agent-skills`, `claude-skills`, `claude-code-plugin`), and the author knows which directories and lists apply and when they become eligible ([ecosystems.md](../launch-posts/channels/ecosystems.md#agent-skills-and-claude-code-plugins)) |
+
+Why these matter: the spec says agents load only `name` and `description` at startup, so a
+vague description means the skill never fires, however good its instructions are; and
+skills.sh ranks skills by installs made through the `skills` CLI, so a copyable
+`npx skills add` line is both the one-step try (B3) and the ranking signal.
 
 ## Why these weights
 

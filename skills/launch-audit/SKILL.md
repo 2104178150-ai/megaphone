@@ -50,6 +50,10 @@ with no human available, the assumptions you made.
 
    Don't run the project's code unless the user asked you to; reason from the code and
    docs, and say so.
+   If the repo has a `SKILL.md` or a `.claude-plugin/` folder, also go through
+   [rubric.md § Skill and plugin repos](rubric.md) (SK1–SK5): open each `SKILL.md` and read
+   its frontmatter the way an agent would, deciding from `name` and `description` alone
+   whether to use the skill.
 3. **Decide the blockers** from [rubric.md § Blockers](rubric.md). Any open blocker caps
    the level at 🔉 *Needs polish* regardless of the score.
 4. **Answer risk & readiness** ([rubric.md § Risk & readiness](rubric.md)) — always, even
@@ -93,6 +97,13 @@ Open blockers: N
 - Disclaimer: present / draft: "…"
 - Capacity: …
 - Reachability: …
+
+## Skill & plugin (only for repos with a SKILL.md or .claude-plugin/)
+- [x] SK1 Valid frontmatter — <evidence> (a check that doesn't apply: `- n/a SKn … — <why>`)
+- [ ] SK2 Description says when — "<current description>" → "<proposed one with trigger phrases>"
+- [ ] SK3 Copy-paste install — …
+- [ ] SK4 First thing to say — …
+- [ ] SK5 Findable — topics: …; directories/lists and when they apply: …
 
 ## Fix first
 1. <fix> — Blocker/High/Medium — why it matters, exactly what to change (+N pts)
