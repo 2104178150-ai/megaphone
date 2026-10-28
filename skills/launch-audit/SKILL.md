@@ -1,6 +1,6 @@
 ---
 name: launch-audit
-description: Check whether a GitHub repo is ready to be launched — blockers a visitor would hit, risks that grow with visibility (unofficial APIs, copyright, privacy, capacity), and a 0–100 readiness score from a public rubric — then list the fixes that matter most. Use when the user asks "is my repo ready to launch", wants a README/repo review before promoting it, or says 发布前检查 / 体检 / 帮我看看仓库哪里不行.
+description: "Check whether a GitHub repo is ready to be launched — blockers a visitor would hit, risks that grow with visibility (unofficial APIs, copyright, privacy, capacity), and a 0–100 readiness score from a public rubric — then list the fixes that matter most. Use when the user asks \"is my repo ready to launch\", wants a README/repo review before promoting it, or says 发布前检查 / 体检 / 帮我看看仓库哪里不行."
 ---
 
 # Launch audit

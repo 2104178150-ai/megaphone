@@ -1,6 +1,6 @@
 ---
 name: launch-positioning
-description: Find the one-sentence pitch for an open-source project or app — who it's for, what it replaces, why now, the proof, how it beats today's alternatives, and what we must not claim — and save it as the launch brief every post is built from. Use when a repo's pitch is vague, before writing a README or launch posts, or when the user asks 怎么介绍我的项目 / 一句话说清楚 / 定位 / tagline / elevator pitch.
+description: "Find the one-sentence pitch for an open-source project or app — who it's for, what it replaces, why now, the proof, how it beats today's alternatives, and what we must not claim — and save it as the launch brief every post is built from. Use when a repo's pitch is vague, before writing a README or launch posts, or when the user asks 怎么介绍我的项目 / 一句话说清楚 / 定位 / tagline / elevator pitch."
 ---
 
 # Launch positioning

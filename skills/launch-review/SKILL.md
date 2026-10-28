@@ -1,6 +1,6 @@
 ---
 name: launch-review
-description: Measure a launch — pull GitHub star history and traffic (views, clones, referrers), line them up against the launch log, and report what happened after each post, plus what to do next. Use after a launch or post, when the user asks "did it work", "which channel worked", "how many stars from HN", or says 复盘 / 效果怎么样 / 哪个渠道有用.
+description: "Measure a launch — pull GitHub star history and traffic (views, clones, referrers), line them up against the launch log, and report what happened after each post, plus what to do next. Use after a launch or post, when the user asks \"did it work\", \"which channel worked\", \"how many stars from HN\", or says 复盘 / 效果怎么样 / 哪个渠道有用."
 ---
 
 # Launch review

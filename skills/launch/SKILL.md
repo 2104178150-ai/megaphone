@@ -1,6 +1,6 @@
 ---
 name: launch
-description: End-to-end launch of an open-source project or GitHub repo — audit readiness and risks, sharpen positioning, rewrite the README first screen, draft channel-specific posts, schedule the launch, then (later) track which channel worked. Use when the user wants to launch, promote, announce, market or "get stars" for a repo, side project, app or developer tool, or says things like 推广我的项目 / 发布开源项目 / 冷启动 / 怎么让更多人用 / 涨 star.
+description: "End-to-end launch of an open-source project or GitHub repo — audit readiness and risks, sharpen positioning, rewrite the README first screen, draft channel-specific posts, schedule the launch, then (later) track which channel worked. Use when the user wants to launch, promote, announce, market or \"get stars\" for a repo, side project, app or developer tool, or says things like 推广我的项目 / 发布开源项目 / 冷启动 / 怎么让更多人用 / 涨 star."
 ---
 
 # Launch (Megaphone orchestrator)

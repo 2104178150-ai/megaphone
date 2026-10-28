@@ -1,6 +1,6 @@
 ---
 name: launch-plan
-description: Turn launch drafts into a dated launch calendar in the user's own timezone — a readiness gate with a go/no-go, prep tasks, which channel on which day and hour, and the log and traffic snapshots launch-review measures against. Use when the user asks when or in what order to post, wants a launch schedule or checklist, or says 发布计划 / 排期 / 什么时候发 / 先发哪个.
+description: "Turn launch drafts into a dated launch calendar in the user's own timezone — a readiness gate with a go/no-go, prep tasks, which channel on which day and hour, and the log and traffic snapshots launch-review measures against. Use when the user asks when or in what order to post, wants a launch schedule or checklist, or says 发布计划 / 排期 / 什么时候发 / 先发哪个."
 ---
 
 # Launch plan

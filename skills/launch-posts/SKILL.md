@@ -1,6 +1,6 @@
 ---
 name: launch-posts
-description: Pick the channels where a project's audience actually is — developer communities for developer tools, the platforms end users already browse for apps, plugin directories for extensions — and prepare a rule-checked draft for each, or, where the platform wants the author's own words (Show HN, a DEV launch article, Lobsters, V2EX, 掘金 articles and 沸点, awesome lists that refuse LLM-written entries), a fact sheet the author writes from: Show HN, Reddit, Product Hunt, X/Twitter, DEV, Lobsters, awesome lists, newsletters, V2EX, HelloGitHub, 阮一峰科技爱好者周刊, 即刻, 小红书, 掘金, 知乎, B 站 and more. Use when the user wants to announce or promote a project or app, write a Show HN / Reddit / Product Hunt post, or says 写推广文案 / 发帖推广 / 发 V2EX / 投稿 HelloGitHub / 小红书怎么发.
+description: "Pick the channels where a project's audience actually is — developer communities for developer tools, the platforms end users already browse for apps, plugin directories for extensions — and prepare a rule-checked draft for each, or, where the platform wants the author's own words (Show HN, a DEV launch article, Lobsters, V2EX, 掘金 articles and 沸点, awesome lists that refuse LLM-written entries), a fact sheet the author writes from: Show HN, Reddit, Product Hunt, X/Twitter, DEV, Lobsters, awesome lists, newsletters, V2EX, HelloGitHub, 阮一峰科技爱好者周刊, 即刻, 小红书, 掘金, 知乎, B 站 and more. Use when the user wants to announce or promote a project or app, write a Show HN / Reddit / Product Hunt post, or says 写推广文案 / 发帖推广 / 发 V2EX / 投稿 HelloGitHub / 小红书怎么发."
 ---
 
 # Launch posts

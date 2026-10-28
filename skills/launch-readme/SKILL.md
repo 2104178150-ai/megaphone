@@ -1,6 +1,6 @@
 ---
 name: launch-readme
-description: Rewrite the first screen of a GitHub README so launch visitors instantly see what it is, who it's for, what it looks like, what it needs, and how to try it — title, tagline, visual, three bullets, a quick start that reaches the aha moment, requirements, badges, and an optional translated twin README. Use when the user asks to improve, rewrite or polish a README, make it launch-ready, or says 改 README / README 第一屏 / 写个中文版 README.
+description: "Rewrite the first screen of a GitHub README so launch visitors instantly see what it is, who it's for, what it looks like, what it needs, and how to try it — title, tagline, visual, three bullets, a quick start that reaches the aha moment, requirements, badges, and an optional translated twin README. Use when the user asks to improve, rewrite or polish a README, make it launch-ready, or says 改 README / README 第一屏 / 写个中文版 README."
 ---
 
 # Launch README
