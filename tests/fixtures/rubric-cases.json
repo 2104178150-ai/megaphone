@@ -894,6 +894,51 @@
      "D5": 0
     }
    }
+  },
+  {
+   "name": "edge-chinese-what-it-does-heading",
+   "data": {
+    "repo": {
+     "full_name": "acme/bill",
+     "description": "A description that is long enough",
+     "topics": [
+      "a",
+      "b",
+      "c"
+     ],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "community": null,
+    "releases": [],
+    "readme": "# 账单\n\n一眼看到所有 AI 工具一共花了多少钱，数据只留在本机。\n\n## ✨ 它能做什么\n\n按天汇总每个工具的用量，并标出最贵的一次对话。\n"
+   },
+   "expected": {
+    "score": 29,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 5,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
   }
  ]
 }
