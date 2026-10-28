@@ -9,7 +9,7 @@ Launch your open-source project the way a marketer would — even if you've neve
 [![Channel playbooks: 17](https://img.shields.io/badge/channel%20playbooks-17-e8501c)](skills/launch-posts/channels)
 [![Works with Claude Code, Codex, OpenClaw](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20OpenClaw-1f1b16)](#quick-start)
 
-English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/) · Cases: [DragonCard 54 → 71](examples/case-dragoncard/), [outline-skill 58 → 78](examples/case-outline-skill/)
+English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2104178150-ai.github.io/megaphone/) · Cases: [token-pilot 54 → 100](examples/case-token-pilot/), [outline-skill 58 → 78](examples/case-outline-skill/), [more](#case-studies)
 
 [![Megaphone checking a repo: type it in, get a 0–100 launch score, the three fixes that matter most and where to launch it — click to try it](docs/demo.svg)](https://2104178150-ai.github.io/megaphone/)
 
@@ -42,8 +42,8 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 
 **See it on a real launch:** [Megaphone launching itself](examples/self-launch/) — the 小红书 images and note, the V2EX fact sheet (V2EX bans AI-written posts, so the author writes it), and what was actually published.
 
-**See it on someone else's repo:** [DragonCard, 54 → 71 in one day](examples/case-dragoncard/) — the author made the two quickest fixes from our issue the next day. [outline-skill, 58 → 78](examples/case-outline-skill/)
-— a demo image and a Chinese README; its author called Megaphone 「挺好用的」 ("really handy").
+<a name="case-studies"></a>**See it on someone else's repo:** [token-pilot, 54 → 100](examples/case-token-pilot/) — three fixes from our issue, then the author worked through the rest of the report. [outline-skill, 58 → 78](examples/case-outline-skill/)
+— a demo image and a Chinese README; its author called Megaphone 「挺好用的」 ("really handy"). [Open Resume, 70 → 79](examples/case-open-resume/) — tagging v1.0.0 turned up a Docker bug the author fixed first. [DragonCard, 54 → 71 in one day](examples/case-dragoncard/).
 
 **See what separates new projects that get noticed:** [362 new repos, scored](research/2026-10-new-repos.md) —
 a screenshot in the first screen: 68% of those with 100+ stars, 40% of those with 5–99.
