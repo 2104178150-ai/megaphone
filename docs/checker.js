@@ -283,7 +283,7 @@ export function readmeFacts(md) {
   const findHeading = (re, within = Infinity) => headings.find((h) => h.i < within && re.test(h.text)) || null;
   const gettingStarted = findHeading(/install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|deploy|download|安装|怎么装|如何装|装上|快速开始|快速上手|上手|开始使用|使用|部署|运行|入门|用法|下载/);
   const showcase = findHeading(/feature|usage|example|demo|screenshot|how it works|what it does|tutorial|walkthrough|tour|showcase|gallery|功能|特性|示例|例子|演示|截图|效果|教程|展示|预览|看懂|能做什么|可以做什么|用法|怎么用|如何使用|使用方法|使用说明|工作原理|核心能力|亮点/, 120);
-  const why = findHeading(/\bwhy\b|motivation|comparison|compare|\bvs\.?\b|alternative|difference|为什么|对比|比较|动机|初衷/);
+  const why = findHeading(/\bwhy\b|motivation|comparison|compare|\bvs\.?\b(?!\s*(?:code|20\d\d)\b)|alternative|difference|为什么|对比|比较|动机|初衷/);
 
   let bullets = 0;
   for (let i = 0; i < Math.min(80, lines.length); i++) {

@@ -186,7 +186,7 @@ INSTALL_RES = [jsre(p, A) for p in [
 
 GETTING_STARTED_RE = re.compile(r"install|quick ?start|getting started|get started|setup|set up|usage|how to use|run|deploy|download|安装|怎么装|如何装|装上|快速开始|快速上手|上手|开始使用|使用|部署|运行|入门|用法|下载")
 SHOWCASE_RE = re.compile(r"feature|usage|example|demo|screenshot|how it works|what it does|tutorial|walkthrough|tour|showcase|gallery|功能|特性|示例|例子|演示|截图|效果|教程|展示|预览|看懂|能做什么|可以做什么|用法|怎么用|如何使用|使用方法|使用说明|工作原理|核心能力|亮点")
-WHY_RE = jsre(r"\bwhy\b|motivation|comparison|compare|\bvs\.?\b|alternative|difference|为什么|对比|比较|动机|初衷", A)
+WHY_RE = jsre(r"\bwhy\b|motivation|comparison|compare|\bvs\.?\b(?!\s*(?:code|20\d\d)\b)|alternative|difference|为什么|对比|比较|动机|初衷", A)
 TRANSLATION_FILE_RE = re.compile(r"README[._-]?(zh|cn|en|ja|ko|es|fr|de|ru|pt|tw|hk)[\w-]*\.md", re.I | A)
 TRANSLATION_LINK_RE = re.compile(r"\[(简体中文|中文|English|繁體中文|日本語)\]\(")
 COMMUNITY_RE = re.compile(r"discord\.(gg|com/invite)|t\.me/|slack\.com|gitter\.im|matrix\.to|微信群|qq群|QQ群|telegram", re.I)

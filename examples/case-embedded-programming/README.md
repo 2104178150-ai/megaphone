@@ -34,7 +34,7 @@ FreeRTOS), with pin tables, wiring tables and a static checker for the generated
 
 我们 2026-10-28 用 `audit.py` 复测：90 分。作者之后又加了徽章，10-31 再测是 93 分。
 
-**有一项是我们的误判。** 两栏里都有「为什么 / 对比」的 4 分，来自常见问题里的一个标题「模板在 VS Code 里报……」：检测器把「VS Code」里的 VS 当成了对比用的「vs」。这个仓库其实还没有对比章节。去掉这 4 分，是 45 → 86，涨幅一样（+41）。这条规则我们会修。
+**有一项是我们的误判。** 两栏里都有「为什么 / 对比」的 4 分，来自常见问题里的一个标题「模板在 VS Code 里报……」：检测器把「VS Code」里的 VS 当成了对比用的「vs」。这个仓库其实还没有对比章节。去掉这 4 分，是 45 → 86，涨幅一样（+41）。规则已在 2026-10-31 修好：「VS Code」「VS 2022」这类写法不再算作对比，用修好的规则重测，今天是 89 分。
 
 **学到的：**
 
@@ -78,7 +78,8 @@ Our own re-run of `audit.py` on 2026-10-28 gives 90. The author has since added 
 
 **One check was our mistake.** Both columns get 4 points for a "why / comparison" section, and both come
 from an FAQ heading about an error in "VS Code": the checker read the "VS" as "vs". The repo doesn't have a
-comparison section yet. Without those 4 points it's 45 → 86, the same +41. We'll fix the rule.
+comparison section yet. Without those 4 points it's 45 → 86, the same +41. The rule was fixed on 2026-10-31:
+"VS Code" and "VS 2022" no longer count as a comparison, and with the fixed rule the repo scores 89 today.
 
 **What it shows:**
 
