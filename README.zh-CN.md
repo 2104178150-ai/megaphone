@@ -40,7 +40,7 @@ claude plugin install megaphone@megaphone
 
 **看一次真实的发布：**[Megaphone 给自己做的发布](examples/self-launch/)——小红书配图和文案、V2EX 的事实清单（V2EX 不许 AI 代写，正文由作者本人写），以及最后真的发出去的内容。
 
-<a name="case-studies"></a>**看别人的项目：**[token-pilot 从 54 分到 100 分](examples/case-token-pilot/)——先改了 issue 里的 3 条，又照着完整报告把剩下的全做了。[outline-skill 从 58 分到 78 分](examples/case-outline-skill/)——加了演示图和中文 README，作者说 Megaphone「挺好用的」。[Open Resume 从 70 分到 79 分](examples/case-open-resume/)——打 v1.0.0 时顺带发现并修好了一个 Docker 启动 bug。[DragonCard 一天从 54 分到 71 分](examples/case-dragoncard/)。
+<a name="case-studies"></a>**看别人的项目：**[token-pilot 从 54 分到 100 分](examples/case-token-pilot/)——先改了 issue 里的 3 条，又照着完整报告把剩下的全做了。[Embedded-programming 从 49 分到 90 分](examples/case-embedded-programming/)——不到 14 小时就补了 LICENSE、加了一行安装、首屏换成真实的上板项目，接着又发了第一个版本。[outline-skill 从 58 分到 78 分](examples/case-outline-skill/)——加了演示图和中文 README，作者说 Megaphone「挺好用的」。[Open Resume 从 70 分到 79 分](examples/case-open-resume/)——打 v1.0.0 时顺带发现并修好了一个 Docker 启动 bug。[DragonCard 一天从 54 分到 71 分](examples/case-dragoncard/)。
 
 **新项目被看到，差在哪：**[362 个新仓库的体检数据](research/2026-10-new-repos.zh-CN.md)——100 星以上的项目 68% 首屏有截图，5–99 星的只有 40%。
 

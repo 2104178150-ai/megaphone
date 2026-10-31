@@ -42,7 +42,8 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 
 **See it on a real launch:** [Megaphone launching itself](examples/self-launch/) — the 小红书 images and note, the V2EX fact sheet (V2EX bans AI-written posts, so the author writes it), and what was actually published.
 
-<a name="case-studies"></a>**See it on someone else's repo:** [token-pilot, 54 → 100](examples/case-token-pilot/) — three fixes from our issue, then the author worked through the rest of the report. [outline-skill, 58 → 78](examples/case-outline-skill/)
+<a name="case-studies"></a>**See it on someone else's repo:** [token-pilot, 54 → 100](examples/case-token-pilot/) — three fixes from our issue, then the author worked through the rest of the report. [Embedded-programming, 49 → 90](examples/case-embedded-programming/)
+— a LICENSE file, a one-line install and a real hardware build on the first screen within 14 hours, then a first release. [outline-skill, 58 → 78](examples/case-outline-skill/)
 — a demo image and a Chinese README; its author called Megaphone 「挺好用的」 ("really handy"). [Open Resume, 70 → 79](examples/case-open-resume/) — tagging v1.0.0 turned up a Docker bug the author fixed first. [DragonCard, 54 → 71 in one day](examples/case-dragoncard/).
 
 **See what separates new projects that get noticed:** [362 new repos, scored](research/2026-10-new-repos.md) —
