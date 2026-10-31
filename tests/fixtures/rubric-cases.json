@@ -956,7 +956,7 @@
     },
     "community": null,
     "releases": [],
-    "readme": "# 单片机助手\n\n让 AI 帮你写能直接编译的 STM32 工程。\n\n## 常见问题\n\n### 模板在 VS Code 里报错怎么办\n\n先装好芯片支持包。\n\n### Building in VS 2022\n\nUse the Keil project instead.\n"
+    "readme": "# 单片机助手\n\n让 AI 帮你写能直接编译的 STM32 工程。\n\n## 常见问题\n\n### 模板在 VS Code 里报错怎么办\n\n先装好芯片支持包。\n\n### Building in VS 2022\n\nUse the Keil project instead.\n\n### Opening it in Visual Studio\n\nOpen the .sln file.\n"
    },
    "expected": {
     "score": 24,
@@ -979,6 +979,51 @@
      "C5": 0,
      "D1": 0,
      "D2": 0,
+     "D3": 0,
+     "D4": 0,
+     "D5": 0
+    }
+   }
+  },
+  {
+   "name": "edge-plain-vs-is-a-comparison",
+   "data": {
+    "repo": {
+     "full_name": "acme/megaphone",
+     "description": "A description that is long enough",
+     "topics": [
+      "a",
+      "b",
+      "c"
+     ],
+     "homepage": "",
+     "pushed_at": "2026-10-01T00:00:00Z"
+    },
+    "community": null,
+    "releases": [],
+    "readme": "# Megaphone\n\nHelp people find your open-source project after you ship it.\n\n## Megaphone vs ChatGPT\n\nChatGPT drafts a post. Megaphone checks the repo first.\n"
+   },
+   "expected": {
+    "score": 28,
+    "points": {
+     "A1": 8,
+     "A2": 5,
+     "A3": 3,
+     "A4": 4,
+     "A5": 0,
+     "A6": 0,
+     "A7": 0,
+     "B1": 0,
+     "B2": 0,
+     "B3": 0,
+     "B4": 0,
+     "C1": 0,
+     "C2": 4,
+     "C3": 0,
+     "C4": 0,
+     "C5": 0,
+     "D1": 0,
+     "D2": 4,
      "D3": 0,
      "D4": 0,
      "D5": 0

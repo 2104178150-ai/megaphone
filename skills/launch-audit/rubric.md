@@ -105,7 +105,7 @@ doesn't show the point* blocker is for.
 | ID | Check | Points | Passes when |
 |---|---|---|---|
 | D1 | Two languages | 5 | Mentions a translated README file anywhere (`README.zh-CN.md`, `README_EN.md`, `README.ja.md`…), or has a `[简体中文](…)`/`[English](…)` link in the first 40 lines, **or** real prose in both English and CJK: ≥ 80 English words and ≥ 30 CJK characters, with English between 25% and 75% of the words. Code, URLs, HTML and link targets aren't prose |
-| D2 | Why / comparison | 4 | A heading containing why, motivation, comparison, compare, vs, alternative, difference, 为什么, 对比, 比较, 动机 or 初衷 |
+| D2 | Why / comparison | 4 | A heading containing why, motivation, comparison, compare, vs, alternative, difference, 为什么, 对比, 比较, 动机 or 初衷 ("VS Code" and "VS 2022" aren't a "vs") |
 | D3 | Community channel | 5 | Discussions enabled, or a Discord / Telegram / Slack / Matrix / Gitter / 微信群 / QQ群 link in the README |
 | D4 | Badges | 3 | At least one badge within the first 30 lines |
 | D5 | Code of conduct | 3 | The community profile finds a code of conduct |
