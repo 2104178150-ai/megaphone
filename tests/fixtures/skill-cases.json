@@ -1,0 +1,68 @@
+{
+  "_comment": "Unscored Skill & plugin checks (rubric.md § 4, SK1–SK3). audit.py's skill_checks() must give these statuses; the web checker will use the same cases (backlog K1b).",
+  "cases": [
+    {
+      "name": "no skills, no plugin",
+      "data": {"readme": "# Tool\n\nnpm install tool\n", "skills": [], "marketplace": null, "pluginDir": false},
+      "expected": null
+    },
+    {
+      "name": "good skill pack and plugin",
+      "data": {
+        "readme": "# Pack\n\n```bash\nnpx skills add acme/pack\n```\n\n```\n/plugin marketplace add acme/pack\n/plugin install pack@acme-tools\n```\n",
+        "skills": [
+          {"path": "skills/review-pr/SKILL.md", "text": "---\nname: review-pr\ndescription: \"Review a pull request for bugs. Use when the user asks to review a PR or says 帮我看看这个 PR.\"\n---\n\n# Review\n"},
+          {"path": "skills/write-tests/SKILL.md", "text": "---\nname: write-tests\ndescription: >\n  Write unit tests for a module.\n  当用户说「补测试」时使用。\n---\n"}
+        ],
+        "marketplace": {"name": "acme-tools", "plugins": [{"name": "pack", "source": "./"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "name mismatch, vague description, no install line",
+      "data": {
+        "readme": "# PDF skill\n\nCopy the folder into ~/.claude/skills.\n",
+        "skills": [
+          {"path": "pdf-helper/SKILL.md", "text": "---\nname: pdf_helper\ndescription: Helps with PDFs\n---\n"},
+          {"path": "skills/notes/SKILL.md", "text": "---\nname: summarize\ndescription: 'Summarizes notes'\n---\n"},
+          {"path": "skills/broken/SKILL.md", "text": "# No frontmatter here\n"}
+        ],
+        "marketplace": null,
+        "pluginDir": false
+      },
+      "expected": {"SK1": "fail", "SK2": "fail", "SK3": "fail"}
+    },
+    {
+      "name": "plugin only, install line names the wrong marketplace",
+      "data": {
+        "readme": "# Plugin\n\n```\nclaude plugin marketplace add acme/plug\nclaude plugin install plug@plug\n```\n",
+        "skills": [],
+        "marketplace": {"name": "acme", "plugins": [{"name": "plug"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "fail"}
+    },
+    {
+      "name": "plugin only, terminal install pair",
+      "data": {
+        "readme": "# Plugin\n\n```\nclaude plugin marketplace add acme/plug\nclaude plugin install plug@acme\n```\n",
+        "skills": [],
+        "marketplace": {"name": "acme", "plugins": [{"name": "plug"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "pass"}
+    },
+    {
+      "name": "root SKILL.md, description over 1024 characters",
+      "data": {
+        "readme": "npx skills add acme/one",
+        "skills": [{"path": "SKILL.md", "text": "---\nname: one\ndescription: \"Use when LONG\"\n---\n"}],
+        "marketplace": null,
+        "pluginDir": false
+      },
+      "long_description": 1100,
+      "expected": {"SK1": "fail", "SK2": "pass", "SK3": "pass"}
+    }
+  ]
+}

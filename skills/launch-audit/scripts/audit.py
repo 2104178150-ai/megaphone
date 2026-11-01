@@ -11,6 +11,8 @@ GITHUB_TOKEN / GH_TOKEN is optional (raises the API limit from 60 to 5,000 reque
 
 This is a line-by-line port of docs/checker.js (readmeFacts + analyze). The shared cases in
 tests/fixtures/rubric-cases.json keep the two implementations in agreement — change both.
+The unscored Skill & plugin checks (skill_checks, rubric.md § 4) aren't in checker.js yet;
+their cases are in tests/fixtures/skill-cases.json.
 """
 
 import argparse
@@ -22,6 +24,7 @@ import os
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 
@@ -458,7 +461,144 @@ def analyze(data, now_ms=None):
     lvl = level_for(score)
     return {"repo": repo.get("full_name"), "score": score,
             "level": {"emoji": lvl[1], "color": lvl[2], "name": lvl[3]},
-            "categories": cats, "checks": checks, "fixes": fixes, "archived": bool(repo.get("archived"))}
+            "categories": cats, "checks": checks, "fixes": fixes, "archived": bool(repo.get("archived")),
+            "skillChecks": safe_skill_checks(data)}
+
+
+# ---------------------------------------------------------------------------
+# Skill & plugin checks (rubric.md § 4, SK1–SK3) — reported next to the score, never part of it
+
+SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+# "Use when …", "when the user asks …", 当用户…, …时使用: the description says *when*, not only what.
+SKILL_WHEN_RE = re.compile(
+    r"\b(?:use[ds]?|invoke[ds]?|activate[ds]?|appl(?:y|ies)|call(?:ed)?)\b[^.\n]{0,30}\b(?:when|whenever|if)\b"
+    r"|\bwhen (?:the |a )?(?:user|someone|you)\b|\bwhenever\b|\btrigger(?:s|ed)?\s+(?:when|on|by|phrases?|words?)\b"
+    r"|当用户|用户(?:说|问|提到|想|要|需要)|触发|适用于|使用场景|时使用|时调用|时用", re.I)
+SKILLS_ADD_RE = re.compile(r"\bnpx\s+(?:-y\s+)?skills(?:@\S+)?\s+add\s+\S")
+PLUGIN_MARKET_RE = re.compile(r"(?:/plugin|\bclaude\s+plugin)\s+marketplace\s+add\s+\S")
+PLUGIN_INSTALL_RE = re.compile(r"(?:/plugin|\bclaude\s+plugin)\s+install\s+([\w.-]+)(?:@([\w.-]+))?")
+
+
+def skill_frontmatter(text):
+    """name/description from a SKILL.md's YAML frontmatter, without a YAML library.
+
+    Handles plain, "double-" and 'single-'quoted values and >/| block scalars — what SKILL.md files use.
+    Returns None when the file doesn't start with a frontmatter block.
+    """
+    m = re.match(r"\ufeff?---[ \t]*\r?\n(.*?)\r?\n---[ \t]*(?:\r?\n|$)", text, re.S)
+    if not m:
+        return None
+    fields, lines, i = {}, m.group(1).splitlines(), 0
+    while i < len(lines):
+        km = re.match(r"([A-Za-z][\w-]*):[ \t]*(.*)$", lines[i])
+        i += 1
+        if not km:
+            continue
+        key, value = km.group(1), km.group(2).strip()
+        if re.fullmatch(r"[>|][+-]?", value):
+            block = []
+            while i < len(lines) and (not lines[i].strip() or lines[i][:1] in " \t"):
+                block.append(lines[i].strip())
+                i += 1
+            value = (" " if value[0] == ">" else "\n").join(block).strip()
+        elif value[:1] == '"':
+            try:
+                value = json.loads(value)
+            except ValueError:
+                value = value.strip('"')
+        elif value[:1] == "'":
+            value = value[1:-1].replace("''", "'") if value.endswith("'") and len(value) > 1 else value[1:]
+        else:
+            # a plain value may wrap onto indented lines: "description: Does X.\n  Use when …"
+            value = re.sub(r"\s+#.*$", "", value)
+            while i < len(lines) and lines[i][:1] in " \t" and lines[i].strip():
+                value += " " + re.sub(r"\s+#.*$", "", lines[i].strip())
+                i += 1
+        fields[key] = value
+    return fields
+
+
+def safe_skill_checks(data):
+    """skill_checks that can never cost the user the score report."""
+    try:
+        return skill_checks(data)
+    except Exception:
+        return None
+
+
+def skill_checks(data):
+    """SK1–SK3 for a repo that ships skills or a Claude Code plugin; None when it ships neither.
+
+    data["skills"]: [{"path": "skills/x/SKILL.md", "text": …}], data["marketplace"]: parsed
+    .claude-plugin/marketplace.json or None, data["pluginDir"]: the repo has a .claude-plugin/ folder.
+    """
+    skills = data.get("skills") or []
+    plugin = bool(data.get("pluginDir")) or data.get("marketplace") is not None
+    if not skills and not plugin:
+        return None
+    readme = data.get("readme") or ""
+    out = []
+
+    def add(cid, title, status, evidence):
+        out.append({"id": cid, "title": title, "status": status, "evidence": evidence})
+
+    unread = [s["path"] for s in skills if s.get("text") is None]
+    metas = [(s["path"], skill_frontmatter(s["text"])) for s in skills if s.get("text") is not None]
+    if not skills:
+        add("SK1", "Valid frontmatter", "n/a", "No SKILL.md")
+        add("SK2", "Description says when", "n/a", "No SKILL.md")
+    else:
+        bad, vague = [], []
+        for path, fm in metas:
+            folder = path.rsplit("/", 2)[-2] if path.count("/") else None
+            name = (fm or {}).get("name") or ""
+            desc = (fm or {}).get("description") or ""
+            if fm is None:
+                bad.append("%s: no frontmatter" % path)
+                continue
+            if not (SKILL_NAME_RE.match(name) and js_len(name) <= 64):
+                bad.append('%s: name "%s" isn\'t 1–64 lowercase letters, digits and single hyphens' % (path, name))
+            elif folder and name != folder:
+                bad.append('%s: name "%s" ≠ folder "%s"' % (path, name, folder))
+            if not 0 < js_len(desc) <= 1024:
+                bad.append("%s: description is %d characters (needs 1–1024)" % (path, js_len(desc)))
+            elif not SKILL_WHEN_RE.search(desc):
+                vague.append("%s: \"%s\"" % (path, desc if js_len(desc) <= 80 else desc[:77] + "…"))
+        total = data.get("skillTotal") or len(skills)
+        note = ""
+        if total > len(skills):
+            note += " (checked the first %d of %d SKILL.md files)" % (len(skills), total)
+        if data.get("treeTruncated"):
+            note += " (GitHub cut the file list short, so some SKILL.md files may be missing)"
+        if unread:
+            note += " (couldn't download %s)" % ", ".join(unread[:3])
+        quiet = "unknown" if not metas else "pass"
+        add("SK1", "Valid frontmatter", "fail" if bad else quiet,
+            ("; ".join(bad[:3]) + (" (+%d more)" % (len(bad) - 3) if len(bad) > 3 else "") if bad
+             else "%d SKILL.md file(s): name and description OK" % len(metas)) + note)
+        add("SK2", "Description says when", "fail" if vague else quiet,
+            ("No \"use when …\" in " + "; ".join(vague[:3]) + (" (+%d more)" % (len(vague) - 3) if len(vague) > 3 else "")
+             if vague else "Every description says when to use it") + note)
+
+    missing = []
+    if skills and not SKILLS_ADD_RE.search(readme):
+        missing.append("`npx skills add <owner>/<repo>`")
+    if plugin:
+        installs = PLUGIN_INSTALL_RE.findall(readme)
+        market = data.get("marketplace") or {}
+        mname = market.get("name") if isinstance(market, dict) else None
+        plugins = market.get("plugins") if isinstance(market, dict) else None
+        pnames = {p["name"] for p in plugins if isinstance(p, dict) and isinstance(p.get("name"), str)} \
+            if isinstance(plugins, list) else set()
+        if not PLUGIN_MARKET_RE.search(readme):
+            missing.append("`/plugin marketplace add <owner>/<repo>`")
+        if not installs:
+            missing.append("`/plugin install <plugin>@<marketplace>`")
+        elif mname and not any(m == mname and (not pnames or p in pnames) for p, m in installs):
+            missing.append("`/plugin install <plugin>@%s` (the README's install line doesn't match marketplace.json)" % mname)
+    add("SK3", "Copy-paste install", "fail" if missing else "pass",
+        "README is missing " + " and ".join(missing) if missing else "Install line(s) found in the README")
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -524,7 +664,44 @@ def fetch_repo_data(full_name, token=None):
             raise
         except FetchError:
             templates = False
-    return {"repo": repo, "readme": readme, "community": community, "releases": releases, "issueTemplates": templates}
+    data = {"repo": repo, "readme": readme, "community": community, "releases": releases, "issueTemplates": templates}
+    try:
+        data.update(fetch_skill_data(name, repo.get("default_branch") or "HEAD", token))
+    except Exception:  # unscored extras: never lose the score over them
+        pass
+    return data
+
+
+def fetch_skill_data(name, ref, token=None, limit=20):
+    """SKILL.md files and .claude-plugin/ for the unscored SK checks. Best effort: on any error, no section."""
+    try:
+        tree = _api("/repos/%s/git/trees/%s?recursive=1" % (name, ref), token, optional=True) or {}
+    except FetchError:
+        return {}
+    if not isinstance(tree, dict):
+        return {}
+    paths = [t["path"] for t in tree.get("tree") or [] if isinstance(t, dict) and t.get("type") == "blob"]
+    all_skills = [p for p in paths if p.rsplit("/", 1)[-1] == "SKILL.md" and "node_modules/" not in p]
+    skill_paths = all_skills[:limit]
+    plugin_dir = any(p.startswith(".claude-plugin/") for p in paths)
+    if not skill_paths and not plugin_dir:
+        return {}
+    skills = []
+    for p in skill_paths:
+        try:
+            url = "%s/%s/%s/%s" % (RAW, name, urllib.parse.quote(ref, safe="/"), urllib.parse.quote(p))
+            skills.append({"path": p, "text": _get(url, timeout=10).decode("utf-8", "replace")})
+        except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError):
+            skills.append({"path": p, "text": None})
+    marketplace = None
+    if ".claude-plugin/marketplace.json" in paths:
+        try:
+            marketplace = json.loads(_get("%s/%s/%s/.claude-plugin/marketplace.json" % (
+                RAW, name, urllib.parse.quote(ref, safe="/")), timeout=10))
+        except (urllib.error.URLError, http.client.HTTPException, OSError, ValueError):
+            marketplace = {}
+    return {"skills": skills, "marketplace": marketplace, "pluginDir": plugin_dir,
+            "skillTotal": len(all_skills), "treeTruncated": bool(tree.get("truncated"))}
 
 
 # ---------------------------------------------------------------------------
@@ -547,6 +724,11 @@ def to_markdown(a):
     for c in a["checks"]:
         mark = "x" if c["pass"] else " "
         lines.append("- [%s] %s %s (%d/%d) — %s" % (mark, c["id"], c["title"], c["points"], c["max"], c["evidence"]))
+    if a.get("skillChecks"):
+        lines += ["", "## Skill & plugin (not scored — rubric.md § 4; SK4 and SK5 need a human)", ""]
+        for c in a["skillChecks"]:
+            mark = {"pass": "[x]", "fail": "[ ]", "unknown": "[?]"}.get(c["status"], "n/a")
+            lines.append("- %s %s %s — %s" % (mark, c["id"], c["title"], c["evidence"]))
     return "\n".join(lines)
 
 

@@ -63,6 +63,7 @@ same PR:
 | [`docs/checker.js`](docs/checker.js) | The web checker |
 | [`skills/launch-audit/scripts/audit.py`](skills/launch-audit/scripts/audit.py) | A line-by-line Python port of `checker.js` |
 | [`tests/fixtures/rubric-cases.json`](tests/fixtures/rubric-cases.json) | Shared cases with the expected points per check and the total |
+| [`tests/fixtures/skill-cases.json`](tests/fixtures/skill-cases.json) | Cases for the unscored Skill & plugin checks (SK1–SK3), which only `audit.py` runs so far |
 
 - Keep the total at 100.
 - Update the expected values in the fixtures. Work them out from the rule, not from

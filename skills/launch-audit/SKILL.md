@@ -24,7 +24,9 @@ with no human available, the assumptions you made.
    It's the same code as the Megaphone web checker, so the numbers match. A token in
    `GITHUB_TOKEN` is optional. If the repo isn't on GitHub yet or the network is
    unavailable, score the README-based checks by hand from [rubric.md](rubric.md) and mark
-   the repo-based ones `unknown`.
+   the repo-based ones `unknown`. If the repo ships a `SKILL.md` or `.claude-plugin/`, the
+   report ends with an unscored *Skill & plugin* section: SK1–SK3 checked automatically,
+   SK4–SK5 left to you in step 2.
 2. **Do the human review.** Read the README top to bottom as a stranger arriving from the
    **channel you'll launch on first** — from `.megaphone/decisions.md`, or the most likely
    one if it isn't decided yet (a Hacker News reader on a laptop, a 小红书 user on a phone, a
