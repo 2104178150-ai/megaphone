@@ -60,13 +60,13 @@
   <div class="wrap notices">
     <p class="status" id="status" role="status" aria-live="polite"></p>
     <form class="token" id="token-form" autocomplete="off" hidden>
-      <p data-i18n="tokenPrompt">Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).</p>
+      <p id="token-prompt" data-i18n="tokenPrompt">Out of anonymous requests? Paste a GitHub token to keep checking (5,000 requests an hour).</p>
       <div class="token-row">
         <label class="sr-only" for="token">GitHub token</label>
         <input id="token" type="password" spellcheck="false" data-i18n-ph="tokenPlaceholder" placeholder="github_pat_… or ghp_…">
         <button class="btn" type="submit" data-i18n="tokenRetry">Retry with token</button>
       </div>
-      <p class="hint" data-i18n="tokenHint"></p>
+      <p class="hint" id="token-hint" data-i18n="tokenHint"></p>
     </form>
   </div>
 

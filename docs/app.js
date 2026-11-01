@@ -103,6 +103,9 @@ const STRINGS = {
     tokenActive: 'Using your GitHub token',
     tokenClear: 'Forget it',
     errBadToken: 'GitHub rejected that token. Check it and try again.',
+    errNotFoundToken: 'Still not found with your token. Check the spelling, or give the token access to this repository.',
+    tokenPromptPrivate: 'Is it a private repo? Paste a GitHub token that can read it and check it here.',
+    tokenHintPrivate: 'Create one at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a>: under Repository access pick only this repository, and under Permissions give Contents read-only. It stays in this browser tab, is only sent to api.github.com, and results checked with it are never cached.',
     pts: 'pts',
     sampleFixK: 'Fix first',
     sampleFix: 'Put a screenshot in the first screen',
@@ -183,6 +186,9 @@ const STRINGS = {
     tokenActive: '正在使用你的 GitHub token',
     tokenClear: '清除',
     errBadToken: 'GitHub 不认这个 token，检查一下再试。',
+    errNotFoundToken: '用了你的 token 还是找不到。检查一下拼写，或者给这个 token 加上这个仓库的访问权限。',
+    tokenPromptPrivate: '是私有仓库吗？粘贴一个能读取它的 GitHub token，就能在这里检测。',
+    tokenHintPrivate: '在 <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> 创建：Repository access 里只选这个仓库，Permissions 里给 Contents 只读权限。token 只保存在当前标签页，只会发给 api.github.com，用它检测的结果不会缓存。',
     pts: '分',
     sampleFixK: '先改',
     sampleFix: '首屏放一张截图或动图',
@@ -197,7 +203,7 @@ const STRINGS = {
   },
 };
 
-const HTML_KEYS = new Set(['heroTitle', 'tokenHint']);
+const HTML_KEYS = new Set(['heroTitle', 'tokenHint', 'tokenHintPrivate']);
 const SHIELD_COLORS = { great: 'brightgreen', good: 'green', ok: 'yellow', low: 'orange', mute: 'red' };
 
 let lang = pickLanguage();
@@ -381,7 +387,16 @@ function renderTokenState() {
   }
 }
 
-function showTokenForm(show) {
+// mode 'rate': out of anonymous requests; 'private': the repo may be private.
+function showTokenForm(show, mode = 'rate') {
+  if (show) {
+    const prompt = $('#token-prompt');
+    const hint = $('#token-hint');
+    prompt.dataset.i18n = mode === 'private' ? 'tokenPromptPrivate' : 'tokenPrompt';
+    hint.dataset.i18n = mode === 'private' ? 'tokenHintPrivate' : 'tokenHint';
+    prompt.textContent = t(prompt.dataset.i18n);
+    hint.innerHTML = t(hint.dataset.i18n);
+  }
   $('#token-form').hidden = !show;
   if (show) $('#token').focus();
 }
@@ -426,7 +441,13 @@ async function run(input) {
     // Keep the address bar on the report that is still on screen.
     if (last) history.replaceState(null, '', checkerUrl(last.analysis.repo));
     if (err instanceof FetchError) {
-      if (err.kind === 'notfound') setStatus(t('errNotFound'), true);
+      if (err.kind === 'notfound') {
+        if (getToken()) setStatus(t('errNotFoundToken'), true);
+        else {
+          setStatus(t('errNotFound'), true);
+          showTokenForm(true, 'private');
+        }
+      }
       else if (err.kind === 'rate') {
         setStatus(t('errRate')(new Date(err.reset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })), true);
         showTokenForm(true);
