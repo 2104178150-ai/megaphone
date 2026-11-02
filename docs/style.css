@@ -349,6 +349,7 @@ details.cat summary .s { margin-left: auto; color: var(--ink-3); font-weight: 40
 .checks .pass .ico { color: var(--pass); }
 .checks .fail .ico { color: var(--fail); }
 .checks .partial .ico { color: var(--partial); }
+.checks .na .ico { color: var(--ink-3); }
 .checks .ev { display: block; color: var(--ink-3); font-size: .84rem; word-break: break-word; }
 .checks .pts { color: var(--ink-3); font-family: var(--mono); font-size: .8rem; }
 

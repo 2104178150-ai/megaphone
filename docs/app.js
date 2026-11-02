@@ -1,4 +1,4 @@
-import { analyze, fetchRepoData, parseRepoInput, FetchError, CATEGORIES, LEVELS } from './checker.js';
+import { analyze, fetchRepoData, parseRepoInput, FetchError, CATEGORIES, LEVELS, skillChecks } from './checker.js';
 
 // Visit counts (GoatCounter: no cookies, no IP addresses stored). Empty = off.
 // We send the hit ourselves instead of loading GoatCounter's script, because that script
@@ -62,6 +62,11 @@ const STRINGS = {
       ? `Use the Megaphone launch skills on this repo (github.com/${repo}). It scored ${score}/100 on the launch-readiness check. ${total > items.length ? `The ${items.length} biggest of ${total} failed checks` : 'Failed checks'}: ${items.join('; ')}. Fix what you can in the files and show me each change before you make it. For anything only I can decide or that changes the repo on GitHub (license, releases, About box, topics, website, Discussions), tell me exactly what to do instead. Then re-score the local README with launch-audit (audit.py ${repo} --readme README.md).`
       : `Use the Megaphone launch skills to plan the launch of this repo (github.com/${repo}, launch readiness ${score}/100): sharpen the pitch, prepare the right post for each channel that fits (a fact sheet where the platform wants my own words), and give me a dated plan.`,
     allChecks: 'All checks',
+    skillT: 'Skill & plugin checks',
+    unscored: 'not scored',
+    skillHint: 'Agents decide whether to use a skill from the name and description in its SKILL.md, so these checks matter for yours being picked. They don’t change the score.',
+    skillHow: 'How these are checked',
+    skStatus: { pass: 'OK', fail: 'Fix', unknown: 'Couldn’t check', 'n/a': 'N/A' },
     where: 'Where to launch',
     playbook: 'Playbook →',
     badgeT: 'Show off your score',
@@ -145,6 +150,11 @@ const STRINGS = {
       ? `用 Megaphone 的发布技能处理这个仓库（github.com/${repo}）。它的发布就绪分是 ${score}/100，${total > items.length ? `没通过的 ${total} 项里影响最大的 ${items.length} 项` : '没通过的检查项'}：${items.join('；')}。能在文件里改的，先给我看改动再改；协议、Release、About 简介、topics、网站、Discussions 这类要我决定或会直接改 GitHub 上仓库的，告诉我具体怎么做，不要自己动手。改完用 launch-audit 给本地 README 重新打分（audit.py ${repo} --readme README.md）。`
       : `用 Megaphone 的发布技能帮这个仓库（github.com/${repo}，发布就绪分 ${score}/100）规划发布：提炼定位，为合适的渠道各准备一份文案（要求作者亲笔的平台给我一份事实清单），再给我一份带日期的发布计划。`,
     allChecks: '全部检查项',
+    skillT: '技能和插件专项',
+    unscored: '不计分',
+    skillHint: 'AI 助手是看 SKILL.md 里的 name 和 description 来决定要不要用一个技能的，所以这几项关系到你的技能会不会被用上。不影响总分。',
+    skillHow: '怎么检查的',
+    skStatus: { pass: '通过', fail: '待改', unknown: '没查到', 'n/a': '不适用' },
     where: '去哪里发',
     playbook: '查看玩法 →',
     badgeT: '晒出你的分数',
@@ -241,6 +251,12 @@ function playbookUrl(file) {
   }
   // Served from a local checkout: the docs folder sits next to skills/.
   return `../skills/launch-posts/channels/${file}`;
+}
+
+function rubricUrl() {
+  return location.hostname.endsWith('.github.io')
+    ? `https://github.com/${project()}/blob/main/skills/launch-audit/rubric.md#4-skill-and-plugin-repos-human-review-not-scored`
+    : '../skills/launch-audit/rubric.md';
 }
 
 function checkerUrl(repo) {
@@ -427,6 +443,7 @@ async function run(input) {
     }
     if (runId !== currentRun) return;
     const analysis = analyze(data);
+    analysis.skill = skillChecks(data);
     last = { analysis, data };
     setStatus('');
     showTokenForm(false);
@@ -527,6 +544,18 @@ function render(a, animate = false) {
       </div>
       <details class="handoff-text"><summary>${esc(t('handShow'))}</summary><p id="handoff">${esc(handoff)}</p></details>
     </section>
+    ${a.skill ? `
+    <section class="report-sec">
+      <h2>${esc(t('skillT'))} <span class="count">${esc(t('unscored'))}</span></h2>
+      <ul class="checks">${a.skill.map((c) => {
+        const state = c.status === 'pass' || c.status === 'fail' ? c.status : 'na';
+        const ico = { pass: '✓', fail: '✗', na: c.status === 'unknown' ? '?' : '–' }[state];
+        return `<li class="${state}"><span class="ico" aria-hidden="true">${ico}</span>
+          <span>${esc(L(c.title))}<span class="ev">${esc(L(c.evidence).replaceAll('<owner>/<repo>', a.repo))}</span></span>
+          <span class="pts">${esc(t('skStatus')[c.status] || c.status)}</span></li>`;
+      }).join('')}</ul>
+      <p class="hint">${esc(t('skillHint'))} <a href="${esc(rubricUrl())}" target="_blank" rel="noopener">${esc(t('skillHow'))}</a></p>
+    </section>` : ''}
 
     <section class="report-sec">
       <h2>${esc(t('where'))}</h2>

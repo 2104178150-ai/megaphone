@@ -1,6 +1,6 @@
 // Browser tests for docs/checker.js. Open tests/index.html through a local server:
 //   python3 -m http.server 8820   then visit http://localhost:8820/tests/
-import { analyze, readmeFacts, parseRepoInput, recommendChannels, RUBRIC, CATEGORIES, levelFor, fetchRepoData, FetchError } from '../docs/checker.js';
+import { analyze, readmeFacts, parseRepoInput, recommendChannels, RUBRIC, CATEGORIES, levelFor, fetchRepoData, FetchError, skillChecks, skillFrontmatter } from '../docs/checker.js';
 
 const results = [];
 function test(name, fn) {
@@ -334,6 +334,54 @@ atest('shared rubric cases (parity with audit.py)', async () => {
     eq(Object.fromEntries(a.checks.map((x) => [x.id, x.points])), c.expected.points, c.name);
     eq(a.score, c.expected.score, c.name);
   }
+});
+
+// Shared with tests/test_skill_checks.py: the unscored SK1–SK3 checks give the same statuses.
+atest('shared skill & plugin cases (parity with audit.py)', async () => {
+  const fx = await (await fetch(new URL('fixtures/skill-cases.json', import.meta.url))).json();
+  for (const c of fx.cases) {
+    const data = JSON.parse(JSON.stringify(c.data));
+    if (c.long_description) for (const s of data.skills) s.text = s.text.replace('LONG', 'x'.repeat(c.long_description));
+    const out = skillChecks(data);
+    eq(out && Object.fromEntries(out.map((x) => [x.id, x.status])), c.expected, c.name);
+    if (out) for (const x of out) ok(x.title.en && x.title.zh && x.evidence.en && x.evidence.zh, `${c.name} ${x.id} needs EN + 中文`);
+  }
+});
+
+test('skill frontmatter: quoted, block and wrapped values', () => {
+  eq(skillFrontmatter('---\nname: a\ndescription: "Say \\"hi\\". Use when asked."\n---\n'), { name: 'a', description: 'Say "hi". Use when asked.' });
+  eq(skillFrontmatter("---\nname: 'it''s'\n---"), { name: "it's" });
+  eq(skillFrontmatter('---\ndescription: Does X. # note\n  Use when Y.\n---\n').description, 'Does X. Use when Y.');
+  eq(skillFrontmatter('---\ndescription: |\n  one\n  two\n---\n').description, 'one\ntwo');
+  eq(skillFrontmatter('# no frontmatter\n'), null);
+});
+
+atest('fetchRepoData reads SKILL.md files for the skill checks, and never fails over them', async () => {
+  const repo = { full_name: 'acme/pack', default_branch: 'main', topics: ['claude-code'] };
+  const tree = { tree: [{ path: 'skills/review-pr/SKILL.md', type: 'blob' }, { path: '.claude-plugin/marketplace.json', type: 'blob' }, { path: 'README.md', type: 'blob' }] };
+  const files = {
+    'https://raw.githubusercontent.com/acme/pack/main/skills/review-pr/SKILL.md': '---\nname: review-pr\ndescription: Use when the user asks for a review.\n---\n',
+    'https://raw.githubusercontent.com/acme/pack/main/.claude-plugin/marketplace.json': '{"name":"acme","plugins":[{"name":"pack"}]}',
+  };
+  const res = (status, body) => ({ ok: status < 300, status, headers: { get: () => null },
+    json: async () => body, text: async () => (typeof body === 'string' ? body : JSON.stringify(body)) });
+  const make = (treeStatus) => async (url) => {
+    if (url in files) return res(200, files[url]);
+    if (url.endsWith('/HEAD/README.md')) return res(200, '# Pack\n');
+    if (url.includes('/git/trees/')) return treeStatus === 200 ? res(200, tree) : res(treeStatus, {});
+    if (url.endsWith('/acme/pack')) return res(200, repo);
+    return res(404, {});
+  };
+  const d = await fetchRepoData('acme/pack', { fetchImpl: make(200) });
+  eq(d.skills.map((s) => s.path), ['skills/review-pr/SKILL.md']);
+  eq(d.marketplace.name, 'acme');
+  eq(d.pluginDir, true);
+  eq(Object.fromEntries(skillChecks(d).map((x) => [x.id, x.status])), { SK1: 'pass', SK2: 'pass', SK3: 'fail' });
+  const e = await fetchRepoData('acme/pack', { fetchImpl: make(500) });
+  eq([e.repo.full_name, e.skills, skillChecks(e)], ['acme/pack', undefined, null]);
+  repo.topics = ['cli'];  // no hint of skills or a plugin: the file tree isn't fetched (saves an API call)
+  const f = await fetchRepoData('acme/pack', { fetchImpl: make(200) });
+  eq([f.skills, f.apiCalls < d.apiCalls], [undefined, true]);
 });
 
 await Promise.all(asyncTests);

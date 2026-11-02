@@ -542,6 +542,152 @@ export function recommendChannels(repo, f, results = {}) {
 }
 
 // ---------------------------------------------------------------------------
+// Skill & plugin checks (rubric.md § 4, SK1–SK3) — shown next to the score, never part of it.
+// Mirrors audit.py's skill_checks(); both pass tests/fixtures/skill-cases.json.
+
+const SKILL_NAME_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+// "Use when …", "when the user asks …", 当用户…, …时使用: the description says *when*, not only what.
+const SKILL_WHEN_RE = new RegExp(
+  String.raw`\b(?:use[ds]?|invoke[ds]?|activate[ds]?|appl(?:y|ies)|call(?:ed)?)\b[^.\n]{0,30}\b(?:when|whenever|if)\b` +
+  String.raw`|\bwhen (?:the |a )?(?:user|someone|you)\b|\bwhenever\b|\btrigger(?:s|ed)?\s+(?:when|on|by|phrases?|words?)\b` +
+  '|当用户|用户(?:说|问|提到|想|要|需要)|触发|适用于|使用场景|时使用|时调用|时用', 'i');
+const SKILLS_ADD_RE = /\bnpx\s+(?:-y\s+)?skills(?:@\S+)?\s+add\s+\S/;
+const PLUGIN_MARKET_RE = /(?:\/plugin|\bclaude\s+plugin)\s+marketplace\s+add\s+\S/;
+const SKILL_HINT_RE = /SKILL\.md|skills\s+add\b|agent[ -]?skills?|claude|\/plugin\b|技能|插件/i;
+const PLUGIN_INSTALL_RE = /(?:\/plugin|\bclaude\s+plugin)\s+install\s+([\w.-]+)(?:@([\w.-]+))?/g;
+
+// name/description from a SKILL.md's YAML frontmatter, without a YAML library: plain, "double-" and
+// 'single-'quoted values and >/| block scalars. null when the file doesn't start with frontmatter.
+const FRONTMATTER_RE = /^\ufeff?---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/;
+
+export function skillFrontmatter(text) {
+  const m = FRONTMATTER_RE.exec(text || '');
+  if (!m) return null;
+  const fields = {};
+  const lines = m[1].split(/\r\n|\r|\n/);
+  const indented = (l) => l[0] === ' ' || l[0] === '\t';
+  const dropComment = (v) => v.replace(/\s+#.*$/, '');
+  let i = 0;
+  while (i < lines.length) {
+    const km = /^([A-Za-z][\w-]*):[ \t]*(.*)$/.exec(lines[i]);
+    i++;
+    if (!km) continue;
+    let value = km[2].trim();
+    if (/^[>|][+-]?$/.test(value)) {
+      const block = [];
+      while (i < lines.length && (!lines[i].trim() || indented(lines[i]))) block.push(lines[i++].trim());
+      value = block.join(value[0] === '>' ? ' ' : '\n').trim();
+    } else if (value[0] === '"') {
+      try { value = JSON.parse(value); } catch (_) { value = value.replace(/^"+|"+$/g, ''); }
+    } else if (value[0] === "'") {
+      value = value.length > 1 && value.endsWith("'") ? value.slice(1, -1).replace(/''/g, "'") : value.slice(1);
+    } else {
+      // a plain value may wrap onto indented lines: "description: Does X.\n  Use when …"
+      value = dropComment(value);
+      while (i < lines.length && indented(lines[i]) && lines[i].trim()) value += ' ' + dropComment(lines[i++].trim());
+    }
+    fields[km[1]] = value;
+  }
+  return fields;
+}
+
+const listed = (items, zh) => items.slice(0, 3).join(zh ? '；' : '; ') +
+  (items.length > 3 ? (zh ? `（另有 ${items.length - 3} 条）` : ` (+${items.length - 3} more)`) : '');
+
+// data.skills: [{ path, text }] (text null when it couldn't be downloaded), data.marketplace: parsed
+// .claude-plugin/marketplace.json or null, data.pluginDir: the repo has a .claude-plugin/ folder.
+// Returns null when the repo ships neither skills nor a plugin, and never throws.
+export function skillChecks(data) {
+  try {
+    return skillChecksUnsafe(data);
+  } catch (_) {
+    return null;
+  }
+}
+
+function skillChecksUnsafe(data) {
+  const skills = data.skills || [];
+  const plugin = !!data.pluginDir || (data.marketplace !== null && data.marketplace !== undefined);
+  if (!skills.length && !plugin) return null;
+  const readme = data.readme || '';
+  const out = [];
+  const add = (id, title, status, evidence) => out.push({ id, title, status, evidence });
+  const T = {
+    SK1: { en: 'Valid frontmatter', zh: 'frontmatter 格式正确' },
+    SK2: { en: 'Description says when', zh: '描述写明何时使用' },
+    SK3: { en: 'Copy-paste install', zh: '一行命令安装' },
+  };
+
+  if (!skills.length) {
+    add('SK1', T.SK1, 'n/a', ev('No SKILL.md', '没有 SKILL.md'));
+    add('SK2', T.SK2, 'n/a', ev('No SKILL.md', '没有 SKILL.md'));
+  } else {
+    const unread = skills.filter((s) => s.text === null || s.text === undefined).map((s) => s.path);
+    const metas = skills.filter((s) => typeof s.text === 'string').map((s) => [s.path, skillFrontmatter(s.text)]);
+    const bad = { en: [], zh: [] };
+    const vague = [];
+    for (const [path, fm] of metas) {
+      const parts = path.split('/');
+      const folder = parts.length > 1 ? parts[parts.length - 2] : null;
+      if (fm === null) {
+        bad.en.push(`${path}: no frontmatter`);
+        bad.zh.push(`${path}：没有 frontmatter`);
+        continue;
+      }
+      const name = fm.name || '';
+      const desc = fm.description || '';
+      if (!(SKILL_NAME_RE.test(name) && name.length <= 64)) {
+        bad.en.push(`${path}: name "${name}" isn’t 1–64 lowercase letters, digits and single hyphens`);
+        bad.zh.push(`${path}：name「${name}」应由 1–64 个小写字母、数字和单个连字符组成`);
+      } else if (folder && name !== folder) {
+        bad.en.push(`${path}: name "${name}" ≠ folder "${folder}"`);
+        bad.zh.push(`${path}：name「${name}」和文件夹名「${folder}」不一致`);
+      }
+      if (!(desc.length > 0 && desc.length <= 1024)) {
+        bad.en.push(`${path}: description is ${desc.length} characters (needs 1–1024)`);
+        bad.zh.push(`${path}：description 有 ${desc.length} 个字符（需要 1–1024）`);
+      } else if (!SKILL_WHEN_RE.test(desc)) {
+        vague.push(`${path}: "${desc.length <= 80 ? desc : Array.from(desc).slice(0, 77).join('') + '…'}"`);
+      }
+    }
+    const total = data.skillTotal || skills.length;
+    let note = { en: '', zh: '' };
+    const addNote = (en, zh) => { note = { en: note.en + en, zh: note.zh + zh }; };
+    if (total > skills.length) addNote(` (checked the first ${skills.length} of ${total} SKILL.md files)`, `（只看了 ${total} 个 SKILL.md 里的前 ${skills.length} 个）`);
+    if (data.treeTruncated) addNote(' (GitHub cut the file list short, so some SKILL.md files may be missing)', '（GitHub 截断了文件列表，可能漏掉一些 SKILL.md）');
+    if (unread.length) addNote(` (couldn’t download ${unread.slice(0, 3).join(', ')})`, `（没能下载 ${unread.slice(0, 3).join('、')}）`);
+    const quiet = metas.length ? 'pass' : 'unknown';
+    add('SK1', T.SK1, bad.en.length ? 'fail' : quiet, bad.en.length
+      ? ev(listed(bad.en) + note.en, listed(bad.zh, true) + note.zh)
+      : ev(`${metas.length} SKILL.md file(s): name and description OK${note.en}`, `${metas.length} 个 SKILL.md：name 和 description 都没问题${note.zh}`));
+    add('SK2', T.SK2, vague.length ? 'fail' : quiet, vague.length
+      ? ev(`No “use when …” in ${listed(vague)}${note.en}`, `这些描述没写什么时候用：${listed(vague, true)}${note.zh}`)
+      : ev(`Every description says when to use it${note.en}`, `每个描述都写了什么时候用${note.zh}`));
+  }
+
+  const missing = [];
+  if (skills.length && !SKILLS_ADD_RE.test(readme)) missing.push('`npx skills add <owner>/<repo>`');
+  if (plugin) {
+    const installs = [...readme.matchAll(PLUGIN_INSTALL_RE)].map((x) => [x[1], x[2] || '']);
+    const market = data.marketplace && typeof data.marketplace === 'object' && !Array.isArray(data.marketplace) ? data.marketplace : {};
+    const mname = typeof market.name === 'string' && market.name ? market.name : null;
+    const pnames = new Set(Array.isArray(market.plugins)
+      ? market.plugins.filter((p) => p && typeof p === 'object' && typeof p.name === 'string').map((p) => p.name) : []);
+    if (!PLUGIN_MARKET_RE.test(readme)) missing.push('`/plugin marketplace add <owner>/<repo>`');
+    if (!installs.length) missing.push('`/plugin install <plugin>@<marketplace>`');
+    else if (mname && !installs.some(([p, m]) => m === mname && (!pnames.size || pnames.has(p)))) {
+      missing.push({ en: `\`/plugin install <plugin>@${mname}\` (the README’s install line doesn’t match marketplace.json)`,
+                     zh: `\`/plugin install <plugin>@${mname}\`（README 里的安装命令和 marketplace.json 对不上）` });
+    }
+  }
+  const pick = (lang) => missing.map((x) => (typeof x === 'string' ? x : x[lang]));
+  add('SK3', T.SK3, missing.length ? 'fail' : 'pass', missing.length
+    ? ev(`README is missing ${pick('en').join(' and ')}`, `README 里缺少 ${pick('zh').join(' 和 ')}`)
+    : ev('Install line(s) found in the README', 'README 里有安装命令'));
+  return out;
+}
+
+// ---------------------------------------------------------------------------
 // Input parsing and fetching
 
 export function parseRepoInput(input) {
@@ -634,5 +780,56 @@ export async function fetchRepoData(fullName, { fetchImpl = fetch, token = null 
     const dir = await get(`/repos/${repo.full_name}/contents/.github/ISSUE_TEMPLATE`, { optional: true }).catch(softFail);
     issueTemplates = Array.isArray(dir) && dir.length > 0;
   }
-  return { repo, readme, community, releases: releases || [], issueTemplates, rate, apiCalls };
+  const data = { repo, readme, community, releases: releases || [], issueTemplates };
+  // When raw.githubusercontent.com is blocked (the README came from the API), skip the SKILL.md downloads
+  // so the score isn't held up by more timeouts; SK1/SK2 then say "unknown".
+  const rawBlocked = rawReadme === null;
+  // The file tree costs an API call (60 an hour without a token), so only look when the repo hints at
+  // skills or a plugin. audit.py always looks.
+  const hint = [readme, repo.description || '', ...(repo.topics || [])].join('\n');
+  if (SKILL_HINT_RE.test(hint)) {
+    try {
+      Object.assign(data, await fetchSkillData(repo.full_name, repo.default_branch || 'HEAD', get, fetchImpl, rawBlocked));
+    } catch (_) { /* unscored extras: never lose the score over them */ }
+  }
+  return { ...data, rate, apiCalls };
+}
+
+// SKILL.md files and .claude-plugin/ for the unscored SK checks: one API call for the file tree, the
+// files themselves from raw.githubusercontent.com. Best effort: on any error, no section.
+async function fetchSkillData(fullName, ref, get, fetchImpl, rawBlocked, limit = 20) {
+  const enc = (p) => p.split('/').map(encodeURIComponent).join('/');
+  const tree = await get(`/repos/${fullName}/git/trees/${enc(ref)}?recursive=1`, { optional: true });
+  if (!tree || !Array.isArray(tree.tree)) return {};
+  const paths = tree.tree.filter((t) => t && t.type === 'blob' && typeof t.path === 'string').map((t) => t.path);
+  const allSkills = paths.filter((p) => p.split('/').pop() === 'SKILL.md' && !p.includes('node_modules/'));
+  const pluginDir = paths.some((p) => p.startsWith('.claude-plugin/'));
+  if (!allSkills.length && !pluginDir) return {};
+  const raw = async (p) => {
+    if (rawBlocked) return null;
+    const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), RAW_TIMEOUT_MS) : null;
+    try {
+      const res = await fetchImpl(`${RAW}/${fullName}/${enc(ref)}/${enc(p)}`, ctrl ? { signal: ctrl.signal } : {});
+      if (!res.ok) return null;
+      const text = await res.text();
+      // The checks only read the frontmatter, and results are cached in localStorage: keep just that.
+      return p.endsWith('SKILL.md') ? (FRONTMATTER_RE.exec(text) || [text.slice(0, 200)])[0] : text;
+    } catch (_) {
+      return null;
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  };
+  const hasMarket = paths.includes('.claude-plugin/marketplace.json');
+  const [skills, marketText] = await Promise.all([
+    Promise.all(allSkills.slice(0, limit).map(async (p) => ({ path: p, text: await raw(p) }))),
+    hasMarket ? raw('.claude-plugin/marketplace.json') : null,
+  ]);
+  let marketplace = null;
+  if (hasMarket) {
+    try { marketplace = JSON.parse(marketText); } catch (_) { marketplace = {}; }
+    if (marketplace === null) marketplace = {};
+  }
+  return { skills, marketplace, pluginDir, skillTotal: allSkills.length, treeTruncated: !!tree.truncated };
 }
