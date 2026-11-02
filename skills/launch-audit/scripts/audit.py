@@ -467,16 +467,21 @@ def analyze(data, now_ms=None):
 
 # ---------------------------------------------------------------------------
 # Skill & plugin checks (rubric.md § 4, SK1–SK3) — reported next to the score, never part of it
+# re.A keeps \b and \w ASCII-only, as in JavaScript (the web port, backlog K1b-web): 运行npx skills add … still
+# counts as an install line. re.A would also shrink \s, so _WS / _NWS spell out JavaScript's \s (no-break and
+# full-width spaces included) for README text copied from a rendered page.
+_WS_CHARS = r"\s\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff"
+_WS, _NWS = "[%s]" % _WS_CHARS, "[^%s]" % _WS_CHARS
 
-SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+SKILL_NAME_RE = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")  # used with fullmatch
 # "Use when …", "when the user asks …", 当用户…, …时使用: the description says *when*, not only what.
 SKILL_WHEN_RE = re.compile(
     r"\b(?:use[ds]?|invoke[ds]?|activate[ds]?|appl(?:y|ies)|call(?:ed)?)\b[^.\n]{0,30}\b(?:when|whenever|if)\b"
-    r"|\bwhen (?:the |a )?(?:user|someone|you)\b|\bwhenever\b|\btrigger(?:s|ed)?\s+(?:when|on|by|phrases?|words?)\b"
-    r"|当用户|用户(?:说|问|提到|想|要|需要)|触发|适用于|使用场景|时使用|时调用|时用", re.I)
-SKILLS_ADD_RE = re.compile(r"\bnpx\s+(?:-y\s+)?skills(?:@\S+)?\s+add\s+\S")
-PLUGIN_MARKET_RE = re.compile(r"(?:/plugin|\bclaude\s+plugin)\s+marketplace\s+add\s+\S")
-PLUGIN_INSTALL_RE = re.compile(r"(?:/plugin|\bclaude\s+plugin)\s+install\s+([\w.-]+)(?:@([\w.-]+))?")
+    r"|\bwhen (?:the |a )?(?:user|someone|you)\b|\bwhenever\b|\btrigger(?:s|ed)?" + _WS + r"+(?:when|on|by|phrases?|words?)\b"
+    r"|当用户|用户(?:说|问|提到|想|要|需要)|触发|适用于|使用场景|时使用|时调用|时用", re.I | re.A)
+SKILLS_ADD_RE = re.compile(r"\bnpx" + _WS + r"+(?:-y" + _WS + r"+)?skills(?:@" + _NWS + r"+)?" + _WS + r"+add" + _WS + r"+" + _NWS, re.A)
+PLUGIN_MARKET_RE = re.compile(r"(?:/plugin|\bclaude" + _WS + r"+plugin)" + _WS + r"+marketplace" + _WS + r"+add" + _WS + r"+" + _NWS, re.A)
+PLUGIN_INSTALL_RE = re.compile(r"(?:/plugin|\bclaude" + _WS + r"+plugin)" + _WS + r"+install" + _WS + r"+([\w.-]+)(?:@([\w.-]+))?", re.A)
 
 
 def skill_frontmatter(text):
@@ -556,7 +561,7 @@ def skill_checks(data):
             if fm is None:
                 bad.append("%s: no frontmatter" % path)
                 continue
-            if not (SKILL_NAME_RE.match(name) and js_len(name) <= 64):
+            if not (SKILL_NAME_RE.fullmatch(name) and js_len(name) <= 64):
                 bad.append('%s: name "%s" isn\'t 1–64 lowercase letters, digits and single hyphens' % (path, name))
             elif folder and name != folder:
                 bad.append('%s: name "%s" ≠ folder "%s"' % (path, name, folder))
@@ -586,7 +591,7 @@ def skill_checks(data):
     if plugin:
         installs = PLUGIN_INSTALL_RE.findall(readme)
         market = data.get("marketplace") or {}
-        mname = market.get("name") if isinstance(market, dict) else None
+        mname = market.get("name") if isinstance(market, dict) and isinstance(market.get("name"), str) else None
         plugins = market.get("plugins") if isinstance(market, dict) else None
         pnames = {p["name"] for p in plugins if isinstance(p, dict) and isinstance(p.get("name"), str)} \
             if isinstance(plugins, list) else set()

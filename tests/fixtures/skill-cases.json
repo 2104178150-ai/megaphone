@@ -1,5 +1,5 @@
 {
-  "_comment": "Unscored Skill & plugin checks (rubric.md § 4, SK1–SK3). audit.py's skill_checks() must give these statuses; the web checker will use the same cases (backlog K1b).",
+  "_comment": "Unscored Skill & plugin checks (rubric.md § 4, SK1–SK3). audit.py's skill_checks() must give these statuses; the web checker will use the same cases (backlog K1b-web).",
   "cases": [
     {
       "name": "no skills, no plugin",
@@ -63,6 +63,36 @@
       },
       "long_description": 1100,
       "expected": {"SK1": "fail", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "install line straight after Chinese text (\\b is ASCII-only, as in JavaScript)",
+      "data": {
+        "readme": "# 技能\n\n运行npx skills add acme/zh 即可。\n",
+        "skills": [{"path": "skills/zh/SKILL.md", "text": "---\nname: zh\ndescription: 整理笔记。当用户说「整理一下」时使用。\n---\n"}],
+        "marketplace": null,
+        "pluginDir": false
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "name with a trailing newline is not a valid name",
+      "data": {
+        "readme": "npx\u00a0skills add acme/abc",
+        "skills": [{"path": "SKILL.md", "text": "---\nname: \"abc\\n\"\ndescription: Use when the user asks for abc.\n---\n"}],
+        "marketplace": null,
+        "pluginDir": false
+      },
+      "expected": {"SK1": "fail", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "marketplace name that isn't a string is ignored",
+      "data": {
+        "readme": "/plugin marketplace add acme/p\n/plugin install p@whatever\n",
+        "skills": [],
+        "marketplace": {"name": 123, "plugins": [{"name": "p"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "pass"}
     }
   ]
 }
