@@ -15,6 +15,8 @@
 - **每个渠道对症的文案**——Show HN、Reddit、Product Hunt、X、V2EX、HelloGitHub、阮一峰周刊、小红书……按各平台规则写好原生草稿；要求作者亲笔的平台（Show HN、V2EX、掘金、Lobsters 等）给你一份事实清单，由你自己来写。规则都注明出处和核对日期。
 - **看清到底哪个渠道有用**——把 star 增长和流量来源，对上你在什么时候发了什么。
 
+**特别适合 Agent Skills 和 Claude Code 插件作者**：体检会额外检查每个 `SKILL.md` 的 name 和 description，以及 `npx skills add`、`/plugin install` 这些安装命令；渠道手册里也写了[技能和插件可以上哪些目录和榜单](skills/launch-posts/channels/ecosystems.md#agent-skills-and-claude-code-plugins)。
+
 ## 快速开始
 
 把技能装进你的 AI 编程助手（支持 Claude Code、Codex、OpenClaw、Cursor 等 [70 多种](https://github.com/vercel-labs/skills#supported-agents)）：

@@ -167,7 +167,8 @@ h1, h2, h3 { text-wrap: balance; }
 :lang(zh-CN) .hero h1 { letter-spacing: -.025em; line-height: 1.16; }
 :lang(zh-CN) .hero h1 em { white-space: normal; }
 @media (min-width: 340px) { .hero h1 em { white-space: nowrap; } }
-.hero .sub { color: var(--ink-2); font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.65; max-width: 32em; margin: 0 0 40px; text-wrap: pretty; }
+.hero .sub { color: var(--ink-2); font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.65; max-width: 32em; margin: 0 0 10px; text-wrap: pretty; }
+.hero .sub-note { color: var(--ink-3); font-size: .92rem; line-height: 1.6; max-width: 40em; margin: 0 0 36px; text-wrap: balance; }
 
 .search {
   display: flex; gap: 6px; width: 100%; max-width: 640px; padding: 7px;

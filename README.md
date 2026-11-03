@@ -17,6 +17,8 @@ English | [简体中文](README.zh-CN.md) · [**Try the checker →**](https://2
 - **The right post for each channel** — Show HN, Reddit, Product Hunt, X, V2EX, HelloGitHub, 阮一峰周刊, 小红书 and more: a native draft written to each platform's rules, or, where a platform wants your own words (Show HN, V2EX, 掘金, Lobsters), a fact sheet you write from. Rules come with sources and a "last checked" date.
 - **See what actually worked** — star history and referrers lined up against what you posted, when.
 
+**Especially for Agent Skills and Claude Code plugin authors:** the check also reviews each `SKILL.md`'s name and description and your `npx skills add` / `/plugin install` lines, and the channel guide covers [where skills and plugins get listed](skills/launch-posts/channels/ecosystems.md#agent-skills-and-claude-code-plugins).
+
 ## Quick start
 
 Install the skills into your coding agent (Claude Code, Codex, OpenClaw, Cursor and [70+ others](https://github.com/vercel-labs/skills#supported-agents)):
