@@ -73,6 +73,40 @@ class SkillChecksTest(unittest.TestCase):
                                   "skillTotal": 30, "treeTruncated": True})
         self.assertIn("first 1 of 30", out[0]["evidence"])
 
+    def test_description_says_what(self):
+        # backlog K1d: Python-only until the web checker gets the same rule (K1d-web); then these move to skill-cases.json
+        def sk2(*descs, names=None):
+            names = names or ["s%d" % i for i in range(len(descs))]
+            skills = [{"path": "skills/%s/SKILL.md" % n, "text": "---\nname: %s\ndescription: %s\n---\n" % (n, d)}
+                      for n, d in zip(names, descs)]
+            return audit.skill_checks({"readme": "npx skills add a/b", "skills": skills})[1]
+        rule = "Use only when the user explicitly invokes {0} or asks for a {0} review by name. Never apply it on your own initiative."
+        out = sk2(rule.format("comm-minto"), rule.format("cs-murphy"), names=["comm-minto", "cs-murphy"])
+        self.assertEqual(out["status"], "fail")
+        self.assertIn("2 skills (comm-minto, cs-murphy) say only when to call them", out["evidence"])
+        self.assertIn("have the same description apart from the name", out["evidence"])
+        out = sk2("Use only when invoked by name. Don\u2019t apply it on your own.")
+        self.assertIn("s0 says only when to call it, not what it does", out["evidence"])
+        same = "Review the {0} config. Use when the user says 检查配置."
+        out = sk2(same.format("lint-a"), same.format("lint-b"), names=["lint-a", "lint-b"])
+        self.assertIn("2 skills (lint-a, lint-b) have the same description apart from the name", out["evidence"])
+        # what + when, and descriptions that differ in more than the name, pass
+        for descs, names in (
+                (("Deploy to Vercel. Use when the user says deploy to Vercel.",
+                  "Deploy to Netlify. Use when the user says deploy to Netlify."), ["deploy-vercel", "deploy-netlify"]),
+                (("Use when the user explicitly asks to deploy to Vercel.",), None),
+                (("Use when the user invokes this skill to rename files in bulk.",), None),
+                (("Write a Minto-style review of a draft. Use when the user asks for a Minto review by name.",), None),
+                # reviewer cases: a "what" clause before a comma, "Only" that isn't a rule, a mirrored copy of one skill
+                (("Use when the user invokes pdf-tools to merge or split PDF files.",), ["pdf-tools"]),
+                (("Writes a Minto-style review, but use it only when the user asks for it by name.",), None),
+                (("生成周报，仅在用户点名时使用。",), None),
+                (("Only works on macOS; use when the user asks to clean Xcode caches.",), None),
+                (("Only use this when the user asks to format Python code.",), None),
+                (("Merge PDFs. Use when the user says merge PDFs.",) * 2, ["pdf", "pdf"])):
+            with self.subTest(descs=descs):
+                self.assertEqual(sk2(*descs, names=names)["status"], "pass")
+
     def test_score_is_unchanged(self):
         with open(os.path.join(HERE, "fixtures", "rubric-cases.json"), encoding="utf-8") as f:
             base = json.load(f)["cases"][0]["data"]

@@ -479,6 +479,12 @@ SKILL_WHEN_RE = re.compile(
     r"\b(?:use[ds]?|invoke[ds]?|activate[ds]?|appl(?:y|ies)|call(?:ed)?)\b[^.\n]{0,30}\b(?:when|whenever|if)\b"
     r"|\bwhen (?:the |a )?(?:user|someone|you)\b|\bwhenever\b|\btrigger(?:s|ed)?" + _WS + r"+(?:when|on|by|phrases?|words?)\b"
     r"|当用户|用户(?:说|问|提到|想|要|需要)|触发|适用于|使用场景|时使用|时调用|时用", re.I | re.A)
+# A clause that is only an invocation rule — "Use only when the user invokes x by name", "Never apply it on your own" —
+# says when to call the skill but nothing about what it does (backlog K1d).
+SKILL_BY_NAME_RE = re.compile(r"\bby name\b|\bby its name\b|点名|手动调用", re.I | re.A)
+SKILL_POLICY_RE = re.compile(
+    r"(?:never|do not|don['\u2019]t|only)\b[^.]{0,30}?\b(?:use[ds]?|appl(?:y|ies|ied)|invoke[ds]?|run|trigger(?:ed)?|call(?:ed)?)\b"
+    r"|(?:不要|切勿|仅在|只在).{0,12}?(?:使用|调用|触发|运行|用)", re.I | re.A)
 SKILLS_ADD_RE = re.compile(r"\bnpx" + _WS + r"+(?:-y" + _WS + r"+)?skills(?:@" + _NWS + r"+)?" + _WS + r"+add" + _WS + r"+" + _NWS, re.A)
 PLUGIN_MARKET_RE = re.compile(r"(?:/plugin|\bclaude" + _WS + r"+plugin)" + _WS + r"+marketplace" + _WS + r"+add" + _WS + r"+" + _NWS, re.A)
 PLUGIN_INSTALL_RE = re.compile(r"(?:/plugin|\bclaude" + _WS + r"+plugin)" + _WS + r"+install" + _WS + r"+([\w.-]+)(?:@([\w.-]+))?", re.A)
@@ -523,6 +529,33 @@ def skill_frontmatter(text):
     return fields
 
 
+def _invocation_only(desc):
+    """True when every clause of the description is an invocation rule, so it never says what the skill does."""
+    # clauses, not sentences: "Writes a review, but use it only when asked by name" says what before the comma.
+    # "e.g." leaves an "e" or "g" fragment, which is skipped.
+    clauses = [x.strip() for x in re.split(r"[.!?](?=\s|$)|[,;:，；：。！？]", desc)
+               if x.strip() and not re.fullmatch(r"[\x00-\x7f]{0,3}", x.strip())]
+    # a policy clause that also says when ("Only use this when the user asks to format Python") names the task, so it counts
+    return bool(clauses) and all(
+        (SKILL_WHEN_RE.search(x) and SKILL_BY_NAME_RE.search(x)) or (SKILL_POLICY_RE.match(x) and not SKILL_WHEN_RE.search(x))
+        for x in clauses)
+
+
+def _same_but_name(metas):
+    """Paths of SKILL.md files whose descriptions match another's once each skill's own name is blanked out."""
+    groups = {}
+    for path, fm in metas:
+        name, desc = (fm or {}).get("name") or "", (fm or {}).get("description") or ""
+        if not desc:
+            continue
+        # only the full name: "deploy-vercel … Vercel" and "deploy-netlify … Netlify" still differ, as they should
+        if name:
+            desc = re.sub(r"(?<![\w-])" + re.escape(name) + r"(?![\w-])", "\x00", desc, flags=re.I | re.A)
+        groups.setdefault(re.sub(r"\s+", " ", desc).strip().lower(), {}).setdefault(name, path)
+    # the same skill mirrored in two folders (skills/pdf and .claude/skills/pdf) has one name, so it isn't a clone
+    return [list(by_name.values()) for by_name in groups.values() if len(by_name) > 1]
+
+
 def safe_skill_checks(data):
     """skill_checks that can never cost the user the score report."""
     try:
@@ -553,7 +586,7 @@ def skill_checks(data):
         add("SK1", "Valid frontmatter", "n/a", "No SKILL.md")
         add("SK2", "Description says when", "n/a", "No SKILL.md")
     else:
-        bad, vague = [], []
+        bad, vague, unclear, rule_only = [], [], [], []
         for path, fm in metas:
             folder = path.rsplit("/", 2)[-2] if path.count("/") else None
             name = (fm or {}).get("name") or ""
@@ -569,6 +602,8 @@ def skill_checks(data):
                 bad.append("%s: description is %d characters (needs 1–1024)" % (path, js_len(desc)))
             elif not SKILL_WHEN_RE.search(desc):
                 vague.append("%s: \"%s\"" % (path, desc if js_len(desc) <= 80 else desc[:77] + "…"))
+            elif _invocation_only(desc):
+                rule_only.append(path)
         total = data.get("skillTotal") or len(skills)
         note = ""
         if total > len(skills):
@@ -577,13 +612,24 @@ def skill_checks(data):
             note += " (GitHub cut the file list short, so some SKILL.md files may be missing)"
         if unread:
             note += " (couldn't download %s)" % ", ".join(unread[:3])
+
+        def few(paths):
+            return ", ".join(p.rsplit("/", 2)[-2] if p.count("/") else p for p in paths[:3]) + (", …" if len(paths) > 3 else "")
+        if rule_only:
+            unclear.append("%s says only when to call it, not what it does" % few(rule_only) if len(rule_only) == 1
+                           else "%d skills (%s) say only when to call them, not what they do" % (len(rule_only), few(rule_only)))
+        for paths in _same_but_name(metas):
+            unclear.append("%d skills (%s) have the same description apart from the name, so an agent can't tell them apart"
+                         % (len(paths), few(paths)))
         quiet = "unknown" if not metas else "pass"
         add("SK1", "Valid frontmatter", "fail" if bad else quiet,
             ("; ".join(bad[:3]) + (" (+%d more)" % (len(bad) - 3) if len(bad) > 3 else "") if bad
              else "%d SKILL.md file(s): name and description OK" % len(metas)) + note)
-        add("SK2", "Description says when", "fail" if vague else quiet,
-            ("No \"use when …\" in " + "; ".join(vague[:3]) + (" (+%d more)" % (len(vague) - 3) if len(vague) > 3 else "")
-             if vague else "Every description says when to use it") + note)
+        problems = (["No \"use when …\" in " + "; ".join(vague[:3]) + (" (+%d more)" % (len(vague) - 3) if len(vague) > 3 else "")]
+                    if vague else []) + unclear
+        add("SK2", "Description says when", "fail" if problems else quiet,
+            ("; ".join(problems[:3]) + (" (+%d more)" % (len(problems) - 3) if len(problems) > 3 else "")
+             if problems else "Every description says when to use it") + note)
 
     missing = []
     if skills and not SKILLS_ADD_RE.search(readme):
