@@ -345,6 +345,9 @@ atest('shared skill & plugin cases (parity with audit.py)', async () => {
     const out = skillChecks(data);
     eq(out && Object.fromEntries(out.map((x) => [x.id, x.status])), c.expected, c.name);
     if (out) for (const x of out) ok(x.title.en && x.title.zh && x.evidence.en && x.evidence.zh, `${c.name} ${x.id} needs EN + 中文`);
+    for (const [id, parts] of Object.entries(c.evidence_includes || {})) {
+      for (const part of parts) ok(out.find((x) => x.id === id).evidence.en.includes(part), `${c.name} ${id} evidence has “${part}”`);
+    }
   }
 });
 

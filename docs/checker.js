@@ -551,6 +551,13 @@ const SKILL_WHEN_RE = new RegExp(
   String.raw`\b(?:use[ds]?|invoke[ds]?|activate[ds]?|appl(?:y|ies)|call(?:ed)?)\b[^.\n]{0,30}\b(?:when|whenever|if)\b` +
   String.raw`|\bwhen (?:the |a )?(?:user|someone|you)\b|\bwhenever\b|\btrigger(?:s|ed)?\s+(?:when|on|by|phrases?|words?)\b` +
   '|当用户|用户(?:说|问|提到|想|要|需要)|触发|适用于|使用场景|时使用|时调用|时用', 'i');
+// A clause that is only an invocation rule — "Use only when the user invokes x by name", "Never apply it on your own" —
+// says when to call the skill but nothing about what it does.
+const SKILL_BY_NAME_RE = /\bby name\b|\bby its name\b|点名|手动调用/i;
+// anchored, like audit.py's SKILL_POLICY_RE.match()
+const SKILL_POLICY_RE = new RegExp(
+  String.raw`^(?:(?:never|do not|don['’]t|only)\b[^.]{0,30}?\b(?:use[ds]?|appl(?:y|ies|ied)|invoke[ds]?|run|trigger(?:ed)?|call(?:ed)?)\b` +
+  '|(?:不要|切勿|仅在|只在).{0,12}?(?:使用|调用|触发|运行|用))', 'i');
 const SKILLS_ADD_RE = /\bnpx\s+(?:-y\s+)?skills(?:@\S+)?\s+add\s+\S/;
 const PLUGIN_MARKET_RE = /(?:\/plugin|\bclaude\s+plugin)\s+marketplace\s+add\s+\S/;
 const SKILL_HINT_RE = /SKILL\.md|skills\s+add\b|agent[ -]?skills?|claude|\/plugin\b|技能|插件/i;
@@ -594,6 +601,35 @@ export function skillFrontmatter(text) {
 const listed = (items, zh) => items.slice(0, 3).join(zh ? '；' : '; ') +
   (items.length > 3 ? (zh ? `（另有 ${items.length - 3} 条）` : ` (+${items.length - 3} more)`) : '');
 
+// True when every clause of the description is an invocation rule, so it never says what the skill does.
+function invocationOnly(desc) {
+  // clauses, not sentences: "Writes a review, but use it only when asked by name" says what before the comma.
+  // "e.g." leaves an "e" or "g" fragment, which is skipped.
+  const clauses = desc.split(/[.!?](?=\s|$)|[,;:，；：。！？]/).map((x) => x.trim())
+    .filter((x) => x && !/^[\x00-\x7f]{0,3}$/.test(x));
+  // a policy clause that also says when ("Only use this when the user asks to format Python") names the task, so it counts
+  return clauses.length > 0 && clauses.every((x) =>
+    (SKILL_WHEN_RE.test(x) && SKILL_BY_NAME_RE.test(x)) || (SKILL_POLICY_RE.test(x) && !SKILL_WHEN_RE.test(x)));
+}
+
+// Paths of SKILL.md files whose descriptions match another's once each skill's own name is blanked out.
+function sameButName(metas) {
+  const groups = new Map();
+  for (const [path, fm] of metas) {
+    const name = (fm && fm.name) || '';
+    let desc = (fm && fm.description) || '';
+    if (!desc) continue;
+    // only the full name: "deploy-vercel … Vercel" and "deploy-netlify … Netlify" still differ, as they should.
+    // (^|[^\w-]) rather than a lookbehind, which older Safari can't parse.
+    if (name) desc = desc.replace(new RegExp(`(^|[^\\w-])${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\\w-])`, 'gi'), '$1\x00');
+    const key = desc.replace(/\s+/g, ' ').trim().toLowerCase();
+    if (!groups.has(key)) groups.set(key, new Map());
+    if (!groups.get(key).has(name)) groups.get(key).set(name, path);
+  }
+  // the same skill mirrored in two folders (skills/pdf and .claude/skills/pdf) has one name, so it isn't a clone
+  return [...groups.values()].filter((byName) => byName.size > 1).map((byName) => [...byName.values()]);
+}
+
 // data.skills: [{ path, text }] (text null when it couldn't be downloaded), data.marketplace: parsed
 // .claude-plugin/marketplace.json or null, data.pluginDir: the repo has a .claude-plugin/ folder.
 // Returns null when the repo ships neither skills nor a plugin, and never throws.
@@ -626,6 +662,7 @@ function skillChecksUnsafe(data) {
     const metas = skills.filter((s) => typeof s.text === 'string').map((s) => [s.path, skillFrontmatter(s.text)]);
     const bad = { en: [], zh: [] };
     const vague = [];
+    const ruleOnly = [];
     for (const [path, fm] of metas) {
       const parts = path.split('/');
       const folder = parts.length > 1 ? parts[parts.length - 2] : null;
@@ -648,6 +685,8 @@ function skillChecksUnsafe(data) {
         bad.zh.push(`${path}：description 有 ${desc.length} 个字符（需要 1–1024）`);
       } else if (!SKILL_WHEN_RE.test(desc)) {
         vague.push(`${path}: "${desc.length <= 80 ? desc : Array.from(desc).slice(0, 77).join('') + '…'}"`);
+      } else if (invocationOnly(desc)) {
+        ruleOnly.push(path);
       }
     }
     const total = data.skillTotal || skills.length;
@@ -656,12 +695,23 @@ function skillChecksUnsafe(data) {
     if (total > skills.length) addNote(` (checked the first ${skills.length} of ${total} SKILL.md files)`, `（只看了 ${total} 个 SKILL.md 里的前 ${skills.length} 个）`);
     if (data.treeTruncated) addNote(' (GitHub cut the file list short, so some SKILL.md files may be missing)', '（GitHub 截断了文件列表，可能漏掉一些 SKILL.md）');
     if (unread.length) addNote(` (couldn’t download ${unread.slice(0, 3).join(', ')})`, `（没能下载 ${unread.slice(0, 3).join('、')}）`);
+    const few = (paths, zh) => paths.slice(0, 3).map((p) => (p.includes('/') ? p.split('/').slice(-2)[0] : p))
+      .join(zh ? '、' : ', ') + (paths.length > 3 ? (zh ? ' 等' : ', …') : '');
+    const problems = { en: [], zh: [] };
+    const problem = (en, zh) => { problems.en.push(en); problems.zh.push(zh); };
+    if (vague.length) problem(`No “use when …” in ${listed(vague)}`, `这些描述没写什么时候用：${listed(vague, true)}`);
+    if (ruleOnly.length === 1) problem(`${few(ruleOnly)} says only when to call it, not what it does`, `${few(ruleOnly, true)} 只写了什么时候调用，没写它是做什么的`);
+    if (ruleOnly.length > 1) problem(`${ruleOnly.length} skills (${few(ruleOnly)}) say only when to call them, not what they do`, `${ruleOnly.length} 个技能（${few(ruleOnly, true)}）只写了什么时候调用，没写它们是做什么的`);
+    for (const paths of sameButName(metas)) {
+      problem(`${paths.length} skills (${few(paths)}) have the same description apart from the name, so an agent can’t tell them apart`,
+        `${paths.length} 个技能（${few(paths, true)}）除了名字，描述一模一样，AI 助手分不清它们`);
+    }
     const quiet = metas.length ? 'pass' : 'unknown';
     add('SK1', T.SK1, bad.en.length ? 'fail' : quiet, bad.en.length
       ? ev(listed(bad.en) + note.en, listed(bad.zh, true) + note.zh)
       : ev(`${metas.length} SKILL.md file(s): name and description OK${note.en}`, `${metas.length} 个 SKILL.md：name 和 description 都没问题${note.zh}`));
-    add('SK2', T.SK2, vague.length ? 'fail' : quiet, vague.length
-      ? ev(`No “use when …” in ${listed(vague)}${note.en}`, `这些描述没写什么时候用：${listed(vague, true)}${note.zh}`)
+    add('SK2', T.SK2, problems.en.length ? 'fail' : quiet, problems.en.length
+      ? ev(listed(problems.en) + note.en, listed(problems.zh, true) + note.zh)
       : ev(`Every description says when to use it${note.en}`, `每个描述都写了什么时候用${note.zh}`));
   }
 

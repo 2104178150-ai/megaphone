@@ -1,5 +1,5 @@
 {
-  "_comment": "Unscored Skill & plugin checks (rubric.md § 4, SK1–SK3). audit.py's skill_checks() must give these statuses; the web checker will use the same cases (backlog K1b-web).",
+  "_comment": "Unscored Skill & plugin checks (rubric.md § 4, SK1–SK3). audit.py's skill_checks() and the web checker's skillChecks() must both give these statuses; evidence_includes lists English evidence that must appear (Python and the web word it the same way).",
   "cases": [
     {
       "name": "no skills, no plugin",
@@ -93,6 +93,143 @@
         "pluginDir": true
       },
       "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: only an invocation rule, shared by two skills apart from the name",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/comm-minto/SKILL.md", "text": "---\nname: comm-minto\ndescription: Use only when the user explicitly invokes comm-minto or asks for a comm-minto review by name. Never apply it on your own initiative.\n---\n"},
+          {"path": "skills/cs-murphy/SKILL.md", "text": "---\nname: cs-murphy\ndescription: Use only when the user explicitly invokes cs-murphy or asks for a cs-murphy review by name. Never apply it on your own initiative.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "fail", "SK3": "pass"},
+      "evidence_includes": {"SK2": ["2 skills (comm-minto, cs-murphy) say only when to call them", "have the same description apart from the name"]}
+    },
+    {
+      "name": "SK2: only an invocation rule, curly apostrophe",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: Use only when invoked by name. Don’t apply it on your own.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "fail", "SK3": "pass"},
+      "evidence_includes": {"SK2": ["s0 says only when to call it, not what it does"]}
+    },
+    {
+      "name": "SK2: same description apart from the name",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/lint-a/SKILL.md", "text": "---\nname: lint-a\ndescription: Review the lint-a config. Use when the user says 检查配置.\n---\n"},
+          {"path": "skills/lint-b/SKILL.md", "text": "---\nname: lint-b\ndescription: Review the lint-b config. Use when the user says 检查配置.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "fail", "SK3": "pass"},
+      "evidence_includes": {"SK2": ["2 skills (lint-a, lint-b) have the same description apart from the name"]}
+    },
+    {
+      "name": "SK2: descriptions that differ in more than the name pass",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/deploy-vercel/SKILL.md", "text": "---\nname: deploy-vercel\ndescription: Deploy to Vercel. Use when the user says deploy to Vercel.\n---\n"},
+          {"path": "skills/deploy-netlify/SKILL.md", "text": "---\nname: deploy-netlify\ndescription: Deploy to Netlify. Use when the user says deploy to Netlify.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: 'explicitly asks to' names the task",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: Use when the user explicitly asks to deploy to Vercel.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: 'invokes this skill to' names the task",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: Use when the user invokes this skill to rename files in bulk.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: what, then a by-name rule",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: Write a Minto-style review of a draft. Use when the user asks for a Minto review by name.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: 'invokes <name> to' names the task",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/pdf-tools/SKILL.md", "text": "---\nname: pdf-tools\ndescription: Use when the user invokes pdf-tools to merge or split PDF files.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: what before the comma, rule after it",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: Writes a Minto-style review, but use it only when the user asks for it by name.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: 中文，先说做什么再说点名",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: 生成周报，仅在用户点名时使用。\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: 'Only works on' isn't a rule",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: Only works on macOS; use when the user asks to clean Xcode caches.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: a rule that names the task",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/s0/SKILL.md", "text": "---\nname: s0\ndescription: Only use this when the user asks to format Python code.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK2: one skill mirrored in two folders isn't a clone",
+      "data": {
+        "readme": "npx skills add a/b",
+        "skills": [
+          {"path": "skills/pdf/SKILL.md", "text": "---\nname: pdf\ndescription: Merge PDFs. Use when the user says merge PDFs.\n---\n"},
+          {"path": ".claude/skills/pdf/SKILL.md", "text": "---\nname: pdf\ndescription: Merge PDFs. Use when the user says merge PDFs.\n---\n"}
+        ]
+      },
+      "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
     }
   ]
 }
