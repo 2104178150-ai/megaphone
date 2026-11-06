@@ -31,7 +31,8 @@ the user can review, so nothing goes out without their say-so.
 
 Keep everything in `.megaphone/` at the repo root and **add it to `.gitignore` by
 default**: it holds drafts and, later, GitHub traffic snapshots that only people with push
-access are supposed to see. Commit it only if the user asks.
+access are supposed to see. Commit it only if the user asks. (With no human to ask, list
+the `.gitignore` line as a to-do instead — see *No human available*.)
 
 | File | Written by | Purpose |
 |---|---|---|
@@ -84,7 +85,23 @@ Record the answers in `.megaphone/decisions.md`.
 If you can't ask (batch run, the user is away), don't stall: write each question and the
 assumption you made to `decisions.md`, write anything that needs approval (like the README
 first screen) to `.megaphone/` instead of editing the real file, keep the origin story and
-other voice-of-the-author parts as `[TODO]`, and continue.
+other voice-of-the-author parts as `[TODO]`, and continue. Defaults for the questions above:
+
+- **Authorship.** Treat the user as the author only when the repo owner equals
+  `gh api user --jq .login`, or the recent commit emails (`git log -20 --format=%ae`)
+  match `git config user.email`. Otherwise (no match — often a CI or bot identity — or
+  nothing to check: no `gh`, an organisation repo, no git identity), authorship is *unknown*: write no "I built…" sentences, keep
+  the Show HN row with status `blocked: confirm authorship`, and still write its fact sheet.
+- **Timezone and reply hours.** Take the UTC offset from recent commit times, record it
+  with a likely IANA name in `decisions.md` as `[assumed]`, and assume replies are
+  possible 09:00–22:00 local. Keep each playbook's posting window; where it falls outside
+  those hours, flag the conflict in `plan.md` instead of moving the post.
+- **`.gitignore`.** Don't edit it either — record "add `.megaphone/` to `.gitignore`" in
+  `decisions.md` and put it first under what the user has to do by hand in the *Finish*
+  summary.
+- **First-person text already in the repo** (a "Why I built it" in launch notes, a blog
+  post, the README): put it in `brief.md`'s origin story only as
+  `[TODO: confirm] "<quote>" (<file path>)`, so later stages treat it as unconfirmed.
 
 ## Pipeline
 

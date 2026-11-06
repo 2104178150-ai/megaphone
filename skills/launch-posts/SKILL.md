@@ -55,7 +55,8 @@ channels** — awesome lists and newsletters, including HelloGitHub and 阮一�
 extra, drafted whenever they pass the same test. GitHub itself (topics, social preview, a
 release) needs no post: add its to-dos from [github-native.md](channels/github-native.md)
 to the table. If the user isn't the author, skip Show HN (it's "for something you've
-made").
+made"). If authorship is only unconfirmed (no human to ask), keep the row as
+`blocked: confirm authorship` and write the fact sheet anyway.
 
 **Repost check before HN or Reddit.** HN: open
 `https://hn.algolia.com/api/v1/search?query=github.com/OWNER/REPO&restrictSearchableAttributes=url&tags=story`,
