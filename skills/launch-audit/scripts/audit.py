@@ -488,6 +488,9 @@ SKILL_POLICY_RE = re.compile(
 SKILLS_ADD_RE = re.compile(r"\bnpx" + _WS + r"+(?:-y" + _WS + r"+)?skills(?:@" + _NWS + r"+)?" + _WS + r"+add" + _WS + r"+" + _NWS, re.A)
 PLUGIN_MARKET_RE = re.compile(r"(?:/plugin|\bclaude" + _WS + r"+plugin)" + _WS + r"+marketplace" + _WS + r"+add" + _WS + r"+" + _NWS, re.A)
 PLUGIN_INSTALL_RE = re.compile(r"(?:/plugin|\bclaude" + _WS + r"+plugin)" + _WS + r"+install" + _WS + r"+([\w.-]+)(?:@([\w.-]+))?", re.A)
+# One terminal line that adds the marketplace and installs: `claude plugin install <plugin> --marketplace <source>`
+# (in `claude plugin install --help` since Claude Code 2.1). The /plugin slash form isn't confirmed, so it doesn't count.
+PLUGIN_ONELINE_RE = re.compile(r"\bclaude[ \t]+plugin[ \t]+install[ \t]+([\w.-]+)(?=[ \t])[^\n]*?[ \t]--marketplace(?:[ \t]+|=)([^ \t\r\n`'\"]+)", re.A)
 
 
 def skill_frontmatter(text):
@@ -641,12 +644,14 @@ def skill_checks(data):
         plugins = market.get("plugins") if isinstance(market, dict) else None
         pnames = {p["name"] for p in plugins if isinstance(p, dict) and isinstance(p.get("name"), str)} \
             if isinstance(plugins, list) else set()
-        if not PLUGIN_MARKET_RE.search(readme):
-            missing.append("`/plugin marketplace add <owner>/<repo>`")
-        if not installs:
-            missing.append("`/plugin install <plugin>@<marketplace>`")
-        elif mname and not any(m == mname and (not pnames or p in pnames) for p, m in installs):
-            missing.append("`/plugin install <plugin>@%s` (the README's install line doesn't match marketplace.json)" % mname)
+        # one `claude plugin install <plugin> --marketplace <source>` line does both steps
+        if not any(not pnames or p in pnames for p, _ in PLUGIN_ONELINE_RE.findall(readme)):
+            if not PLUGIN_MARKET_RE.search(readme):
+                missing.append("`/plugin marketplace add <owner>/<repo>`")
+            if not installs:
+                missing.append("`/plugin install <plugin>@<marketplace>`")
+            elif mname and not any(m == mname and (not pnames or p in pnames) for p, m in installs):
+                missing.append("`/plugin install <plugin>@%s` (the README's install line doesn't match marketplace.json)" % mname)
     add("SK3", "Copy-paste install", "fail" if missing else "pass",
         "README is missing " + " and ".join(missing) if missing else "Install line(s) found in the README")
     return out

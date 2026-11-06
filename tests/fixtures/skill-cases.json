@@ -230,6 +230,48 @@
         ]
       },
       "expected": {"SK1": "pass", "SK2": "pass", "SK3": "pass"}
+    },
+    {
+      "name": "SK3: one terminal line with --marketplace (claude plugin install --help, Claude Code 2.1)",
+      "data": {
+        "readme": "# P\n\n```bash\nclaude plugin install p --marketplace acme/p\n```\n",
+        "skills": [],
+        "marketplace": {"name": "acme-tools", "plugins": [{"name": "p"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "pass"}
+    },
+    {
+      "name": "SK3: one-line install with an option in between and --marketplace=",
+      "data": {
+        "readme": "Run `claude plugin install p --scope project --marketplace=https://github.com/acme/p` in a terminal.\n",
+        "skills": [],
+        "marketplace": {"name": "acme-tools", "plugins": [{"name": "p"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "pass"}
+    },
+    {
+      "name": "SK3: --marketplace line naming a plugin marketplace.json doesn't list",
+      "data": {
+        "readme": "claude plugin install q --marketplace acme/p\n",
+        "skills": [],
+        "marketplace": {"name": "acme-tools", "plugins": [{"name": "p"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "fail"},
+      "evidence_includes": {"SK3": ["/plugin marketplace add"]}
+    },
+    {
+      "name": "SK3: the /plugin slash form with --marketplace isn't confirmed, so it doesn't count",
+      "data": {
+        "readme": "/plugin install p --marketplace acme/p\n",
+        "skills": [],
+        "marketplace": {"name": "acme-tools", "plugins": [{"name": "p"}]},
+        "pluginDir": true
+      },
+      "expected": {"SK1": "n/a", "SK2": "n/a", "SK3": "fail"},
+      "evidence_includes": {"SK3": ["/plugin marketplace add"]}
     }
   ]
 }

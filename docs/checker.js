@@ -562,6 +562,9 @@ const SKILLS_ADD_RE = /\bnpx\s+(?:-y\s+)?skills(?:@\S+)?\s+add\s+\S/;
 const PLUGIN_MARKET_RE = /(?:\/plugin|\bclaude\s+plugin)\s+marketplace\s+add\s+\S/;
 const SKILL_HINT_RE = /SKILL\.md|skills\s+add\b|agent[ -]?skills?|claude|\/plugin\b|技能|插件/i;
 const PLUGIN_INSTALL_RE = /(?:\/plugin|\bclaude\s+plugin)\s+install\s+([\w.-]+)(?:@([\w.-]+))?/g;
+// One terminal line that adds the marketplace and installs: `claude plugin install <plugin> --marketplace <source>`
+// (in `claude plugin install --help` since Claude Code 2.1). The /plugin slash form isn't confirmed, so it doesn't count.
+const PLUGIN_ONELINE_RE = /\bclaude[ \t]+plugin[ \t]+install[ \t]+([\w.-]+)(?=[ \t])[^\n]*?[ \t]--marketplace(?:[ \t]+|=)([^ \t\r\n`'"]+)/g;
 
 // name/description from a SKILL.md's YAML frontmatter, without a YAML library: plain, "double-" and
 // 'single-'quoted values and >/| block scalars. null when the file doesn't start with frontmatter.
@@ -723,11 +726,14 @@ function skillChecksUnsafe(data) {
     const mname = typeof market.name === 'string' && market.name ? market.name : null;
     const pnames = new Set(Array.isArray(market.plugins)
       ? market.plugins.filter((p) => p && typeof p === 'object' && typeof p.name === 'string').map((p) => p.name) : []);
-    if (!PLUGIN_MARKET_RE.test(readme)) missing.push('`/plugin marketplace add <owner>/<repo>`');
-    if (!installs.length) missing.push('`/plugin install <plugin>@<marketplace>`');
-    else if (mname && !installs.some(([p, m]) => m === mname && (!pnames.size || pnames.has(p)))) {
-      missing.push({ en: `\`/plugin install <plugin>@${mname}\` (the README’s install line doesn’t match marketplace.json)`,
-                     zh: `\`/plugin install <plugin>@${mname}\`（README 里的安装命令和 marketplace.json 对不上）` });
+    // one `claude plugin install <plugin> --marketplace <source>` line does both steps
+    if (![...readme.matchAll(PLUGIN_ONELINE_RE)].some((x) => !pnames.size || pnames.has(x[1]))) {
+      if (!PLUGIN_MARKET_RE.test(readme)) missing.push('`/plugin marketplace add <owner>/<repo>`');
+      if (!installs.length) missing.push('`/plugin install <plugin>@<marketplace>`');
+      else if (mname && !installs.some(([p, m]) => m === mname && (!pnames.size || pnames.has(p)))) {
+        missing.push({ en: `\`/plugin install <plugin>@${mname}\` (the README’s install line doesn’t match marketplace.json)`,
+                       zh: `\`/plugin install <plugin>@${mname}\`（README 里的安装命令和 marketplace.json 对不上）` });
+      }
     }
   }
   const pick = (lang) => missing.map((x) => (typeof x === 'string' ? x : x[lang]));
