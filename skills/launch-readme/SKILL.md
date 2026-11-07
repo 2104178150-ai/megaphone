@@ -5,7 +5,7 @@ description: "Rewrite the first screen of a GitHub README so launch visitors ins
 
 # Launch README
 
-The README's first screen (about one phone screen — roughly the first 25 rendered lines)
+The README's [first screen](../launch-audit/rubric.md) (about one phone screen — roughly the first 25 rendered lines)
 is the landing page for every launch post. This skill rewrites that screen and leaves the
 rest of the README alone unless asked.
 

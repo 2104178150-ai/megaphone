@@ -27,9 +27,11 @@ the folder that holds this skill and its siblings.
 This is the one definition of the gate; other skills point here.
 
 - **Every channel** waits until every blocker in `audit.md` is closed — awesome-list PRs,
-  submissions and small rooms included.
+  submissions and small rooms included. An `unverified` blocker counts as not closed until
+  someone has run the quick start.
 - **Big channels** (below) also need the level to be 🔊 Almost there or better, judged on
-  the human-adjusted score when the audit gives one, otherwise the rubric score.
+  the human-adjusted score when the audit gives one, otherwise the rubric score — out of
+  100, before any trade-off rescaling.
 - **Plugins and extensions** also wait until the store or plugin-directory listing is live
   ([ecosystems.md](../launch-posts/channels/ecosystems.md): review times aren't promised, and
   announcements should link to a live listing).
@@ -38,7 +40,10 @@ This is the one definition of the gate; other skills point here.
   rejects it before the re-audit, and any draft written against it is checked again.
 - **T-2 re-audit.** With the fixes pushed, rerun `launch-audit` (or
   `python3 <megaphone-skills-dir>/launch-audit/scripts/audit.py OWNER/REPO`), re-check each
-  blocker by hand — the script can't see them — and update `audit.md`.
+  blocker by hand — the script can't see them — and update `audit.md`. An `unverified`
+  blocker should be settled as soon as the user can run the quick start from a clean setup
+  (it holds back the prep-week channels too); this is the last chance, and it becomes closed
+  or open.
 - **T-2 go/no-go.** Go only if the gate holds and prep is done. Otherwise (a blocker is
   still open, say) move the **whole schedule by a week** rather than squeezing channels.
   Record the call in `decisions.md`.
@@ -125,7 +130,7 @@ The example rows are for a user in Europe/London in the week of 2026-10-19. Comp
 ```markdown
 # Launch plan — <project>
 Timezone: <IANA name> · Launch week: <YYYY-MM-DD → YYYY-MM-DD> · DST switch: <none / date>
-Gate: open blockers <N> · level <…> · go/no-go on <T-2 date>
+Gate: open blockers <N> · unverified <N> · level <…> · go/no-go on <T-2 date>
 
 ## Prep (T-7 → T-1)
 - [ ] Blockers: <each from audit.md> · risk wording · disclaimer in README
@@ -137,7 +142,7 @@ Gate: open blockers <N> · level <…> · go/no-go on <T-2 date>
 - [ ] Help first (optional): <projects> · case-study permission: <yes / no / n/a>
 - [ ] Store / plugin directory (if any): submitted <date> · live: <yes/no> — announcements wait
 - [ ] README proposal (readme-first-screen.md, if any): applied / rejected
-- [ ] T-2 re-audit: <score, open blockers> · go/no-go: <go / moved to …>
+- [ ] T-2 re-audit: <score, open blockers, unverified> · go/no-go: <go / moved to …>
 
 ## Launch days
 | Day | Time (Europe/London) | Channel | Draft | Who replies | Reply window |

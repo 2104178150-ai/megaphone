@@ -19,9 +19,21 @@ technicality (say why). Accepted trade-offs (e.g. the author deliberately keeps 
 language) are reported as `NN/MM` with the check removed from the denominator, then
 rescaled to 100.
 
+**Which number sets the level.** The level (and the launch gate in `launch-plan`) uses the
+human-adjusted score out of 100, or the rubric score when there's no adjustment, counted
+**before** any trade-off rescaling. The rescaled number is for information only and never
+raises the level: 86/95 rescales to 91, but the level stays 🔊 *Almost there* (86).
+
+**First screen** means what a visitor sees before scrolling: about one phone screen,
+roughly the first 25 rendered lines of text in the README; an image or a code block uses
+several of those (a screenshot often about 10). The human review, the blockers and `launch-readme`
+use this. The mechanical checks use raw-line limits as stand-ins (A5 looks 60 raw lines
+deep), so a screenshot at raw line 50 can pass A5 and still sit below the first screen;
+say so in the review.
+
 ## 1. Blockers (human review)
 
-Mark each one open or closed in `audit.md`. Add others if they'd make a visitor leave.
+Mark each one open, closed or unverified in `audit.md`. Add others if they'd make a visitor leave.
 
 | Blocker | Open when |
 |---|---|
@@ -31,6 +43,17 @@ Mark each one open or closed in `audit.md`. Add others if they'd make a visitor 
 | **Broken try-path** | The install command, demo link or hosted site doesn't work |
 | **Unresolved visibility risk** | The risk section below found exposure and the author hasn't decided how to handle it |
 | **Claims that will backfire** | The README or posts make legal guarantees ("zero risk", "100% legal"), false comparisons, or invented numbers |
+
+**Unverified** is for a blocker that can only be settled by running code, which the audit
+doesn't do unless the user asks — usually *Broken try-path*. First check what you can
+without running anything: the package or release asset the install command names exists at
+the current version, a `go install` path matches a `cmd/…` folder, a Homebrew formula points
+at the latest release, the demo link or hosted site loads. These checks can show it's open;
+they can't show it works. Close it without running only when the try-path has no run step
+(a hosted demo that loads and does the thing); otherwise mark it unverified and say what's
+left to check. An unverified blocker doesn't cap the level, but it counts as not closed for
+the launch gate: settle it as soon as the user can run the quick start from scratch, and at
+the latest at `launch-plan`'s T-2 re-audit.
 
 ## 2. Risk & readiness (always answer; not scored)
 

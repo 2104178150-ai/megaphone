@@ -31,7 +31,7 @@ with no human available, the assumptions you made.
    **channel you'll launch on first** — from `.megaphone/decisions.md`, or the most likely
    one if it isn't decided yet (a Hacker News reader on a laptop, a 小红书 user on a phone, a
    V2EX regular…). Answer:
-   - Within the first screen, can I tell **what it is, who it's for, and why it's better**
+   - Within the [first screen](rubric.md) (about the first 25 rendered lines), can I tell **what it is, who it's for, and why it's better**
      than what I use now?
    - Is there something to **see** before I have to read?
    - Can I **try it in under a minute**? Count the steps to the first result. Does that
@@ -57,7 +57,10 @@ with no human available, the assumptions you made.
    its frontmatter the way an agent would, deciding from `name` and `description` alone
    whether to use the skill.
 3. **Decide the blockers** from [rubric.md § Blockers](rubric.md). Any open blocker caps
-   the level at 🔉 *Needs polish* regardless of the score.
+   the level at 🔉 *Needs polish* regardless of the score. A blocker you can't settle without
+   running code (usually *Broken try-path*) is `unverified`: check what you can without running
+   it first, say what's left, and don't let it cap the level — it still counts as not closed
+   for the launch gate (`launch-plan`).
 4. **Answer risk & readiness** ([rubric.md § Risk & readiness](rubric.md)) — always, even
    for harmless-looking projects; "none found" is a valid answer. Quote risky wording from
    the repo and propose factual replacements. Don't give legal advice.
@@ -77,7 +80,9 @@ with no human available, the assumptions you made.
 | 35–54 | 🔈 Whispering | Fix the first screen and the try-it path before anything else. |
 | 0–34 | 🔇 Muted | Not ready for visitors yet. |
 
-**Any open blocker caps the level at 🔉 Needs polish.**
+Set the level from the human-adjusted score when there is one, otherwise the rubric score,
+out of 100 and before any trade-off rescaling ([rubric.md](rubric.md)).
+**Any open blocker caps the level at 🔉 Needs polish**; an unverified one doesn't.
 
 ## Template for `.megaphone/audit.md`
 
@@ -85,12 +90,12 @@ with no human available, the assumptions you made.
 # Launch audit — <repo> — <date>
 
 **Level: <emoji> <level>** · rubric score NN/100 · human-adjusted NN/100 (<why, if different>)
-Open blockers: N
+Open blockers: N · unverified: N
 
 ## Blockers
 | Blocker | Status | Evidence | Fix |
 |---|---|---|---|
-| Quick start doesn't show the point | open/closed | … | … |
+| Quick start doesn't show the point | open/closed/unverified | … | … |
 
 ## Risk & readiness
 - Third parties: …
