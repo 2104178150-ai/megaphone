@@ -41,7 +41,7 @@ the `.gitignore` line as a to-do instead — see *No human available*.)
 | `brief.md` | launch-positioning | One-liner, audience, proof, contrast, claims we won't make |
 | `readme-first-screen.md` | launch-readme | The proposed first screen, when it can't be applied yet |
 | `posts/README.md` | launch-posts | Which channels were picked or skipped, and why |
-| `posts/<channel>.md` | launch-posts | Drafts — or, for channels that want the author's own words (Show HN, DEV, Lobsters, V2EX, 掘金, some awesome lists), fact sheets the author writes from |
+| `posts/<channel>.md` | launch-posts | Drafts — or, for channels that want the author's own words (Show HN, DEV, Lobsters, V2EX, 掘金, some awesome lists), fact sheets the author writes from; or, for `ask first` spaces, the message asking permission |
 | `plan.md` | launch-plan | Dated launch calendar with a go/no-go |
 | `log.csv` | launch-plan creates it; the user fills it | What was actually posted, when, where |
 | `snapshots/` | launch-plan / launch-review (`stars.py --snapshot`) | Traffic snapshots — private data, never commit |

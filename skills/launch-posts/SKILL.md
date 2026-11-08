@@ -56,7 +56,13 @@ extra, drafted whenever they pass the same test. GitHub itself (topics, social p
 release) needs no post: add its to-dos from [github-native.md](channels/github-native.md)
 to the table. If the user isn't the author, skip Show HN (it's "for something you've
 made"). If authorship is only unconfirmed (no human to ask), keep the row as
-`blocked: confirm authorship` and write the fact sheet anyway.
+`blocked: confirm authorship` and write the fact sheet anyway. A host or community space
+that passes the test but needs a maintainer's or moderator's OK first
+([ecosystems.md](channels/ecosystems.md)) gets the decision `ask first` instead of a post:
+save the ask, drafted from that file's template, as `posts/<channel>.md` with an `## Ask`
+section (to whom, where), Status `ask drafted; user sends`. It doesn't count toward the six
+until they say yes; when the user reports a yes, rerun this skill for that row and write the
+post (if that makes seven, drop the one with the fewest ✅ and say so).
 
 **Repost check before HN or Reddit.** HN: open
 `https://hn.algolia.com/api/v1/search?query=github.com/OWNER/REPO&restrictSearchableAttributes=url&tags=story`,
@@ -77,6 +83,7 @@ README assumed: current README / proposal in readme-first-screen.md (not applied
 |---|---|---|---|---|---|---|---|
 | Show HN | ✅ | ✅ | ✅ | author writes | no earlier submissions (hn.algolia.com, <date>) | hacker-news.md | fact sheet ready; author to write |
 | r/commandline | ✅ | ✅ | ⚠️ | draft | none found | reddit-commandline.md | [TODO] origin story |
+| r/ghostty | ✅ | ✅ | ⚠️ | ask first | host community, no showcase thread found | reddit-ghostty.md | ask drafted; user sends |
 | 小红书 | ✅ | ⚠️ | ❌ | skip | user has no account | — | — |
 | GitHub itself | — | — | — | to-dos | <topics, social preview, release> | — | — |
 ```
@@ -172,7 +179,7 @@ their own words`.)
 
 Summarise in chat: the channel table, where each file is, which drafts are ready to paste,
 which are fact sheets the author writes from, which still have `[TODO]`s (and what each
-needs), and the assets to make. Hand off to `../launch-plan/SKILL.md` for order, dates and
+needs), the `ask first` messages the user sends, and the assets to make. Hand off to `../launch-plan/SKILL.md` for order, dates and
 reply windows. Remind the user that they publish manually, and that right after each post
 goes live they add a row to `.megaphone/log.csv`: `date` as YYYY-MM-DD, `time` as 24 h
 HH:MM in their timezone, `channel` as the file's base name (`hacker-news`,

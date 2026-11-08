@@ -27,7 +27,7 @@ channels where its users are.
 - **Ask before posting in the host's community.** Before announcing in the host's forum,
   Discord, Slack, subreddit or WeChat group, look for a showcase channel or thread. If there
   isn't one, ask a maintainer or moderator first (template below). It's their space, not
-  your launch venue.
+  your launch venue. In the channel table, such a space is `ask first`, not a post draft.
 - **Never use the host's issue tracker to announce.** Issues are for bugs in the host.
   Obsidian's releases repo, for example, says it doesn't accept issues and sends plugin
   questions to each plugin's own repo.

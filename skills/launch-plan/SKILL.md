@@ -64,7 +64,11 @@ Size this against the user's free hours; if it doesn't fit, move the launch week
    (`../launch-posts/channels/github-native.md`); a **demo visual** in the README that the
    audience can load (for mainland-China channels, not only on `raw.githubusercontent.com`).
 5. **Awesome-list PRs** once the README and demo are up; merges can take days or weeks.
-6. **Warm up accounts genuinely** where you'll post: join threads you care about.
+6. **Warm up accounts genuinely** where you'll post: join threads you care about. Send
+   the ask for each `ask first` row in the channel table early in prep; that space gets a
+   slot in the calendar only after its maintainer or moderator says yes. Leave it out of
+   Launch days until then; when the user reports a yes, rerun `launch-posts` for that row
+   and add its slot here.
 7. **Store or plugin listing** (plugins and extensions): submitted early in prep week,
    since review times aren't promised; announcements wait until it's live.
 8. **Help first (optional, small projects)**: offer two or three specific fixes to a few
@@ -74,19 +78,30 @@ Size this against the user's free hours; if it doesn't fit, move the launch week
    show the before/after as a case study. Never ask for stars in return.
 9. **Final drafts**: no `[TODO]` left in launch-week drafts; for author-written channels
    (Show HN, a DEV launch article, Lobsters, V2EX, 掘金, some awesome lists) the author has written the
-   text from the fact sheet; each risk and AI-disclosure check ticked.
+   text from the fact sheet; each risk and AI-disclosure check ticked. Reddit drafts usually
+   arrive with `[TODO]`s an agent can't clear (reddit.com blocks most agents): list each one
+   here as a prep task for the user — the repost search, and the sidebar, rules page and
+   pinned posts (including any fixed day or weekly thread; if one applies, move that row in
+   plan.md) — so they're done before launch week, not on the morning of the post.
 
 ## Sequencing
 
 - **One big channel per day.** Big = you must be live for 2–4 hours: Show HN, Product
-  Hunt, a large subreddit, V2EX. Submissions and posts to your own followers (X, 即刻) can
-  share a day if you can still answer them.
+  Hunt, a large subreddit, V2EX. A subreddit is large when you expect to be replying for 2+
+  hours (rule of thumb, not a Reddit figure: over about 100k members). If you can't see the
+  member count, ask the user; with no human, treat it as big and mark it `[assumed]` in
+  plan.md. Submissions and posts
+  to your own followers (X, 即刻) can share a day if you can still answer them.
 - **Cluster the big days within about a week.** GitHub Trending is widely observed (not
   documented) to reward star velocity, so a burst does more than one post a week.
 - **Before launch week, try small channels one at a time** if you don't yet know which ones work
   for this project: 2–3 days apart, so each one's effect shows up against the baseline in
   `launch-review`. Opening five on one day left us unable to tell which one brought anyone (our
-  own launch). Launch week itself follows the two rules above.
+  own launch). If prep is shorter than a week (asked on a Wednesday to launch next week, say)
+  but its tasks still fit the user's hours (otherwise move the launch week), run the small
+  tests at the start of launch week instead, 2 days apart, with the first big channel 2 days
+  after the last test. T+0 is still the first post, so snapshot days count from the first
+  test. The big days that follow keep to the two rules above.
 - **Landing page before traffic.** Before each new channel, re-read the README as that channel's
   visitor (language, device, what they can click) — see the human review in
   `../launch-audit/SKILL.md`. Traffic sent to a page that doesn't speak the visitor's language
@@ -141,6 +156,8 @@ Gate: open blockers <N> · unverified <N> · level <…> · go/no-go on <T-2 dat
 - [ ] HelloGitHub after the landing fixes: <date> · proof to point at: <user words / before-after / none yet>
 - [ ] Help first (optional): <projects> · case-study permission: <yes / no / n/a>
 - [ ] Store / plugin directory (if any): submitted <date> · live: <yes/no> — announcements wait
+- [ ] Ask first (if any): <space → ask sent <date> · answer: pending / yes / no>
+- [ ] Reddit checks by hand (agents can't read reddit.com): <r/sub → repost search · rules/sidebar/pinned · fixed day?>
 - [ ] README proposal (readme-first-screen.md, if any): applied / rejected
 - [ ] T-2 re-audit: <score, open blockers, unverified> · go/no-go: <go / moved to …>
 
