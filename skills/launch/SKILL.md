@@ -62,7 +62,11 @@ the `.gitignore` line as a to-do instead — see *No human available*.)
    Reuse what's accurate and say where your plan differs.
 4. **Repo facts without `gh`**: the public API needs no token —
    `https://api.github.com/repos/OWNER/REPO`, `…/releases?per_page=5`,
-   `…/community/profile`.
+   `…/community/profile`, `…/commits?per_page=30` (date of the last commit not made by a bot —
+   bots have an `author.login` ending in `[bot]`; Dependabot-only activity looks abandoned, a
+   shallow clone can't show it, and "no human commit in the last 30" is itself the finding) and
+   `…/issues` (open by default; pull requests are the items with a `pull_request` key — one
+   opened by an outside contributor with `comments: 0` looks abandoned to launch visitors).
 5. **Ask only what the repo can't tell you**, in one message:
    - Who did you build this for, and what were they doing before it existed? (Their words
      become the origin story — don't write one for them.)
