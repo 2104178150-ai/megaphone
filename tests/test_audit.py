@@ -57,6 +57,39 @@ class ParityTest(unittest.TestCase):
         self.assertIsNone(f["visual"])
         self.assertTrue(f["logo_only"])
 
+class HumanCommitNoteTest(unittest.TestCase):
+    """C2 evidence names the last non-bot commit; the score stays on pushed_at."""
+
+    @staticmethod
+    def commit(login, date, name="someone"):
+        return {"author": {"login": login} if login else None,
+                "commit": {"author": {"name": name, "date": date}, "committer": {"date": date}}}
+
+    def test_skips_bots_and_keeps_the_score(self):
+        case = json.loads(json.dumps(next(c for c in FIXTURES["cases"] if c["name"] == "good")))
+        before = {c["id"]: c for c in audit.analyze(case["data"], NOW_MS)["checks"]}["C2"]
+        case["data"]["commits"] = [
+            self.commit("dependabot[bot]", "2026-05-02T10:00:00Z"),
+            self.commit(None, "2026-05-01T09:00:00Z", name="renovate[bot]"),
+            self.commit("alice", "2026-01-15T08:00:00Z"),
+        ]
+        after = {c["id"]: c for c in audit.analyze(case["data"], NOW_MS)["checks"]}["C2"]
+        self.assertEqual(after["points"], before["points"])
+        self.assertTrue(after["evidence"].endswith("(last human commit: 2026-01-15)"), after["evidence"])
+
+    def test_only_bots(self):
+        note = audit.human_commit_note([self.commit("dependabot[bot]", "2026-05-02T10:00:00Z")] * 30)
+        self.assertEqual(note, " (no human commit in the last 30 commits)")
+
+    def test_no_data_adds_nothing(self):
+        self.assertEqual(audit.human_commit_note(None), "")
+        self.assertEqual(audit.human_commit_note([]), "")
+        self.assertEqual(audit.human_commit_note({"message": "Git Repository is empty."}), "")
+
+    def test_odd_shapes_never_raise(self):
+        odd = [{"author": "x", "commit": "y"}, {"author": {"login": 5}, "commit": {"author": {"name": None, "date": 7}}}, 3]
+        self.assertEqual(audit.human_commit_note(odd), " (no human commit in the last 3 commits)")
+
 
 if __name__ == "__main__":
     unittest.main()

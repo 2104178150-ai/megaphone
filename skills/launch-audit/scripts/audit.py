@@ -381,6 +381,39 @@ def _parse_iso(s):
     return datetime.strptime(s[:19], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
 
 
+def _str(x):
+    return x if isinstance(x, str) else ""
+
+
+def _dict(x):
+    return x if isinstance(x, dict) else {}
+
+
+def _is_bot(c):
+    login = _str(_dict(c.get("author")).get("login"))
+    name = _str(_dict(_dict(c.get("commit")).get("author")).get("name"))
+    return login.endswith("[bot]") or (not login and name.endswith("[bot]"))
+
+
+def human_commit_note(commits):
+    """C2 evidence only (the score stays on pushed_at): bot pushes (Dependabot, Renovate) keep a repo
+    looking active, so say when a person last committed. commits: the /commits?per_page=30 list.
+    Never raises: odd or hand-edited data just drops the note."""
+    if not isinstance(commits, list) or not commits:
+        return ""
+    dates = []
+    for c in commits:
+        if not isinstance(c, dict) or _is_bot(c):
+            continue
+        meta = _dict(c.get("commit"))
+        d = _str(_dict(meta.get("committer")).get("date")) or _str(_dict(meta.get("author")).get("date"))
+        if d:
+            dates.append(d[:10])
+    if dates:
+        return " (last human commit: %s)" % max(dates)
+    return " (no human commit in the last %d commits)" % len(commits)
+
+
 def analyze(data, now_ms=None):
     repo = data["repo"]
     f = readme_facts(data.get("readme") or "")
@@ -432,7 +465,8 @@ def analyze(data, now_ms=None):
     pushed = repo.get("pushed_at")
     age = (now - _parse_iso(pushed).timestamp() * 1000) / 86400000 if pushed else math.inf
     s("C2", 4 if age <= 90 else 2 if age <= 365 else 0,
-      "Last push %d days ago" % round(age) if age != math.inf else "Unknown last push")
+      ("Last push %d days ago" % round(age) if age != math.inf else "Unknown last push")
+      + human_commit_note(data.get("commits")))
     s("C3", 4 if releases else 0, "Latest: %s" % releases[0].get("tag_name") if releases else "No releases")
     contributing = present(files.get("contributing"))
     s("C4", 3 if contributing else 0, "CONTRIBUTING found" if contributing else "No CONTRIBUTING file")
@@ -723,6 +757,10 @@ def fetch_repo_data(full_name, token=None):
         except FetchError:
             templates = False
     data = {"repo": repo, "readme": readme, "community": community, "releases": releases, "issueTemplates": templates}
+    try:  # unscored C2 evidence: when a person (not a bot) last committed
+        data["commits"] = _api("/repos/%s/commits?per_page=30" % name, token, optional=True)
+    except FetchError:  # incl. RateLimited and 409 for an empty repo: keep the score, drop the note
+        data["commits"] = None
     try:
         data.update(fetch_skill_data(name, repo.get("default_branch") or "HEAD", token))
     except Exception:  # unscored extras: never lose the score over them
