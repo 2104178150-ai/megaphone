@@ -44,9 +44,17 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 
 **See it on a real launch:** [Megaphone launching itself](examples/self-launch/) — the 小红书 images and note, the V2EX fact sheet (V2EX bans AI-written posts, so the author writes it), and what was actually published.
 
-<a name="case-studies"></a>**See it on someone else's repo:** [token-pilot, 54 → 100](examples/case-token-pilot/) — three fixes from our issue, then the author worked through the rest of the report. [Embedded-programming, 49 → 90](examples/case-embedded-programming/)
-— a LICENSE file, a one-line install and a real hardware build on the first screen within 14 hours, then a first release. [outline-skill, 58 → 78](examples/case-outline-skill/)
-— a demo image and a Chinese README; its author called Megaphone 「挺好用的」 ("really handy"). [Open Resume, 70 → 79](examples/case-open-resume/) — tagging v1.0.0 turned up a Docker bug the author fixed first. [DragonCard, 54 → 71 in one day](examples/case-dragoncard/).
+<a name="case-studies"></a>**See it on someone else's repo** (shared with each author's permission):
+
+| Project | Score | What the author changed |
+|---|---|---|
+| [token-pilot](examples/case-token-pilot/) | 54 → 100 | the three fixes from our issue, then the rest of the report |
+| [Embedded-programming](examples/case-embedded-programming/) | 49 → 90 | a LICENSE file, a one-line install and a real hardware build on the first screen within 14 hours, then a first release |
+| [outline-skill](examples/case-outline-skill/) | 58 → 78 | a demo image and a Chinese README; the author called Megaphone 「挺好用的」 ("really handy") |
+| [Open Resume](examples/case-open-resume/) | 70 → 79 | topics and a v1.0.0 release; tagging it turned up a Docker bug the author fixed first |
+| [DragonCard](examples/case-dragoncard/) | 54 → 71 | the demo link in the About box and four topics, in one day |
+
+As of 10 November 2026 we had opened 42 issues with specific suggestions on new projects; 12 authors replied and 11 changed their repo.
 
 **See what separates new projects that get noticed:** [362 new repos, scored](research/2026-10-new-repos.md) —
 a screenshot in the first screen: 68% of those with 100+ stars, 40% of those with 5–99.
