@@ -54,7 +54,7 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 | [Open Resume](examples/case-open-resume/) | 70 → 79 | topics and a v1.0.0 release; tagging it turned up a Docker bug the author fixed first |
 | [DragonCard](examples/case-dragoncard/) | 54 → 71 | the demo link in the About box and four topics, in one day |
 
-As of 10 November 2026 we had opened 42 issues with specific suggestions on new projects; 12 authors replied and 11 changed their repo.
+As of 10 November 2026 we had opened 42 issues with specific suggestions on new projects; 12 authors replied and 11 changed their repo. [Which fixes get taken, and how fast authors reply →](research/2026-11-outreach.md)
 
 **See what separates new projects that get noticed:** [362 new repos, scored](research/2026-10-new-repos.md) —
 a screenshot in the first screen: 68% of those with 100+ stars, 40% of those with 5–99.
