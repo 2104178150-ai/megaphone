@@ -19,7 +19,7 @@ asked for nothing back. This page counts what came of it, as of 14 November 2026
   audiences as much as languages.
 - **Sidebar fixes were always taken.** Among the projects we re-checked, every suggested topic
   list (5 of 5), About description (4 of 4) and website link (3 of 3) was added. A first-screen
-  screenshot or demo, the fix we suggested most, was taken less often (6 of 10).
+  screenshot or demo, the fix we suggested most, was taken less often (6 of 11).
 
 ## The numbers
 
@@ -50,7 +50,7 @@ this kind of fix", not as an overall rate.
 
 | Kind of fix | Suggested | Taken, of those re-checked |
 |---|---|---|
-| Screenshot, GIF, video or real output on the first screen | 31 | 6 of 10 |
+| Screenshot, GIF, video or real output on the first screen | 31 | 6 of 11 |
 | One-line install or try-it step | 23 | 3 of 5 |
 | Topics | 17 | 5 of 5 |
 | A tagged release | 15 | 5 of 6 |
@@ -58,7 +58,7 @@ this kind of fix", not as an overall rate.
 | README structure or a second language | 14 | 4 of 5 |
 | About description | 13 | 4 of 4 |
 | Website link in the About box | 7 | 3 of 3 |
-| Agent Skill description | 3 | 0 of 1 |
+| Agent Skill description | 3 | 1 of 2 |
 | Other | 2 | not re-checked |
 
 The cheapest fixes, the ones in the About box, were done every time. A screenshot, a demo or a
