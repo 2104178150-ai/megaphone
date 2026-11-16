@@ -54,8 +54,8 @@ people, or anything else that breaks a platform's rules.
 
 ## Change the rubric
 
-The 100-point score is implemented twice, and four files must change together in the
-same PR:
+The 100-point score is implemented twice, and the first four files below must change together in the
+same PR (the fifth too when you touch the Skill & plugin checks):
 
 | File | What it is |
 |---|---|
@@ -63,7 +63,7 @@ same PR:
 | [`docs/checker.js`](docs/checker.js) | The web checker |
 | [`skills/launch-audit/scripts/audit.py`](skills/launch-audit/scripts/audit.py) | A line-by-line Python port of `checker.js` |
 | [`tests/fixtures/rubric-cases.json`](tests/fixtures/rubric-cases.json) | Shared cases with the expected points per check and the total |
-| [`tests/fixtures/skill-cases.json`](tests/fixtures/skill-cases.json) | Cases for the unscored Skill & plugin checks (SK1–SK3), which only `audit.py` runs so far |
+| [`tests/fixtures/skill-cases.json`](tests/fixtures/skill-cases.json) | Shared cases for the unscored Skill & plugin checks (SK1–SK3), with the expected status per check; both test suites run them |
 
 - Keep the total at 100.
 - Update the expected values in the fixtures. Work them out from the rule, not from
@@ -76,7 +76,7 @@ same PR:
   lists them. The README copies in `tests/fixtures/` are test inputs; leave them alone.
 - Explain in the PR why the new weight or rule is better for launch visitors.
 
-Blockers, *Risk & readiness* and the skill/plugin checks (§ 4, SK1–SK5) are human review, not code. They live in `rubric.md` and
+Blockers, *Risk & readiness* and the skill/plugin checks SK4–SK5 (§ 4) are human review, not code (SK1–SK3 are coded, see the table above). They live in `rubric.md` and
 the audit template in [`skills/launch-audit/SKILL.md`](skills/launch-audit/SKILL.md).
 
 ## Improve a skill
