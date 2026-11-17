@@ -35,7 +35,7 @@ disagree, the platform wins. Please open a PR when you notice drift.
 | 即刻 | Indie developers, AI/product people, personal stories | Low | Low | [jike.md](jike.md) |
 | 小红书 | Consumer, AI and productivity tools with a visible result; students | Medium | Ignored without a good cover; off-platform links or QR codes can get the account banned | [xiaohongshu.md](xiaohongshu.md) |
 | 掘金 | Technical write-ups for Chinese engineers (you write it: AI-generated articles are never recommended) | Medium | Not recommended if AI-written or promotional | [juejin.md](juejin.md) |
-| 知乎, B 站, 开源中国, 少数派, Gitee | Long-tail answers, video demos, software directory, app-style tools, a mirror | Varies | Low (Gitee: mirror may fail review) | [china-other.md](china-other.md) |
+| 中国独立开发者项目列表, 知乎, B 站, 开源中国, 少数派, Gitee | A one-line listing (dev tools go to its 程序员版面), long-tail answers, video demos, software directory, app-style tools, a mirror | Varies | Low (Gitee: mirror may fail review) | [china-other.md](china-other.md) |
 
 ## Quick picks by project type
 

@@ -138,7 +138,7 @@ heuristics are labelled as such. [Browse all →](skills/launch-posts/channels)
 [即刻](skills/launch-posts/channels/jike.md) ·
 [小红书](skills/launch-posts/channels/xiaohongshu.md) ·
 [掘金](skills/launch-posts/channels/juejin.md) ·
-[知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)
+[独立开发者列表 / 知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)
 — written in Chinese, each with an English summary at the top.
 
 ### Web checker and audit script

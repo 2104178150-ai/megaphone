@@ -122,7 +122,7 @@ claude plugin install megaphone@megaphone
 [即刻](skills/launch-posts/channels/jike.md) ·
 [小红书](skills/launch-posts/channels/xiaohongshu.md) ·
 [掘金](skills/launch-posts/channels/juejin.md) ·
-[知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)
+[独立开发者列表 / 知乎 / B 站 / 开源中国 / 少数派 / Gitee](skills/launch-posts/channels/china-other.md)
 
 > 海外渠道的手册用英文写，中文渠道的手册用中文写，开头附英文摘要，方便海外开发者也能看懂怎么在中文社区发布。
 
