@@ -33,7 +33,8 @@ available, your assumptions) in `.megaphone/decisions.md`.
 ## Step 1 — Choose channels
 
 Read [channels/README.md](channels/README.md) and start from where *this* audience is:
-developer tools → HN, Reddit, language communities; end-user apps → where those users
+developer tools → HN, Reddit, language communities (for a user who replies only in Chinese:
+V2EX, 中国独立开发者项目列表, 阮一峰周刊, HelloGitHub, 掘金); end-user apps → where those users
 already browse (小红书, 即刻, B 站, Product Hunt, r/SideProject…). For a plugin or
 integration, the host app's channels (plugin directory, release notes, forum) often beat
 everything else: see [ecosystems.md](channels/ecosystems.md), and ask the host's
