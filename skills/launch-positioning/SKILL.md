@@ -73,7 +73,9 @@ Two example columns: a developer tool and an end-user app.
 
 ## Template for `.megaphone/brief.md`
 
-Write it in the user's language. Include the Chinese one-liner only if a Chinese channel or
+Write it in the user's language, headings and table labels included — but keep the English
+name in brackets on headings other skills look up, e.g. `## 不做的承诺 (Claims we won't make)`.
+Include the Chinese one-liner only if a Chinese channel or
 README is planned (and the English one only if an English channel is).
 
 ```markdown

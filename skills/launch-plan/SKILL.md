@@ -8,8 +8,9 @@ description: "Turn launch drafts into a dated launch calendar in the user's own 
 A launch is a sequence, not a single post. The plan gets the repo ready before traffic
 arrives, keeps to one big channel per day so every thread gets answered, and logs what
 happened for `launch-review`. `plan.md` is the only file with dates (posts carry a time
-window), so reschedule here. Write it in the user's language. `<megaphone-skills-dir>` is
-the folder that holds this skill and its siblings.
+window), so reschedule here. Write it in the user's language — headings, labels and checklist
+text too, not only the answers; keep file names, commands and channel names as they are.
+`<megaphone-skills-dir>` is the folder that holds this skill and its siblings.
 
 ## Inputs
 

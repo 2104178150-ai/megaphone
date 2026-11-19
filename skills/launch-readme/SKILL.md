@@ -86,7 +86,9 @@ outside the `**`: GitHub won't close bold right after it when Chinese text follo
 
 1. Show the user the new first screen as a diff or side-by-side.
 2. After approval, edit `README.md` (and create the twin if requested). If approval can't
-   happen now, write the proposal to `.megaphone/readme-first-screen.md` instead.
+   happen now, write the proposal to `.megaphone/readme-first-screen.md` instead (notes in
+   the user's language; the proposed text of each README file in that file's language —
+   README.md as it is, a twin in the twin's language).
 3. List what the user has to do: record the visual, run the quick start on a clean machine,
    set the repo description (≤ 160 characters) and topics (add specific ones; don't remove
    relevant existing topics — GitHub allows 20), set the homepage, upload a social preview

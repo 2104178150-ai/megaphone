@@ -67,7 +67,8 @@ answers or, with no human available, assumptions there.
      Fix them in `log.csv` and rerun before writing the report.
    - For repos with more than ~40k stars GitHub may not return timestamps for every star
      (a commonly reported limit); the script says so when it happens.
-3. **Read the output** and write `.megaphone/report.md`:
+3. **Read the output** and write `.megaphone/report.md` in the user's language (headings
+   too; the script's tables stay as printed):
    - **Headline**: stars gained in the window, the best day (in the log's timezone; the
      script labels it), and what was posted that day.
    - **Per post**: stars in the 48 hours after each post, from the script. A window that

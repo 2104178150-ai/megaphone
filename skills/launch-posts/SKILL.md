@@ -74,7 +74,9 @@ hasn't had significant attention in the last year or so, and never delete-and-re
 ([FAQ](https://news.ycombinator.com/newsfaq.html)); each subreddit sets its own rule. After
 a big earlier thread, skip the channel or wait for a major release.
 
-Save the table to `.megaphone/posts/README.md` (in the user's language) and show it in chat:
+Save the table to `.megaphone/posts/README.md` (in the user's language, headings and column
+names too; keep the Decision values `draft` / `author writes` / `ask first` / `skip` / `to-dos`
+and file names as written — other skills look them up) and show it in chat:
 
 ```markdown
 # Channels — <project>
