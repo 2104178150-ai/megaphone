@@ -99,6 +99,14 @@ with a section per target (`posts/awesome-lists.md`, `posts/newsletters.md`; Hel
 and 阮一峰周刊 have their own playbooks and files). Follow the playbook in `channels/`:
 title rules, length, language, links, first comment, pitfalls.
 
+**Two languages per file.** The post text is in the channel's language; everything around
+it — the header labels (Where / Window / Account), section headings and checklist lines —
+is in the user's language, like the other working files. For a Chinese-speaking user the
+template below becomes `去哪发：` / `时间窗口：` / `用哪个账号：`, `## 标题`, `## 正文`,
+`## 首条评论 / 跟帖`, `## 可能被问到的问题`, `## 发帖前检查`; the fact sheet heading is
+`## 给作者的事实`, and an `ask first` file's `## Ask` becomes `## 请求许可`. Keep
+file names, channel names and the `— draft` marker as written.
+
 **Author-written channels.** Some platforms ask for the author's own words, and their
 playbooks say so: Show HN ([hacker-news.md](channels/hacker-news.md)), a DEV launch
 article ([dev-blogs.md](channels/dev-blogs.md)), the Lobsters title and comment
@@ -107,7 +115,7 @@ replies — [v2ex.md](channels/v2ex.md)), 掘金 articles and 沸点 (AI-generat
 as plagiarism and is never recommended — [juejin.md](channels/juejin.md)), and awesome lists whose rules refuse LLM-written
 entries or PRs ([awesome-lists.md](channels/awesome-lists.md)). For these, don't write
 prose: use the same file and header, but replace `## Title` / `## Body` with
-`## Facts for the author` (bullet facts for each part of the playbook's outline, `[TODO]`
+`## Facts for the author` (in the user's language, as above; bullet facts for each part of the playbook's outline, `[TODO]`
 where only the author knows) and keep *Likely questions* as facts to answer from, not
 scripted replies. Their Status is "author writes" until the user says the text is done.
 

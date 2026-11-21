@@ -23,7 +23,8 @@ the user can review, so nothing goes out without their say-so.
   a hosted service that can't take a burst. The `launch-audit` risk section covers this;
   never write legal guarantees ("legal", "zero risk", "官方") into any file.
 - **Languages.** Talk to the user and write working files (audit, brief, plan, posts/README.md,
-  report, notes in readme-first-screen.md) in the user's language, headings and labels
+  report, notes in readme-first-screen.md, and everything around the post text in
+  posts/<channel>.md) in the user's language, headings and labels
   included; keep check IDs, file names, commands, channel names, script output and the
   fixed table values other skills look up (e.g. `ask first`) as written. Write each post in the language its channel reads — but only for
   languages the user can read and reply in. Don't draft a Chinese post for a user who
