@@ -52,7 +52,7 @@ claude plugin install megaphone@megaphone
 | [Open Resume](examples/case-open-resume/) | 70 → 79 | 加了 topics、发了 v1.0.0，打版本时顺带发现并修好了一个 Docker 启动 bug |
 | [DragonCard](examples/case-dragoncard/) | 54 → 71 | 一天内把在线 Demo 填进侧栏、加了 4 个 topics |
 
-截至 2026 年 11 月 21 日，我们给新项目开了 63 个提具体建议的 issue，16 位作者回复，15 个仓库照着建议改了。[哪类建议会被采纳、作者多快回复 →](research/2026-11-outreach.zh-CN.md)
+截至 2026 年 11 月 23 日，我们给新项目开了 65 个提具体建议的 issue，17 位作者回复，15 个仓库照着建议改了。[哪类建议会被采纳、作者多快回复 →](research/2026-11-outreach.zh-CN.md)
 
 **新项目被看到，差在哪：**[362 个新仓库的体检数据](research/2026-10-new-repos.zh-CN.md)——100 星以上的项目 68% 首屏有截图，5–99 星的只有 40%。
 
