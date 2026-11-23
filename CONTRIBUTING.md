@@ -95,6 +95,13 @@ Working files live in `.megaphone/`, which `launch` adds to `.gitignore` by defa
 skill writes a new file there, add it to the workspace table in
 [`skills/launch/SKILL.md`](skills/launch/SKILL.md).
 
+Changed a skill's `description`? It decides when the skill fires. Check that the requests in
+[`tests/trigger_evals.json`](tests/trigger_evals.json) still reach the right skill: run
+`mkdir -p .megaphone && python3 scripts/route_check.py > .megaphone/prompt.txt`, give that file to a
+fresh agent, save its answer as `.megaphone/answers.txt`, then run
+`python3 scripts/route_check.py --score .megaphone/answers.txt` (`.megaphone/` is git-ignored).
+Add a request to the file when you find one that goes to the wrong skill.
+
 ## Run it locally
 
 From the repo root:
