@@ -41,7 +41,7 @@ the `.gitignore` line as a to-do instead — see *No human available*.)
 |---|---|---|
 | `decisions.md` | every stage | Questions asked, the user's answers, and any assumptions made |
 | `audit.md` | launch-audit (re-run by launch-plan at T-2) | Blockers, risk & readiness, score, fix list |
-| `brief.md` | launch-positioning | One-liner, audience, proof, contrast, claims we won't make |
+| `brief.md` | launch-positioning | One-liner, GitHub About line, audience, proof, contrast, claims we won't make |
 | `readme-first-screen.md` | launch-readme | The proposed first screen, when it can't be applied yet |
 | `posts/README.md` | launch-posts | Which channels were picked or skipped, and why |
 | `posts/<channel>.md` | launch-posts | Drafts — or, for channels that want the author's own words (Show HN, DEV, Lobsters, V2EX, 掘金, some awesome lists), fact sheets the author writes from; or, for `ask first` spaces, the message asking permission |

@@ -1,6 +1,6 @@
 ---
 name: launch-positioning
-description: "Find the one-sentence pitch for an open-source project or app — who it's for, what it replaces, why now, the proof, how it beats today's alternatives, and what we must not claim — and save it as the launch brief every post is built from. Use when a repo's pitch is vague, before writing a README or launch posts, or when the user asks 怎么介绍我的项目 / 一句话说清楚 / 定位 / tagline / elevator pitch."
+description: "Find the one-sentence pitch for an open-source project or app — who it's for, what it replaces, why now, the proof, how it beats today's alternatives, and what we must not claim — and save it as the launch brief every post is built from, with the repo's GitHub About line. Use when a repo's pitch is vague, before writing a README or launch posts, when the user wants a tagline or the About description, or says 怎么介绍我的项目 / 一句话说清楚 / 定位 / 仓库简介 / elevator pitch."
 ---
 
 # Launch positioning
@@ -38,7 +38,12 @@ no human available, your assumptions (and mark inferred fields `[inferred]` in t
    - *Outcome*: "Turn X into Y in one command."
    - *Contrast*: "Like A, but for B." (only if A is well known to the audience)
    - *Pain*: "Stop doing X by hand."
-6. **Check them** against the tests below, then save `.megaphone/brief.md`.
+6. **Write the GitHub About line** from the recommended one-liner: 20–160 characters, the
+   range [launch-audit's rubric](../launch-audit/rubric.md) scores (A1), in the language most
+   visitors read. A bilingual line often runs past 160, so keep to one language when you can.
+   The author pastes it into the repo's About box (the gear icon next to About on the repo page).
+7. **Check the one-liners** against the tests below (the About line needs only the Stranger,
+   No-buzzword and Claims tests), then save `.megaphone/brief.md`.
 
 ## Canvas
 
@@ -84,6 +89,7 @@ README is planned (and the English one only if an English channel is).
 **One-liner (EN):** …
 **一句话（中文）:** …
 **Alternatives considered:** … / … (and why the chosen one wins)
+**GitHub About (20–160 characters):** …
 
 | | |
 |---|---|

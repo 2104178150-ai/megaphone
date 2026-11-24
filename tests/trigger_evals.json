@@ -34,6 +34,18 @@
     {"query": "帮我写一封求职信", "expect": "none"},
     {"query": "Add a dark mode toggle to my React app", "expect": "none"},
     {"query": "解释一下这段 Python 代码在干什么", "expect": "none"},
-    {"query": "Write the product description for my Shopify store", "expect": "none"}
+    {"query": "Write the product description for my Shopify store", "expect": "none"},
+    {"query": "小红书一般几点发比较好？我的开源项目帖已经写好了", "expect": "launch-plan"},
+    {"query": "Launch day is Thursday — give me a go/no-go list for the night before", "expect": "launch-plan"},
+    {"query": "Before I share it anywhere, review my README and repo for anything that would turn people off", "expect": "launch-audit"},
+    {"query": "Is this repo good enough to post on Hacker News yet?", "expect": "launch-audit"},
+    {"query": "Review my README and rewrite whatever a newcomer wouldn't get", "expect": "launch-readme"},
+    {"query": "Write the one-line description for my GitHub repo's About field", "expect": "launch-positioning"},
+    {"query": "GitHub 仓库简介那一栏该写什么？现在写的是「一个工具」", "expect": "launch-positioning"},
+    {"query": "Draft a tweet announcing v2.0 of my library", "expect": "launch-posts"},
+    {"query": "我的 CLI 工具该发 Product Hunt 还是 Show HN？帮我选并写好", "expect": "launch-posts"},
+    {"query": "上周发的帖子没什么人看，数据怎么样、下一步怎么办？", "expect": "launch-review"},
+    {"query": "帮我写一篇小红书美妆种草笔记", "expect": "none"},
+    {"query": "Write a marketing email for our SaaS newsletter subscribers", "expect": "none"}
   ]
 }

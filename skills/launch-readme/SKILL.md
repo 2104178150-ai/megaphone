@@ -90,7 +90,8 @@ outside the `**`: GitHub won't close bold right after it when Chinese text follo
    the user's language; the proposed text of each README file in that file's language —
    README.md as it is, a twin in the twin's language).
 3. List what the user has to do: record the visual, run the quick start on a clean machine,
-   set the repo description (≤ 160 characters) and topics (add specific ones; don't remove
+   set the repo description to the brief's *GitHub About* line (20–160 characters; write one
+   if there is no brief) and topics (add specific ones; don't remove
    relevant existing topics — GitHub allows 20), set the homepage, upload a social preview
    image (1280×640).
 
