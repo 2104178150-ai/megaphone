@@ -54,7 +54,7 @@ Needs: a coding agent that supports skills, and Python 3.8+ for the bundled scri
 | [Open Resume](examples/case-open-resume/) | 70 → 79 | topics and a v1.0.0 release; tagging it turned up a Docker bug the author fixed first |
 | [DragonCard](examples/case-dragoncard/) | 54 → 71 | the demo link in the About box and four topics, in one day |
 
-As of 24 November 2026 we had opened 67 issues with specific suggestions on new projects; 18 authors replied and 16 repos were changed the way we suggested. [Which fixes get taken, and how fast authors reply →](research/2026-11-outreach.md)
+As of 24 November 2026 we had opened 68 issues with specific suggestions on new projects; 18 authors replied and 16 repos were changed the way we suggested. [Which fixes get taken, and how fast authors reply →](research/2026-11-outreach.md)
 
 **See what separates new projects that get noticed:** [362 new repos, scored](research/2026-10-new-repos.md) —
 a screenshot in the first screen: 68% of those with 100+ stars, 40% of those with 5–99.
@@ -145,7 +145,7 @@ heuristics are labelled as such. [Browse all →](skills/launch-posts/channels)
 
 [`docs/`](docs) is a static page (no build, no dependencies, no server) that scores any
 public repo with the same rubric, recommends channels, writes the prompt that hands the
-failed checks to your agent, and gives you a badge for your README. It runs in the browser and
+failed checks to your agent, and from 75/100 up gives you a badge for your README. It runs in the browser and
 reads GitHub directly: the API, plus raw.githubusercontent.com for the README (falling back to
 the API where that's blocked). It gives the score only; blockers and risks need the human
 review in `launch-audit`.

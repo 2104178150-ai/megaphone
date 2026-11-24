@@ -72,6 +72,7 @@ const STRINGS = {
     playbook: 'Playbook →',
     badgeT: 'Show off your score',
     badgeHint: 'Paste into your README. It links back here so others can check theirs.',
+    badgeLocked: (n) => `The badge unlocks at 75/100 — ${n} more point${n === 1 ? '' : 's'}. Fix the top items above, then check again.`,
     shareT: 'Share the result',
     starHint: 'Found this useful? A star on GitHub helps other developers find Megaphone.',
     shareText: (r, s, lvl, fix, url) => `📣 ${r} scored ${s}/100 on Megaphone’s launch-readiness check — ${lvl}.${fix ? ` Top fix: ${fix}.` : ''} Check yours: ${url}`,
@@ -161,6 +162,7 @@ const STRINGS = {
     playbook: '查看玩法 →',
     badgeT: '晒出你的分数',
     badgeHint: '贴进 README，徽章会链接回这里，别人也能来测自己的项目。',
+    badgeLocked: (n) => `到 75 分就能领徽章，还差 ${n} 分。先改上面最前面几项，改完再测一次。`,
     shareT: '分享结果',
     starHint: '觉得有用？去 GitHub 给 Megaphone 点个 Star，能让更多开发者看到它。',
     shareText: (r, s, lvl, fix, url) => `📣 ${r} 在 Megaphone 发布就绪检测中得了 ${s}/100 分——${lvl}。${fix ? `最该改的：${fix}。` : ''}测测你的项目：${url}`,
@@ -487,6 +489,9 @@ async function run(input) {
 // ---------------------------------------------------------------------------
 // Rendering
 
+// The copyable badge appears from the 'Almost there' level up; below it nobody would paste it.
+const BADGE_MIN = 75;
+
 function volumeFor(score) {
   return score >= 90 ? 4 : score >= 75 ? 3 : score >= 55 ? 2 : score >= 35 ? 1 : 0;
 }
@@ -587,9 +592,9 @@ function render(a, animate = false) {
     <section class="report-sec two">
       <div>
         <h2>${esc(t('badgeT'))}</h2>
-        <img class="badge-preview" src="${esc(badgeImg)}" alt="Launch readiness ${a.score}/100">
+        ${a.score >= BADGE_MIN ? `<img class="badge-preview" src="${esc(badgeImg)}" alt="Launch readiness ${a.score}/100">
         <div class="codebox"><code id="badge-md">${esc(badgeMd)}</code><button class="copy" type="button" data-copy="badge-md">${esc(t('copy'))}</button></div>
-        <p class="hint">${esc(t('badgeHint'))}</p>
+        <p class="hint">${esc(t('badgeHint'))}</p>` : `<p class="hint badge-locked">${esc(t('badgeLocked')(BADGE_MIN - a.score))}</p>`}
       </div>
       <div>
         <h2>${esc(t('shareT'))}</h2>
