@@ -1,8 +1,8 @@
 # 📣 Megaphone
 
-Launch your open-source project the way a marketer would — even if you've never launched anything.
+**A README checker and launch kit for open-source projects.** Score your repo 0–100, fix what a first visitor would trip on, then launch it the way a marketer would — even if you've never launched anything.
 
-**中文用户**：发布前给开源项目做个体检，再按各平台的规矩准备推广文案 → [看中文说明](README.zh-CN.md)
+**中文用户**：发布前给开源项目做个 README 体检，再按各平台的规矩准备推广文案 → [看中文说明](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Agent skills: 7](https://img.shields.io/badge/agent%20skills-7-e8501c)](skills)

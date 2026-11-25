@@ -1,6 +1,6 @@
 # 📣 Megaphone 大喇叭
 
-用营销人的方法发布你的开源项目——哪怕你从来没发布过任何东西。
+**开源项目的 README 体检和发布工具包。** 给仓库打 0–100 分，先修好第一次来的访客会卡住的地方，再用营销人的方法把它发布出去——哪怕你从来没发布过任何东西。
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![技能数: 7](https://img.shields.io/badge/agent%20skills-7-e8501c)](skills)
