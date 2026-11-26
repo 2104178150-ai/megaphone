@@ -5,7 +5,8 @@ English | [简体中文](2026-11-outreach.zh-CN.md)
 November 2026. Between 18 October and 11 November 2026 we opened 47 GitHub issues on new
 open-source projects. Each one named two or three specific, low-effort fixes from a Megaphone
 check (a licence, a screenshot on the first screen, a one-line install, a release…), said why, and
-asked for nothing back. This page counts what came of it, as of 14 November 2026.
+asked for nothing back. This page counts what came of it, as of 14 November 2026;
+[the update below](#update-26-november-2026) adds the 21 issues sent since then, up to 24 November, re-counted on 26 November.
 
 **In short**
 
@@ -20,6 +21,30 @@ asked for nothing back. This page counts what came of it, as of 14 November 2026
 - **Sidebar fixes were always taken.** Among the projects we re-checked, every suggested topic
   list (5 of 5), About description (4 of 4) and website link (3 of 3) was added. A first-screen
   screenshot or demo, the fix we suggested most, was taken less often (6 of 11).
+
+## Update, 26 November 2026
+
+We kept sending: 68 issues in all by 24 November (21 more since 11 November), re-counted on GitHub
+on 26 November. Two can no longer be read (one repository is gone, one issue didn't load), so the rates use 66.
+
+| | 18 Oct – 11 Nov (above) | All, 18 Oct – 24 Nov |
+|---|---|---|
+| Issues opened | 47 | 68 |
+| Still readable | 46 | 66 |
+| Got a reply from the author | 14 | 18 (27%) |
+| Repo changed after our issue | at least 14 | at least 16 (24%) |
+| Median time to first reply | 23.3 hours | 28.4 hours (range 10 – 525) |
+
+- **Replies fell off in the second half.** Of the 35 readable issues sent before 10 November, 13 got a reply;
+  of the 31 sent from 10 November on, 5 did. The later ones have had less time, but 15 of the 18
+  first replies came within three days, so time alone doesn't explain it.
+- **Stars alone didn't bring replies.** We tried 12 projects that already had an
+  audience (20 or more stars, or an author with 200 or more followers). The 7 picked for their
+  stars got no reply; of the 5 picked for their author's followers, 3 replied and 2 changed
+  the repo. That is too few to call a pattern.
+- **Chinese still did better:** 15 of 54 replied and 14 changed the repo, against 3 and 2 of 12 in English.
+
+Everything below this section still describes the first 47 issues, as of 14 November.
 
 ## The numbers
 
