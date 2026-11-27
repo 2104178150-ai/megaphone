@@ -1,6 +1,6 @@
 {
   "name": "megaphone",
-  "description": "Megaphone: an AI launch crew for open-source projects.",
+  "description": "Megaphone: a README checker and launch kit for open-source projects.",
   "owner": {
     "name": "Megaphone contributors"
   },
@@ -8,9 +8,9 @@
     {
       "name": "megaphone",
       "source": "./",
-      "description": "Audit, position, write and track the launch of your GitHub repo across global and Chinese developer channels.",
+      "description": "Check your README and launch readiness, then position, write and track the launch of your GitHub repo across global and Chinese developer channels.",
       "category": "marketing",
-      "tags": ["launch", "open-source", "marketing", "github"]
+      "tags": ["readme-checker", "launch", "open-source", "marketing", "github"]
     }
   ]
 }
